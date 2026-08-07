@@ -7,6 +7,9 @@ import { AuthResult, publicUserSelect } from "@/types/auth.types";
 
 const PASSWORD_HASH_ROUNDS = 12;
 
+const UUID_PATTERN =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
 export async function registerUser(
   payload: RegisterPayload,
 ): Promise<AuthResult> {
@@ -59,4 +62,31 @@ export async function loginUser(payload: LoginPayload): Promise<AuthResult> {
     },
     token: await createSessionToken(user.id),
   };
+}
+
+export async function getCurrentUser(userId: string | null) {
+  if (!userId || !UUID_PATTERN.test(userId)) {
+    throw new AppError(
+      "Unauthorized",
+      "Authentication is missing or invalid.",
+      401,
+      "authentication",
+    );
+  }
+
+  const user = await prisma.users.findUnique({
+    where: { id: userId },
+    select: publicUserSelect,
+  });
+
+  if (!user) {
+    throw new AppError(
+      "Unauthorized",
+      "Authentication is missing or invalid.",
+      401,
+      "authentication",
+    );
+  }
+
+  return user;
 }

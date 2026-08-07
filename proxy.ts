@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyToken } from "./services/jwt.service";
 
-const AUTH_ROUTES = ["/login", "/api/auth/login", "/api/auth/register", "/api/auth/validate-register"];
+const AUTH_ROUTES = ["/login", "/api/auth/login", "/api/auth/register", "/api/auth/validate-register", "/api/auth/logout"];
 
 export default async function proxy(req: NextRequest) {
   const path = req.nextUrl.pathname;
+
   const token = req.cookies.get("sess_id")?.value;
 
   const session = await verifyToken(token);

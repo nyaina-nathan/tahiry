@@ -79,18 +79,15 @@ paths:
       tags: [Auth]
       summary: End the current session
       operationId: logout
-      security:
-        - SessionCookie: []
+      description: Public endpoint that removes the `sess_id` cookie from the client.
       responses:
         '204':
-          description: Session ended and the `sess_id` cookie was cleared.
+          description: The `sess_id` cookie was removed.
           headers:
             Set-Cookie:
-              description: Expired `sess_id` cookie.
+              description: Deleted `sess_id` cookie.
               schema:
                 type: string
-        '401':
-          $ref: '#/components/responses/Unauthorized'
 
   /api/auth/me:
     get:
