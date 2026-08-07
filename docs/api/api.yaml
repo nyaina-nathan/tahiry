@@ -14,6 +14,7 @@ servers:
 
 tags:
   - name: Auth
+  - name: Balance
   - name: Categories
   - name: Money movements
 
@@ -103,6 +104,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/balance:
+    get:
+      tags: [Balance]
+      summary: Get the current user's lifetime balance
+      operationId: getBalance
+      security:
+        - ProxyUserId: []
+      responses:
+        '200':
+          description: Lifetime income, expenses, and net balance.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Balance'
         '401':
           $ref: '#/components/responses/Unauthorized'
 
@@ -601,6 +619,20 @@ components:
         total:
           type: integer
           minimum: 0
+
+    Balance:
+      type: object
+      required: [income, expense, balance]
+      properties:
+        income:
+          type: string
+          description: Lifetime income total with two fractional digits.
+        expense:
+          type: string
+          description: Lifetime expense total with two fractional digits.
+        balance:
+          type: string
+          description: Lifetime income minus lifetime expenses with two fractional digits.
 
     Error:
       type: object
