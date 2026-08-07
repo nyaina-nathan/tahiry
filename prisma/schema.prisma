@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client"
+  output   = "./generated/"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model categories {
+  id              String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id_user         String            @db.Uuid
+  cat_type        String            @default("EXPENSE") @db.VarChar(7)
+  cat_name        String            @db.VarChar(255)
+  users           users             @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  money_movements money_movements[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model money_movements {
+  id            String      @id(map: "money_movement_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id_user       String      @db.Uuid
+  id_category   String?     @db.Uuid
+  movement_type String      @default("EXPENSE") @db.VarChar(7)
+  title         String      @db.VarChar(255)
+  description   String?
+  amount        Decimal     @db.Decimal(10, 2)
+  logged_for    DateTime?   @default(dbgenerated("CURRENT_DATE")) @db.Date
+  logged_at     DateTime?   @default(now()) @db.Timestamptz(6)
+  categories    categories? @relation(fields: [id_category], references: [id], onUpdate: NoAction, map: "money_movement_id_category_fkey")
+  users         users       @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "money_movement_id_user_fkey")
+}
+
+model users {
+  id              String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  username        String            @db.VarChar(255)
+  email           String            @unique @db.VarChar(255)
+  password_hash   String            @db.VarChar(60)
+  currency        String            @db.VarChar(20)
+  created_at      DateTime?         @default(now()) @db.Timestamptz(6)
+  categories      categories[]
+  money_movements money_movements[]
+}
