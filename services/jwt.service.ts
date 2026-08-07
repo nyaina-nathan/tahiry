@@ -1,5 +1,5 @@
 import { AppError } from "@/libs/errors/app-error";
-import { SignJWT } from "jose";
+import { jwtVerify, SignJWT } from "jose";
 
 const JWT_ALGORITHM = "HS256";
 const JWT_EXPIRATION = "7d";
@@ -26,4 +26,18 @@ export async function createSessionToken(userId: string): Promise<string> {
     .setIssuedAt()
     .setExpirationTime(JWT_EXPIRATION)
     .sign(getJwtSecret());
+}
+
+export async function verifyToken(
+  token: string | undefined
+): Promise<{ sub: string } | null> {
+  if (!token) return null;
+  try {
+    const { payload } = await jwtVerify(token, getJwtSecret(), {
+      algorithms: ["HS256"],
+    });
+    return { sub: payload.sub as string };
+  } catch {
+    return null;
+  }
 }
