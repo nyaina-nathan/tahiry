@@ -1,0 +1,642 @@
+openapi: 3.1.0
+info:
+  title: Pennywise API
+  version: 1.0.0
+  description: |
+    API for managing personal categories and money movements.
+
+    Authentication endpoints issue a JWT in the `sess_id` HTTP-only cookie.
+    Protected entity endpoints are called through the application proxy. The
+    proxy verifies the cookie and forwards the authenticated user's ID in the
+    `X-User-Id` header.
+servers:
+  - url: /
+
+tags:
+  - name: Auth
+  - name: Categories
+  - name: Money movements
+
+paths:
+  /api/auth/register:
+    post:
+      tags: [Auth]
+      summary: Register a user
+      operationId: register
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: User registered and authenticated.
+          headers:
+            Set-Cookie:
+              $ref: '#/components/headers/SessionCookie'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          description: Email is already registered.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/auth/login:
+    post:
+      tags: [Auth]
+      summary: Authenticate a user
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: User authenticated.
+          headers:
+            Set-Cookie:
+              $ref: '#/components/headers/SessionCookie'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/auth/logout:
+    post:
+      tags: [Auth]
+      summary: End the current session
+      operationId: logout
+      security:
+        - SessionCookie: []
+      responses:
+        '204':
+          description: Session ended and the `sess_id` cookie was cleared.
+          headers:
+            Set-Cookie:
+              description: Expired `sess_id` cookie.
+              schema:
+                type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/auth/me:
+    get:
+      tags: [Auth]
+      summary: Get the authenticated user
+      operationId: getCurrentUser
+      security:
+        - SessionCookie: []
+      responses:
+        '200':
+          description: Authenticated user without the password hash.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/categories:
+    get:
+      tags: [Categories]
+      summary: List the current user's categories
+      operationId: listCategories
+      security:
+        - ProxyUserId: []
+      parameters:
+        - name: cat_type
+          in: query
+          required: false
+          description: Filter categories by type.
+          schema:
+            $ref: '#/components/schemas/CategoryType'
+      responses:
+        '200':
+          description: Categories owned by the authenticated user.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      tags: [Categories]
+      summary: Create a category
+      operationId: createCategory
+      security:
+        - ProxyUserId: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryInput'
+      responses:
+        '201':
+          description: Category created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/categories/{id}:
+    parameters:
+      - $ref: '#/components/parameters/ResourceId'
+    get:
+      tags: [Categories]
+      summary: Get one category
+      operationId: getCategory
+      security:
+        - ProxyUserId: []
+      responses:
+        '200':
+          description: Category owned by the authenticated user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    patch:
+      tags: [Categories]
+      summary: Update a category
+      operationId: updateCategory
+      security:
+        - ProxyUserId: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryPatch'
+      responses:
+        '200':
+          description: Category updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      tags: [Categories]
+      summary: Delete a category
+      operationId: deleteCategory
+      security:
+        - ProxyUserId: []
+      responses:
+        '204':
+          description: Category deleted. Related movements retain their records with a null category.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/money-movements:
+    get:
+      tags: [Money movements]
+      summary: List the current user's money movements
+      operationId: listMoneyMovements
+      security:
+        - ProxyUserId: []
+      parameters:
+        - $ref: '#/components/parameters/MovementType'
+        - $ref: '#/components/parameters/CategoryId'
+        - $ref: '#/components/parameters/LoggedForFrom'
+        - $ref: '#/components/parameters/LoggedForTo'
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: Paginated movements owned by the authenticated user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovementPage'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      tags: [Money movements]
+      summary: Create a money movement
+      operationId: createMoneyMovement
+      security:
+        - ProxyUserId: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovementInput'
+      responses:
+        '201':
+          description: Money movement created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MoneyMovement'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: Referenced category does not belong to the current user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/money-movements/{id}:
+    parameters:
+      - $ref: '#/components/parameters/ResourceId'
+    get:
+      tags: [Money movements]
+      summary: Get one money movement
+      operationId: getMoneyMovement
+      security:
+        - ProxyUserId: []
+      responses:
+        '200':
+          description: Money movement owned by the authenticated user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MoneyMovement'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    patch:
+      tags: [Money movements]
+      summary: Update a money movement
+      operationId: updateMoneyMovement
+      security:
+        - ProxyUserId: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovementPatch'
+      responses:
+        '200':
+          description: Money movement updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MoneyMovement'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      tags: [Money movements]
+      summary: Delete a money movement
+      operationId: deleteMoneyMovement
+      security:
+        - ProxyUserId: []
+      responses:
+        '204':
+          description: Money movement deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+components:
+  securitySchemes:
+    SessionCookie:
+      type: apiKey
+      in: cookie
+      name: sess_id
+      description: JWT session cookie containing the authenticated user's ID claim.
+    ProxyUserId:
+      type: apiKey
+      in: header
+      name: X-User-Id
+      description: Internal header set by the authenticated application proxy. Never trust a client-supplied value.
+
+  headers:
+    SessionCookie:
+      description: JWT session cookie. The server should set HttpOnly, Secure, and an appropriate SameSite attribute.
+      schema:
+        type: string
+
+  parameters:
+    ResourceId:
+      name: id
+      in: path
+      required: true
+      description: Resource UUID.
+      schema:
+        type: string
+        format: uuid
+    MovementType:
+      name: movement_type
+      in: query
+      schema:
+        $ref: '#/components/schemas/MovementType'
+    CategoryId:
+      name: id_category
+      in: query
+      schema:
+        type: string
+        format: uuid
+    LoggedForFrom:
+      name: logged_for_from
+      in: query
+      description: Include movements logged on or after this date.
+      schema:
+        type: string
+        format: date
+    LoggedForTo:
+      name: logged_for_to
+      in: query
+      description: Include movements logged on or before this date.
+      schema:
+        type: string
+        format: date
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    PageSize:
+      name: page_size
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 25
+
+  schemas:
+    User:
+      type: object
+      required: [id, username, email, currency]
+      properties:
+        id:
+          type: string
+          format: uuid
+        username:
+          type: string
+          maxLength: 255
+        email:
+          type: string
+          format: email
+          maxLength: 255
+        currency:
+          type: string
+          maxLength: 20
+        created_at:
+          type: [string, 'null']
+          format: date-time
+
+    RegisterRequest:
+      type: object
+      required: [username, email, password, currency]
+      properties:
+        username:
+          type: string
+          minLength: 1
+          maxLength: 255
+        email:
+          type: string
+          format: email
+          maxLength: 255
+        password:
+          type: string
+          format: password
+          minLength: 8
+          maxLength: 72
+        currency:
+          type: string
+          minLength: 1
+          maxLength: 20
+
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 255
+        password:
+          type: string
+          format: password
+
+    CategoryType:
+      type: string
+      enum: [EXPENSE, INCOME]
+
+    CategoryInput:
+      type: object
+      required: [cat_name]
+      properties:
+        cat_type:
+          $ref: '#/components/schemas/CategoryType'
+        cat_name:
+          type: string
+          minLength: 1
+          maxLength: 255
+
+    CategoryPatch:
+      type: object
+      minProperties: 1
+      properties:
+        cat_type:
+          $ref: '#/components/schemas/CategoryType'
+        cat_name:
+          type: string
+          minLength: 1
+          maxLength: 255
+
+    Category:
+      type: object
+      required: [id, id_user, cat_type, cat_name]
+      properties:
+        id:
+          type: string
+          format: uuid
+        id_user:
+          type: string
+          format: uuid
+        cat_type:
+          $ref: '#/components/schemas/CategoryType'
+        cat_name:
+          type: string
+          maxLength: 255
+
+    MovementType:
+      type: string
+      enum: [EXPENSE, INCOME]
+
+    MovementInput:
+      type: object
+      required: [title, amount]
+      properties:
+        id_category:
+          type: [string, 'null']
+          format: uuid
+        movement_type:
+          $ref: '#/components/schemas/MovementType'
+        title:
+          type: string
+          minLength: 1
+          maxLength: 255
+        description:
+          type: [string, 'null']
+        amount:
+          type: string
+          pattern: '^-?\d{1,8}(\.\d{1,2})?$'
+          description: Decimal amount with up to 10 total digits and 2 fractional digits.
+        logged_for:
+          type: [string, 'null']
+          format: date
+        logged_at:
+          type: [string, 'null']
+          format: date-time
+
+    MovementPatch:
+      type: object
+      minProperties: 1
+      properties:
+        id_category:
+          type: [string, 'null']
+          format: uuid
+        movement_type:
+          $ref: '#/components/schemas/MovementType'
+        title:
+          type: string
+          minLength: 1
+          maxLength: 255
+        description:
+          type: [string, 'null']
+        amount:
+          type: string
+          pattern: '^-?\d{1,8}(\.\d{1,2})?$'
+        logged_for:
+          type: [string, 'null']
+          format: date
+        logged_at:
+          type: [string, 'null']
+          format: date-time
+
+    MoneyMovement:
+      type: object
+      required: [id, id_user, movement_type, title, amount]
+      properties:
+        id:
+          type: string
+          format: uuid
+        id_user:
+          type: string
+          format: uuid
+        id_category:
+          type: [string, 'null']
+          format: uuid
+        movement_type:
+          $ref: '#/components/schemas/MovementType'
+        title:
+          type: string
+          maxLength: 255
+        description:
+          type: [string, 'null']
+        amount:
+          type: string
+          pattern: '^-?\d{1,8}(\.\d{1,2})?$'
+        logged_for:
+          type: [string, 'null']
+          format: date
+        logged_at:
+          type: [string, 'null']
+          format: date-time
+
+    MovementPage:
+      type: object
+      required: [items, page, page_size, total]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/MoneyMovement'
+        page:
+          type: integer
+          minimum: 1
+        page_size:
+          type: integer
+          minimum: 1
+        total:
+          type: integer
+          minimum: 0
+
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: object
+              additionalProperties: true
+
+  responses:
+    BadRequest:
+      description: Request validation failed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication is missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource does not exist or is not owned by the authenticated user.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
