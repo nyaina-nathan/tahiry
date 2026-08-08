@@ -43,7 +43,7 @@ export function BalanceSection({
           <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--color-primary)]">
             Lifetime view
           </p>
-          <h2 id="balance-heading" className="font-display text-3xl text-[var(--color-ink)]">
+          <h2 id="balance-heading" className="font-display text-2xl text-[var(--color-ink)] sm:text-3xl">
             The bottom line.
           </h2>
         </div>

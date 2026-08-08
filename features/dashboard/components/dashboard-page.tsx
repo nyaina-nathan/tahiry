@@ -50,7 +50,7 @@ export function DashboardPage() {
   const deletingId = mutation === "delete" ? pendingDeleteId : null;
 
   return (
-    <main className="min-h-screen bg-[var(--color-canvas)]">
+    <main className="min-h-screen overflow-x-clip bg-[var(--color-canvas)]">
       <DashboardHeader
         isLoggingOut={mutation === "logout"}
         onLogout={() => void handleLogout()}

@@ -14,7 +14,7 @@ export function MovementPagination({
   onNext,
 }: MovementPaginationProps) {
   return (
-    <div className="mt-5 flex items-center justify-between border-t border-[var(--color-line)] pt-4">
+    <div className="mt-5 flex flex-wrap items-center justify-between gap-y-3 border-t border-[var(--color-line)] pt-4">
       <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-[var(--color-muted)]">
         Page {page} of {totalPages}
       </p>

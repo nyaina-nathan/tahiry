@@ -51,7 +51,7 @@ export function MovementListSection({
           <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--color-secondary)]">
             Your record
           </p>
-          <h2 id="movements-heading" className="font-display text-3xl text-[var(--color-ink)]">
+          <h2 id="movements-heading" className="font-display text-2xl text-[var(--color-ink)] sm:text-3xl">
             Recent movements.
           </h2>
         </div>

@@ -11,7 +11,7 @@ export function DashboardHeader({
 }: DashboardHeaderProps) {
   return (
     <header className="border-b border-[var(--color-line)] bg-[var(--color-surface)]">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-5 px-5 py-5 sm:px-8 lg:px-12">
+      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-x-5 gap-y-3 px-4 py-4 sm:px-8 sm:py-5 lg:px-12">
         <Link
           href="/"
           className="flex items-center gap-3 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary)]"

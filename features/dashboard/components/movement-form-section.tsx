@@ -125,7 +125,7 @@ export function MovementFormSection({
                 </p>
                 <h2
                   id="movement-form-heading"
-                  className="font-display text-3xl text-[var(--color-ink)]"
+                  className="font-display text-2xl text-[var(--color-ink)] sm:text-3xl"
                 >
                   Edit movement
                 </h2>
@@ -155,7 +155,7 @@ export function MovementFormSection({
         </p>
         <h2
           id="movement-form-heading"
-          className="font-display text-3xl text-[var(--color-ink)]"
+          className="font-display text-2xl text-[var(--color-ink)] sm:text-3xl"
         >
           New movement
         </h2>

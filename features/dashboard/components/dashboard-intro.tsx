@@ -6,12 +6,12 @@ type DashboardIntroProps = {
 
 export function DashboardIntro({ user }: DashboardIntroProps) {
   return (
-    <section className="mb-10 flex flex-col gap-6 border-b border-[var(--color-line)] pb-10 sm:flex-row sm:items-end sm:justify-between">
-      <div>
+    <section className="mb-8 flex flex-col gap-6 border-b border-[var(--color-line)] pb-8 sm:mb-10 sm:flex-row sm:items-end sm:justify-between sm:pb-10">
+      <div className="min-w-0">
         <p className="mb-4 font-mono text-xs font-bold uppercase tracking-[0.24em] text-[var(--color-secondary)]">
           Personal money desk
         </p>
-        <h1 className="font-display text-5xl leading-none tracking-tight text-[var(--color-ink)] sm:text-7xl">
+        <h1 className="break-words font-display text-4xl leading-none tracking-tight text-[var(--color-ink)] sm:text-5xl md:text-6xl lg:text-7xl">
           Your money, in motion.
         </h1>
         <p className="mt-5 max-w-xl text-base leading-7 text-[var(--color-muted)]">
