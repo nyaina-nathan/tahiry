@@ -84,7 +84,7 @@ export function useCategories() {
 
     if (!name) {
       setCreateError("Enter a category name.");
-      return;
+      return false;
     }
 
     setCreateError("");
@@ -95,12 +95,14 @@ export function useCategories() {
       const category = await createCategory({ cat_name: name, cat_type: newType });
       setCategories((current) => sortCategories([...current, category]));
       setNewName("");
+      return true;
     } catch (error) {
       setCreateError(
         error instanceof Error
           ? error.message
           : "Category could not be created.",
       );
+      return false;
     } finally {
       setMutation(null);
     }

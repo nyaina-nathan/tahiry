@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   CategoriesActionError,
   CategoriesEmptyState,
@@ -13,6 +14,7 @@ import { CategoryGroups } from "@/features/categories/components/category-groups
 import { useCategories } from "@/features/categories/hooks/use-categories";
 
 export function CategoriesPage() {
+  const [showCreateForm, setShowCreateForm] = useState(false);
   const {
     categories,
     isLoading,
@@ -50,18 +52,37 @@ export function CategoriesPage() {
       <CategoriesHeader />
 
       <div className="mx-auto max-w-7xl px-5 py-10 sm:px-8 sm:py-14 lg:px-12 lg:py-16">
-        <CategoriesIntro categoryCount={categories.length} />
+        <CategoriesIntro
+          categoryCount={categories.length}
+          onCreateCategory={() => setShowCreateForm(true)}
+          isCreateFormOpen={showCreateForm}
+        />
 
-        <div className="mb-12 grid gap-10 lg:grid-cols-[minmax(280px,0.75fr)_minmax(0,1.5fr)] lg:gap-16">
-          <CategoryCreateForm
-            name={newName}
-            type={newType}
-            error={createError}
-            isCreating={mutation?.type === "create"}
-            onNameChange={setNewName}
-            onTypeChange={setNewType}
-            onSubmit={(event) => void handleCreate(event)}
-          />
+        <div
+          className={
+            showCreateForm
+              ? "mb-12 grid gap-10 lg:grid-cols-[minmax(280px,0.75fr)_minmax(0,1.5fr)] lg:gap-16"
+              : "mb-12"
+          }
+        >
+          {showCreateForm && (
+            <CategoryCreateForm
+              name={newName}
+              type={newType}
+              error={createError}
+              isCreating={mutation?.type === "create"}
+              onNameChange={setNewName}
+              onTypeChange={setNewType}
+              onSubmit={async (event) => {
+                const created = await handleCreate(event);
+
+                if (created) {
+                  setShowCreateForm(false);
+                }
+              }}
+              onCancel={() => setShowCreateForm(false)}
+            />
+          )}
 
           <div aria-live="polite">
             {isLoading ? (

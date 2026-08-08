@@ -1,4 +1,4 @@
-import type { FormEvent } from "react";
+import { useEffect, type FormEvent } from "react";
 import type { CategoryType } from "@/types/category.types";
 import { CategoryFormFields } from "@/features/categories/components/category-form-fields";
 
@@ -10,6 +10,7 @@ type CategoryCreateFormProps = {
   onNameChange: (name: string) => void;
   onTypeChange: (type: CategoryType) => void;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  onCancel: () => void;
 };
 
 export function CategoryCreateForm({
@@ -20,52 +21,93 @@ export function CategoryCreateForm({
   onNameChange,
   onTypeChange,
   onSubmit,
+  onCancel,
 }: CategoryCreateFormProps) {
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape" && !isCreating) {
+        onCancel();
+      }
+    }
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isCreating, onCancel]);
+
   return (
-    <section aria-labelledby="create-category-heading">
-      <div className="mb-5">
-        <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--color-primary)]">
-          Add a new label
-        </p>
-        <h2
-          id="create-category-heading"
-          className="font-display text-3xl text-[var(--color-ink)]"
-        >
-          Create category
-        </h2>
-      </div>
-      <form
-        className="border border-[var(--color-line)] bg-[var(--color-surface)] p-5 sm:p-6"
-        onSubmit={onSubmit}
-      >
-        <div className="space-y-5">
-          <CategoryFormFields
-            nameId="new-category-name"
-            typeId="new-category-type"
-            name={name}
-            type={type}
-            namePlaceholder="e.g. Groceries"
-            onNameChange={onNameChange}
-            onTypeChange={onTypeChange}
-            layout="stacked"
-          />
-          {error && (
-            <p role="alert" className="text-sm text-[var(--color-danger)]">
-              {error}
-            </p>
-          )}
-          <button
-            type="submit"
-            disabled={isCreating}
-            className="flex min-h-13 w-full items-center justify-between bg-[var(--color-ink)] px-4 font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-white transition-colors hover:bg-[var(--color-primary)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary)] disabled:cursor-wait disabled:opacity-60"
+    <div
+      id="create-category-form"
+      className="fixed inset-0 z-50 flex min-h-screen items-center justify-center overflow-y-auto bg-[rgba(17,24,39,0.55)] p-4 backdrop-blur-md sm:p-8"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="create-category-heading"
+    >
+      <div className="max-h-[calc(100vh-2rem)] w-full max-w-xl overflow-y-auto border border-[var(--color-line)] bg-[var(--color-canvas)] shadow-2xl sm:max-h-[calc(100vh-4rem)]">
+        <section aria-labelledby="create-category-heading">
+          <div className="flex items-start justify-between gap-4 p-5 pb-0 sm:p-6 sm:pb-0">
+            <div>
+              <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--color-primary)]">
+                Add a new label
+              </p>
+              <h2
+                id="create-category-heading"
+                className="font-display text-3xl text-[var(--color-ink)]"
+              >
+                Create category
+              </h2>
+            </div>
+          </div>
+          <form
+            className="m-5 border border-[var(--color-line)] bg-[var(--color-surface)] p-5 sm:m-6 sm:p-6"
+            onSubmit={onSubmit}
           >
-            <span>{isCreating ? "Creating..." : "Add category"}</span>
-            <span aria-hidden="true" className="text-lg">
-              +
-            </span>
-          </button>
-        </div>
-      </form>
-    </section>
+            <div className="space-y-5">
+              <CategoryFormFields
+                nameId="new-category-name"
+                typeId="new-category-type"
+                name={name}
+                type={type}
+                namePlaceholder="e.g. Groceries"
+                onNameChange={onNameChange}
+                onTypeChange={onTypeChange}
+                layout="stacked"
+              />
+              {error && (
+                <p role="alert" className="text-sm text-[var(--color-danger)]">
+                  {error}
+                </p>
+              )}
+              <div className="flex flex-wrap gap-3">
+                <button
+                  type="submit"
+                  disabled={isCreating}
+                  className="flex min-h-13 flex-1 items-center justify-between bg-[var(--color-ink)] px-4 font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-white transition-colors hover:bg-[var(--color-primary)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary)] disabled:cursor-wait disabled:opacity-60"
+                >
+                  <span>{isCreating ? "Creating..." : "Add category"}</span>
+                  <span aria-hidden="true" className="text-lg">
+                    +
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  onClick={onCancel}
+                  disabled={isCreating}
+                  className="min-h-13 border border-[var(--color-line)] px-4 font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-[var(--color-ink)] transition-colors hover:border-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary)] disabled:opacity-60"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>
   );
 }
