@@ -89,7 +89,7 @@ export function AppHeader({ links = [] }: AppHeaderProps) {
             type="button"
             onClick={() => void handleLogout()}
             disabled={isLoggingOut}
-            className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-muted)] transition-colors hover:text-[var(--color-danger)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-danger)] disabled:opacity-60"
+            className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-muted)] transition-colors hover:text-[var(--color-danger)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-danger)] disabled:opacity-60 cursor-pointer"
           >
             {isLoggingOut ? "Signing out..." : "Sign out"}
           </button>
