@@ -140,7 +140,6 @@ export function useDashboard() {
     setFormCategoryId(movement.id_category ?? "");
     setFormDescription(movement.description ?? "");
     setFormLoggedFor(movement.logged_for ?? today());
-    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function validateForm() {

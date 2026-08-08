@@ -23,6 +23,7 @@ type MovementFormFieldsProps = {
   onCategoryChange: (categoryId: string) => void;
   onDescriptionChange: (description: string) => void;
   onLoggedForChange: (loggedFor: string) => void;
+  autoFocus?: boolean;
 };
 
 export function MovementFormFields({
@@ -40,6 +41,7 @@ export function MovementFormFields({
   onCategoryChange,
   onDescriptionChange,
   onLoggedForChange,
+  autoFocus = false,
 }: MovementFormFieldsProps) {
   return (
     <div className="space-y-5">
@@ -58,6 +60,7 @@ export function MovementFormFields({
           onChange={(event) => onTitleChange(event.target.value)}
           maxLength={255}
           required
+          autoFocus={autoFocus}
           className={inputClassName}
           placeholder="e.g. Weekly groceries"
         />

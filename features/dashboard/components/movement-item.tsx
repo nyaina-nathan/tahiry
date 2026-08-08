@@ -71,6 +71,8 @@ export function MovementItem({
               <button
                 type="button"
                 onClick={onBeginEditing}
+                aria-haspopup="dialog"
+                aria-controls="movement-edit-dialog"
                 className="min-h-10 border border-[var(--color-line)] px-3 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--color-ink)] transition-colors hover:border-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary)]"
               >
                 Edit
