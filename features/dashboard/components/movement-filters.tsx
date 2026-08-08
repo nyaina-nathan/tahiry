@@ -13,6 +13,11 @@ export function MovementFilters({
   categories,
   onChange,
 }: MovementFiltersProps) {
+  const visibleCategories =
+    filters.movementType === "ALL"
+      ? categories
+      : categories.filter((category) => category.cat_type === filters.movementType);
+
   return (
     <div className="mb-5 border border-[var(--color-line)] bg-[var(--color-surface)] p-4">
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -26,13 +31,23 @@ export function MovementFilters({
           <select
             id="filter-type"
             value={filters.movementType}
-            onChange={(event) =>
+            onChange={(event) => {
+              const movementType = event.target.value as Filters["movementType"];
+              const selectedCategory = categories.find(
+                (category) => category.id === filters.categoryId,
+              );
+
               onChange({
                 ...filters,
-                movementType: event.target.value as Filters["movementType"],
+                movementType,
+                categoryId:
+                  movementType !== "ALL" &&
+                  selectedCategory?.cat_type !== movementType
+                    ? ""
+                    : filters.categoryId,
                 page: 1,
-              })
-            }
+              });
+            }}
             className={selectClassName}
           >
             <option value="ALL">All types</option>
@@ -56,7 +71,7 @@ export function MovementFilters({
             className={selectClassName}
           >
             <option value="">All categories</option>
-            {categories.map((category) => (
+            {visibleCategories.map((category) => (
               <option key={category.id} value={category.id}>
                 {category.cat_name}
               </option>
