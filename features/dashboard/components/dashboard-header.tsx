@@ -16,9 +16,7 @@ export function DashboardHeader({
           href="/"
           className="flex items-center gap-3 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary)]"
         >
-          <span className="flex h-9 w-9 items-center justify-center bg-[var(--color-primary)] font-mono text-base font-bold text-white">
-            P
-          </span>
+          <img className="w-[5ch]" src={'/icon.png'} />
           <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-ink)]">
             Pennywise
           </span>
