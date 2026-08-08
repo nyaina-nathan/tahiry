@@ -7,6 +7,7 @@ import { MovementFormFields } from "@/features/dashboard/components/movement-for
 
 type MovementFormSectionProps = {
   editingId: string | null;
+  isCreateFormOpen: boolean;
   formType: MovementType;
   formTitle: string;
   formAmount: string;
@@ -29,6 +30,7 @@ type MovementFormSectionProps = {
 
 export function MovementFormSection({
   editingId,
+  isCreateFormOpen,
   formType,
   formTitle,
   formAmount,
@@ -48,8 +50,10 @@ export function MovementFormSection({
   onReset,
   onSubmit,
 }: MovementFormSectionProps) {
+  const isDialogOpen = Boolean(editingId) || isCreateFormOpen;
+
   useEffect(() => {
-    if (!editingId) {
+    if (!editingId && !isCreateFormOpen) {
       return;
     }
 
@@ -68,7 +72,7 @@ export function MovementFormSection({
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [editingId, mutation, onReset]);
+  }, [editingId, isCreateFormOpen, mutation, onReset]);
 
   const form = (
     <form
@@ -90,7 +94,7 @@ export function MovementFormSection({
         onCategoryChange={onCategoryChange}
         onDescriptionChange={onDescriptionChange}
         onLoggedForChange={onLoggedForChange}
-        autoFocus={Boolean(editingId)}
+        autoFocus={isDialogOpen}
       />
       {formError && (
         <p role="alert" className="mt-5 text-sm text-[var(--color-danger)]">
@@ -107,60 +111,51 @@ export function MovementFormSection({
     </form>
   );
 
-  if (editingId) {
-    return (
-      <div
-        id="movement-edit-dialog"
-        className="fixed inset-0 z-50 overflow-y-auto bg-[rgba(17,24,39,0.55)] p-4 sm:p-8"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="movement-form-heading"
-      >
-        <div className="flex min-h-full items-center justify-center">
-          <div className="w-full max-w-2xl max-h-[calc(100vh-2rem)] overflow-y-auto border border-[var(--color-line)] bg-[var(--color-canvas)] shadow-2xl sm:max-h-[calc(100vh-4rem)]">
-            <div className="flex items-start justify-between gap-4 p-5 pb-0 sm:p-6 sm:pb-0">
-              <div>
-                <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--color-primary)]">
-                  Change a record
-                </p>
-                <h2
-                  id="movement-form-heading"
-                  className="font-display text-2xl text-[var(--color-ink)] sm:text-3xl"
-                >
-                  Edit movement
-                </h2>
-              </div>
-              <button
-                type="button"
-                onClick={onReset}
-                disabled={mutation === "update"}
-                aria-label="Close edit movement dialog"
-                className="min-h-10 border border-[var(--color-line)] px-3 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--color-ink)] transition-colors hover:border-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary)] disabled:opacity-60"
-              >
-                Close
-              </button>
-            </div>
-            <div className="p-5 pt-5 sm:p-6 sm:pt-5">{form}</div>
-          </div>
-        </div>
-      </div>
-    );
+  if (!isDialogOpen) {
+    return null;
   }
 
+  const isEditing = Boolean(editingId);
+
   return (
-    <section aria-labelledby="movement-form-heading">
-      <div className="mb-5">
-        <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--color-primary)]">
-          Log what happened
-        </p>
-        <h2
-          id="movement-form-heading"
-          className="font-display text-2xl text-[var(--color-ink)] sm:text-3xl"
-        >
-          New movement
-        </h2>
+    <div
+      id={isEditing ? "movement-edit-dialog" : "movement-create-dialog"}
+      className="fixed inset-0 z-50 overflow-y-auto bg-[rgba(17,24,39,0.55)] p-4 sm:p-8"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="movement-form-heading"
+    >
+      <div className="flex min-h-full items-center justify-center">
+        <div className="w-full max-w-2xl max-h-[calc(100vh-2rem)] overflow-y-auto border border-[var(--color-line)] bg-[var(--color-canvas)] shadow-2xl sm:max-h-[calc(100vh-4rem)]">
+          <div className="flex items-start justify-between gap-4 p-5 pb-0 sm:p-6 sm:pb-0">
+            <div>
+              <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--color-primary)]">
+                {isEditing ? "Change a record" : "Log what happened"}
+              </p>
+              <h2
+                id="movement-form-heading"
+                className="font-display text-2xl text-[var(--color-ink)] sm:text-3xl"
+              >
+                {isEditing ? "Edit movement" : "New movement"}
+              </h2>
+            </div>
+            <button
+              type="button"
+              onClick={onReset}
+              disabled={mutation === "update"}
+              aria-label={
+                isEditing
+                  ? "Close edit movement dialog"
+                  : "Close new movement dialog"
+              }
+              className="min-h-10 border border-[var(--color-line)] px-3 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--color-ink)] transition-colors hover:border-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary)] disabled:opacity-60"
+            >
+              Close
+            </button>
+          </div>
+          <div className="p-5 pt-5 sm:p-6 sm:pt-5">{form}</div>
+        </div>
       </div>
-      {form}
-    </section>
+    </div>
   );
 }

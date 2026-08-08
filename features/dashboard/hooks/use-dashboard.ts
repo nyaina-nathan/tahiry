@@ -47,6 +47,7 @@ export function useDashboard() {
   const [filters, setFilters] = useState<Filters>(INITIAL_FILTERS);
 
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [isCreateFormOpen, setIsCreateFormOpen] = useState(false);
   const [formType, setFormType] = useState<MovementType>("EXPENSE");
   const [formTitle, setFormTitle] = useState("");
   const [formAmount, setFormAmount] = useState("");
@@ -117,6 +118,7 @@ export function useDashboard() {
 
   function resetForm() {
     setEditingId(null);
+    setIsCreateFormOpen(false);
     setFormType("EXPENSE");
     setFormTitle("");
     setFormAmount("");
@@ -126,10 +128,18 @@ export function useDashboard() {
     setFormError("");
   }
 
+  function beginCreating() {
+    setActionError("");
+    setPendingDeleteId(null);
+    resetForm();
+    setIsCreateFormOpen(true);
+  }
+
   function beginEditing(movement: MoneyMovement) {
     setActionError("");
     setFormError("");
     setPendingDeleteId(null);
+    setIsCreateFormOpen(false);
     setEditingId(movement.id);
     setFormType(movement.movement_type);
     setFormTitle(movement.title);
@@ -243,6 +253,7 @@ export function useDashboard() {
     mutation,
     filters,
     editingId,
+    isCreateFormOpen,
     formType,
     formTitle,
     formAmount,
@@ -254,6 +265,7 @@ export function useDashboard() {
     totalPages,
     updateFilters,
     resetForm,
+    beginCreating,
     beginEditing,
     handleSubmit,
     handleDelete,

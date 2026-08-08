@@ -22,6 +22,7 @@ export function DashboardPage() {
     mutation,
     filters,
     editingId,
+    isCreateFormOpen,
     formType,
     formTitle,
     formAmount,
@@ -33,6 +34,7 @@ export function DashboardPage() {
     totalPages,
     updateFilters,
     resetForm,
+    beginCreating,
     beginEditing,
     handleSubmit,
     handleDelete,
@@ -68,51 +70,52 @@ export function DashboardPage() {
               isLoading={isLoading}
             />
 
-            <div className="grid gap-12 lg:grid-cols-[minmax(280px,0.72fr)_minmax(0,1.5fr)] lg:gap-16">
-              <MovementFormSection
-                editingId={editingId}
-                formType={formType}
-                formTitle={formTitle}
-                formAmount={formAmount}
-                formCategoryId={formCategoryId}
-                formDescription={formDescription}
-                formLoggedFor={formLoggedFor}
-                formError={formError}
-                categories={categories}
-                currency={user.currency}
-                mutation={mutation}
-                onTypeChange={setFormType}
-                onTitleChange={setFormTitle}
-                onAmountChange={setFormAmount}
-                onCategoryChange={setFormCategoryId}
-                onDescriptionChange={setFormDescription}
-                onLoggedForChange={setFormLoggedFor}
-                onReset={resetForm}
-                onSubmit={(event) => void handleSubmit(event)}
-              />
-              <MovementListSection
-                movements={movements}
-                categories={categories}
-                currency={user.currency}
-                filters={filters}
-                totalPages={totalPages}
-                isLoading={isLoading}
-                isListLoading={isListLoading}
-                pendingDeleteId={pendingDeleteId}
-                deletingId={deletingId}
-                onFiltersChange={updateFilters}
-                onBeginEditing={beginEditing}
-                onRequestDelete={requestDelete}
-                onConfirmDelete={(id) => void handleDelete(id)}
-                onCancelDelete={() => setPendingDeleteId(null)}
-                onPreviousPage={() =>
-                  updateFilters({ ...filters, page: filters.page - 1 })
-                }
-                onNextPage={() =>
-                  updateFilters({ ...filters, page: filters.page + 1 })
-                }
-              />
-            </div>
+            <MovementListSection
+              movements={movements}
+              categories={categories}
+              currency={user.currency}
+              filters={filters}
+              totalPages={totalPages}
+              isLoading={isLoading}
+              isListLoading={isListLoading}
+              pendingDeleteId={pendingDeleteId}
+              deletingId={deletingId}
+              onFiltersChange={updateFilters}
+              onBeginEditing={beginEditing}
+              onCreateNewMovement={beginCreating}
+              onRequestDelete={requestDelete}
+              onConfirmDelete={(id) => void handleDelete(id)}
+              onCancelDelete={() => setPendingDeleteId(null)}
+              onPreviousPage={() =>
+                updateFilters({ ...filters, page: filters.page - 1 })
+              }
+              onNextPage={() =>
+                updateFilters({ ...filters, page: filters.page + 1 })
+              }
+            />
+
+            <MovementFormSection
+              editingId={editingId}
+              isCreateFormOpen={isCreateFormOpen}
+              formType={formType}
+              formTitle={formTitle}
+              formAmount={formAmount}
+              formCategoryId={formCategoryId}
+              formDescription={formDescription}
+              formLoggedFor={formLoggedFor}
+              formError={formError}
+              categories={categories}
+              currency={user.currency}
+              mutation={mutation}
+              onTypeChange={setFormType}
+              onTitleChange={setFormTitle}
+              onAmountChange={setFormAmount}
+              onCategoryChange={setFormCategoryId}
+              onDescriptionChange={setFormDescription}
+              onLoggedForChange={setFormLoggedFor}
+              onReset={resetForm}
+              onSubmit={(event) => void handleSubmit(event)}
+            />
 
             <DashboardActionError message={actionError} />
           </>

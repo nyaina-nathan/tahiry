@@ -19,6 +19,7 @@ type MovementListSectionProps = {
   deletingId: string | null;
   onFiltersChange: (filters: Filters) => void;
   onBeginEditing: (movement: MoneyMovement) => void;
+  onCreateNewMovement: () => void;
   onRequestDelete: (id: string) => void;
   onConfirmDelete: (id: string) => void;
   onCancelDelete: () => void;
@@ -38,6 +39,7 @@ export function MovementListSection({
   deletingId,
   onFiltersChange,
   onBeginEditing,
+  onCreateNewMovement,
   onRequestDelete,
   onConfirmDelete,
   onCancelDelete,
@@ -55,9 +57,18 @@ export function MovementListSection({
             Recent movements.
           </h2>
         </div>
-        <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--color-muted)]">
-          {movements?.total ?? 0} total
-        </span>
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--color-muted)]">
+            {movements?.total ?? 0} total
+          </span>
+          <button
+            type="button"
+            onClick={onCreateNewMovement}
+            className="min-h-10 bg-[var(--color-ink)] px-4 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-white transition-colors hover:bg-[var(--color-primary)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary)]"
+          >
+            Create new movement
+          </button>
+        </div>
       </div>
 
       <MovementFilters
