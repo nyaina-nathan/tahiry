@@ -18,7 +18,7 @@ export type Filters = {
   page: number;
 };
 
-export type Mutation = "create" | "update" | "delete" | "logout" | null;
+export type Mutation = "create" | "update" | "delete" | null;
 
 export type DashboardData = {
   currentUser: CurrentUser;

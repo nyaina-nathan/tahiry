@@ -2,7 +2,6 @@
 
 import type { FormEvent } from "react";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import type { Category } from "@/types/category.types";
 import type { Balance } from "@/types/balance.types";
 import type {
@@ -15,7 +14,6 @@ import {
   deleteMoneyMovement,
   fetchBalanceAndMovements,
   fetchDashboardData,
-  logout,
   saveMoneyMovement,
 } from "@/features/dashboard/api/dashboard-api";
 import { today } from "@/features/dashboard/utils/formatters";
@@ -34,7 +32,6 @@ const INITIAL_FILTERS: Filters = {
 };
 
 export function useDashboard() {
-  const router = useRouter();
   const [user, setUser] = useState<CurrentUser>({
     currency: "MGA",
     username: "there",
@@ -230,18 +227,6 @@ export function useDashboard() {
     setActionError("");
   }
 
-  async function handleLogout() {
-    setMutation("logout");
-
-    try {
-      await logout();
-      router.replace("/login");
-    } catch {
-      setActionError("You could not be signed out. Please try again.");
-      setMutation(null);
-    }
-  }
-
   const totalPages = movements
     ? Math.max(1, Math.ceil(movements.total / movements.page_size))
     : 1;
@@ -272,7 +257,6 @@ export function useDashboard() {
     beginEditing,
     handleSubmit,
     handleDelete,
-    handleLogout,
     requestDelete,
     setFormType,
     setFormTitle,

@@ -1,8 +1,8 @@
 "use client";
 
 import { BalanceSection } from "@/features/dashboard/components/balance-section";
+import { AppHeader } from "@/components/app-header";
 import { DashboardActionError } from "@/features/dashboard/components/dashboard-action-error";
-import { DashboardHeader } from "@/features/dashboard/components/dashboard-header";
 import { DashboardIntro } from "@/features/dashboard/components/dashboard-intro";
 import { DashboardLoadError } from "@/features/dashboard/components/dashboard-load-error";
 import { MovementFormSection } from "@/features/dashboard/components/movement-form-section";
@@ -36,7 +36,6 @@ export function DashboardPage() {
     beginEditing,
     handleSubmit,
     handleDelete,
-    handleLogout,
     requestDelete,
     setFormType,
     setFormTitle,
@@ -51,10 +50,7 @@ export function DashboardPage() {
 
   return (
     <main className="min-h-screen overflow-x-clip bg-[var(--color-canvas)]">
-      <DashboardHeader
-        isLoggingOut={mutation === "logout"}
-        onLogout={() => void handleLogout()}
-      />
+      <AppHeader links={[{ href: "/categories", label: "Categories" }]} />
 
       <div className="mx-auto max-w-7xl px-5 py-10 sm:px-8 sm:py-14 lg:px-12 lg:py-16">
         <DashboardIntro user={user} />

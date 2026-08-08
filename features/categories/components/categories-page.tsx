@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import { AppHeader } from "@/components/app-header";
 import {
   CategoriesActionError,
   CategoriesEmptyState,
   CategoriesLoadError,
   CategoriesLoading,
 } from "@/features/categories/components/categories-feedback";
-import { CategoriesHeader } from "@/features/categories/components/categories-header";
 import { CategoriesIntro } from "@/features/categories/components/categories-intro";
 import { CategoryCreateForm } from "@/features/categories/components/category-create-form";
 import { CategoryGroups } from "@/features/categories/components/category-groups";
@@ -49,7 +49,7 @@ export function CategoriesPage() {
 
   return (
     <main className="min-h-screen bg-[var(--color-canvas)]">
-      <CategoriesHeader />
+      <AppHeader links={[{ href: "/", label: "Back to overview" }]} />
 
       <div className="mx-auto max-w-7xl px-5 py-10 sm:px-8 sm:py-14 lg:px-12 lg:py-16">
         <CategoriesIntro

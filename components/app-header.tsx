@@ -1,21 +1,28 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-type DashboardHeaderProps = {
-  isLoggingOut: boolean;
-  onLogout: () => void;
+type AppHeaderLink = {
+  href: string;
+  label: string;
+};
+
+type AppHeaderProps = {
+  links?: AppHeaderLink[];
 };
 
 const linkClassName =
   "font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-muted)] transition-colors hover:text-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary)]";
 
-export function DashboardHeader({
-  isLoggingOut,
-  onLogout,
-}: DashboardHeaderProps) {
+const SIGN_OUT_ERROR = "You could not be signed out. Please try again.";
+
+export function AppHeader({ links = [] }: AppHeaderProps) {
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [logoutError, setLogoutError] = useState("");
 
   useEffect(() => {
     if (!isMenuOpen) {
@@ -35,6 +42,28 @@ export function DashboardHeader({
     };
   }, [isMenuOpen]);
 
+  async function handleLogout() {
+    if (isLoggingOut) {
+      return;
+    }
+
+    setIsLoggingOut(true);
+    setLogoutError("");
+
+    try {
+      const response = await fetch("/api/auth/logout", { method: "POST" });
+
+      if (!response.ok) {
+        throw new Error(SIGN_OUT_ERROR);
+      }
+
+      router.replace("/login");
+    } catch {
+      setLogoutError(SIGN_OUT_ERROR);
+      setIsLoggingOut(false);
+    }
+  }
+
   return (
     <header className="sticky top-0 z-40 border-b border-[var(--color-line)] bg-[var(--color-surface)]">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-5 px-4 py-4 sm:px-8 sm:py-5 lg:px-12">
@@ -51,12 +80,14 @@ export function DashboardHeader({
           aria-label="Primary navigation"
           className="hidden items-center gap-4 sm:flex sm:gap-6"
         >
-          <Link href="/categories" className={linkClassName}>
-            Categories
-          </Link>
+          {links.map((link) => (
+            <Link key={link.href} href={link.href} className={linkClassName}>
+              {link.label}
+            </Link>
+          ))}
           <button
             type="button"
-            onClick={onLogout}
+            onClick={() => void handleLogout()}
             disabled={isLoggingOut}
             className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-muted)] transition-colors hover:text-[var(--color-danger)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-danger)] disabled:opacity-60"
           >
@@ -92,18 +123,21 @@ export function DashboardHeader({
           className="border-t border-[var(--color-line)] bg-[var(--color-surface)] px-4 py-4 sm:hidden"
         >
           <div className="flex flex-col gap-1">
-            <Link
-              href="/categories"
-              onClick={() => setIsMenuOpen(false)}
-              className={`${linkClassName} min-h-11 flex items-center border-b border-[var(--color-line)] pb-3`}
-            >
-              Categories
-            </Link>
+            {links.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setIsMenuOpen(false)}
+                className={`${linkClassName} min-h-11 flex items-center border-b border-[var(--color-line)] pb-3`}
+              >
+                {link.label}
+              </Link>
+            ))}
             <button
               type="button"
               onClick={() => {
                 setIsMenuOpen(false);
-                onLogout();
+                void handleLogout();
               }}
               disabled={isLoggingOut}
               className="min-h-11 flex items-center pt-3 text-left font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-muted)] transition-colors hover:text-[var(--color-danger)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-danger)] disabled:opacity-60"
@@ -112,6 +146,14 @@ export function DashboardHeader({
             </button>
           </div>
         </nav>
+      )}
+      {logoutError && (
+        <div
+          role="alert"
+          className="border-t border-[var(--color-danger)] px-4 py-2 text-center font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-danger)]"
+        >
+          {logoutError}
+        </div>
       )}
     </header>
   );
