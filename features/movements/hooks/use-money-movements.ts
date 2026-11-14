@@ -12,12 +12,14 @@ import type {
 } from "@/types/money-movement.types";
 import {
   deleteMoneyMovement,
+  fetchCashflowWindow,
   fetchWorkspaceData,
   fetchWorkspaceUpdates,
   saveMoneyMovement,
 } from "@/features/dashboard/api/dashboard-api";
 import { today } from "@/features/dashboard/utils/formatters";
 import type {
+  CashflowPoint,
   CurrentUser,
   Filters,
   Mutation,
@@ -26,6 +28,7 @@ import type {
 type UseMoneyMovementsOptions = {
   fixedType?: MovementType;
   withBalance?: boolean;
+  withCashflow?: boolean;
   initialPageSize?: number;
 };
 
@@ -46,6 +49,7 @@ function createInitialFilters(
 export function useMoneyMovements({
   fixedType,
   withBalance = true,
+  withCashflow = false,
   initialPageSize = 25,
 }: UseMoneyMovementsOptions = {}) {
   const [user, setUser] = useState<CurrentUser>({
@@ -55,10 +59,13 @@ export function useMoneyMovements({
   const [balance, setBalance] = useState<Balance | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
   const [movements, setMovements] = useState<MovementPage | null>(null);
+  const [cashflow, setCashflow] = useState<CashflowPoint[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isListLoading, setIsListLoading] = useState(false);
+  const [isCashflowLoading, setIsCashflowLoading] = useState(withCashflow);
   const [loadError, setLoadError] = useState("");
   const [actionError, setActionError] = useState("");
+  const [cashflowError, setCashflowError] = useState("");
   const [mutation, setMutation] = useState<Mutation>(null);
   const [filters, setFilters] = useState<Filters>(() =>
     createInitialFilters(fixedType, initialPageSize),
@@ -77,26 +84,49 @@ export function useMoneyMovements({
   const [formError, setFormError] = useState("");
   const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
 
-  async function refreshWorkspace(activeFilters: Filters) {
+  async function refreshWorkspace(
+    activeFilters: Filters,
+    refreshCashflowData = false,
+  ) {
     setIsListLoading(true);
     setActionError("");
 
-    try {
-      const data = await fetchWorkspaceUpdates(activeFilters, withBalance);
+    const [workspaceResult, cashflowResult] = await Promise.allSettled([
+      fetchWorkspaceUpdates(activeFilters, withBalance),
+      withCashflow && refreshCashflowData
+        ? fetchCashflowWindow()
+        : Promise.resolve<CashflowPoint[] | null>(null),
+    ]);
+
+    if (workspaceResult.status === "fulfilled") {
+      const data = workspaceResult.value;
 
       if (data.currentBalance !== null) {
         setBalance(data.currentBalance);
       }
       setMovements(data.currentMovements);
-    } catch (error) {
+    } else {
       setActionError(
-        error instanceof Error
-          ? error.message
+        workspaceResult.reason instanceof Error
+          ? workspaceResult.reason.message
           : "The movements could not be refreshed.",
       );
-    } finally {
-      setIsListLoading(false);
     }
+
+    if (refreshCashflowData && cashflowResult.status === "fulfilled") {
+      if (cashflowResult.value !== null) {
+        setCashflow(cashflowResult.value);
+        setCashflowError("");
+      }
+    } else if (refreshCashflowData && cashflowResult.status === "rejected") {
+      setCashflowError(
+        cashflowResult.reason instanceof Error
+          ? cashflowResult.reason.message
+          : "The last 7 days could not be loaded.",
+      );
+    }
+
+    setIsListLoading(false);
   }
 
   useEffect(() => {
@@ -104,34 +134,52 @@ export function useMoneyMovements({
 
     async function loadWorkspace() {
       setIsLoading(true);
+      setIsCashflowLoading(withCashflow);
       setLoadError("");
+      setCashflowError("");
       setFilters(createInitialFilters(fixedType, initialPageSize));
 
-      try {
-        const data = await fetchWorkspaceData(
+      const [workspaceResult, cashflowResult] = await Promise.allSettled([
+        fetchWorkspaceData(
           createInitialFilters(fixedType, initialPageSize),
           withBalance,
-        );
+        ),
+        withCashflow
+          ? fetchCashflowWindow()
+          : Promise.resolve<CashflowPoint[]>([]),
+      ]);
 
-        if (!cancelled) {
-          setUser(data.currentUser);
-          setBalance(data.currentBalance);
-          setCategories(data.currentCategories);
-          setMovements(data.currentMovements);
-        }
-      } catch (error) {
-        if (!cancelled) {
-          setLoadError(
-            error instanceof Error
-              ? error.message
-              : "The movements could not be loaded.",
-          );
-        }
-      } finally {
-        if (!cancelled) {
-          setIsLoading(false);
-        }
+      if (cancelled) {
+        return;
       }
+
+      if (workspaceResult.status === "fulfilled") {
+        const data = workspaceResult.value;
+
+        setUser(data.currentUser);
+        setBalance(data.currentBalance);
+        setCategories(data.currentCategories);
+        setMovements(data.currentMovements);
+      } else {
+        setLoadError(
+          workspaceResult.reason instanceof Error
+            ? workspaceResult.reason.message
+            : "The movements could not be loaded.",
+        );
+      }
+
+      if (cashflowResult.status === "fulfilled") {
+        setCashflow(cashflowResult.value);
+      } else if (withCashflow) {
+        setCashflowError(
+          cashflowResult.reason instanceof Error
+            ? cashflowResult.reason.message
+            : "The last 7 days could not be loaded.",
+        );
+      }
+
+      setIsLoading(false);
+      setIsCashflowLoading(false);
     }
 
     void loadWorkspace();
@@ -139,7 +187,28 @@ export function useMoneyMovements({
     return () => {
       cancelled = true;
     };
-  }, [fixedType, withBalance, initialPageSize]);
+  }, [fixedType, withBalance, withCashflow, initialPageSize]);
+
+  async function refreshCashflow() {
+    if (!withCashflow) {
+      return;
+    }
+
+    setIsCashflowLoading(true);
+    setCashflowError("");
+
+    try {
+      setCashflow(await fetchCashflowWindow());
+    } catch (error) {
+      setCashflowError(
+        error instanceof Error
+          ? error.message
+          : "The last 7 days could not be loaded.",
+      );
+    } finally {
+      setIsCashflowLoading(false);
+    }
+  }
 
   function updateFilters(nextFilters: Filters) {
     const normalizedFilters = fixedType
@@ -231,7 +300,7 @@ export function useMoneyMovements({
     try {
       await saveMoneyMovement(editingId, payload);
       resetForm();
-      await refreshWorkspace(filters);
+      await refreshWorkspace(filters, true);
     } catch (error) {
       setActionError(
         error instanceof Error
@@ -254,7 +323,7 @@ export function useMoneyMovements({
         resetForm();
       }
       setPendingDeleteId(null);
-      await refreshWorkspace(filters);
+      await refreshWorkspace(filters, true);
     } catch (error) {
       setActionError(
         error instanceof Error
@@ -280,10 +349,13 @@ export function useMoneyMovements({
     balance,
     categories,
     movements,
+    cashflow,
     isLoading,
     isListLoading,
+    isCashflowLoading,
     loadError,
     actionError,
+    cashflowError,
     mutation,
     filters,
     editingId,
@@ -298,6 +370,7 @@ export function useMoneyMovements({
     pendingDeleteId,
     totalPages,
     updateFilters,
+    refreshCashflow,
     resetForm,
     beginCreating,
     beginEditing,

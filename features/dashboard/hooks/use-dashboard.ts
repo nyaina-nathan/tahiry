@@ -3,5 +3,5 @@
 import { useMoneyMovements } from "@/features/movements/hooks/use-money-movements";
 
 export function useDashboard() {
-  return useMoneyMovements({ initialPageSize: 10 });
+  return useMoneyMovements({ initialPageSize: 10, withCashflow: true });
 }

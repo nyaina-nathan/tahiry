@@ -1,10 +1,12 @@
 import type { Category } from "@/types/category.types";
 import type { Balance } from "@/types/balance.types";
 import type {
+  MoneyMovement,
   MovementInput,
   MovementPage,
 } from "@/types/money-movement.types";
 import type {
+  CashflowPoint,
   CurrentUser,
   Filters,
 } from "@/features/dashboard/types";
@@ -61,6 +63,78 @@ export type WorkspaceSnapshot = {
   currentCategories: Category[];
   currentMovements: MovementPage;
 };
+
+const CASHFLOW_DAYS = 7;
+const CASHFLOW_PAGE_SIZE = 100;
+const CASHFLOW_MAX_PAGES = 10;
+
+function buildCashflowDates(days: number): string[] {
+  const now = new Date();
+  const end = Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate(),
+  );
+
+  return Array.from({ length: days }, (_, index) =>
+    new Date(end - (days - 1 - index) * 86_400_000).toISOString().slice(0, 10),
+  );
+}
+
+async function fetchCashflowMovements(from: string, to: string) {
+  const movements: MoneyMovement[] = [];
+
+  for (let page = 1; page <= CASHFLOW_MAX_PAGES; page += 1) {
+    const query = new URLSearchParams({
+      logged_for_from: from,
+      logged_for_to: to,
+      page: page.toString(),
+      page_size: CASHFLOW_PAGE_SIZE.toString(),
+    });
+    const result = await fetchJson<MovementPage>(
+      `/api/money-movements?${query.toString()}`,
+      "The last 7 days could not be loaded.",
+    );
+
+    movements.push(...result.items);
+
+    if (movements.length >= result.total || result.items.length === 0) {
+      break;
+    }
+  }
+
+  return movements;
+}
+
+export async function fetchCashflowWindow(): Promise<CashflowPoint[]> {
+  const dates = buildCashflowDates(CASHFLOW_DAYS);
+  const movements = await fetchCashflowMovements(
+    dates[0],
+    dates[dates.length - 1],
+  );
+  const points = new Map<string, CashflowPoint>(
+    dates.map((date) => [date, { date, income: 0, expense: 0 }]),
+  );
+
+  for (const movement of movements) {
+    const point = movement.logged_for
+      ? points.get(movement.logged_for)
+      : undefined;
+    const amount = Number(movement.amount);
+
+    if (!point || !Number.isFinite(amount)) {
+      continue;
+    }
+
+    if (movement.movement_type === "INCOME") {
+      point.income += amount;
+    } else {
+      point.expense += amount;
+    }
+  }
+
+  return dates.map((date) => points.get(date)!);
+}
 
 function fetchBalance(includeBalance: boolean) {
   return includeBalance

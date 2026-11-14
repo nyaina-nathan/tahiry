@@ -2,6 +2,7 @@
 
 import { BalanceSection } from "@/features/dashboard/components/balance-section";
 import { AppHeader, PRIMARY_NAV_LINKS } from "@/components/app-header";
+import { CashflowSection } from "@/features/dashboard/components/cashflow-section";
 import { DashboardActionError } from "@/features/dashboard/components/dashboard-action-error";
 import { DashboardLoadError } from "@/features/dashboard/components/dashboard-load-error";
 import { MovementFormSection } from "@/features/dashboard/components/movement-form-section";
@@ -14,10 +15,13 @@ export function DashboardPage() {
     balance,
     categories,
     movements,
+    cashflow,
     isLoading,
     isListLoading,
+    isCashflowLoading,
     loadError,
     actionError,
+    cashflowError,
     mutation,
     filters,
     editingId,
@@ -32,6 +36,7 @@ export function DashboardPage() {
     pendingDeleteId,
     totalPages,
     updateFilters,
+    refreshCashflow,
     resetForm,
     beginCreating,
     beginEditing,
@@ -66,6 +71,14 @@ export function DashboardPage() {
               balance={balance}
               currency={user.currency}
               isLoading={isLoading}
+            />
+
+            <CashflowSection
+              points={cashflow}
+              currency={user.currency}
+              isLoading={isLoading || isCashflowLoading}
+              error={cashflowError}
+              onRetry={() => void refreshCashflow()}
             />
 
             <MovementListSection

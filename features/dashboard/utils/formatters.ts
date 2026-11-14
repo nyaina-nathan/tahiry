@@ -16,6 +16,28 @@ export function formatMoney(amount: string, currency: string) {
   }
 }
 
+export function formatAxisMoney(amount: number, currency: string) {
+  try {
+    return new Intl.NumberFormat("en-US", {
+      notation: "compact",
+      maximumFractionDigits: 1,
+      style: "currency",
+      currency: currency || "MGA",
+      currencyDisplay: "narrowSymbol",
+    }).format(amount);
+  } catch {
+    return `${currency || "MGA"} ${amount}`;
+  }
+}
+
+export function formatWeekdayDate(date: string) {
+  return new Intl.DateTimeFormat("en", {
+    weekday: "short",
+    day: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(`${date}T00:00:00Z`));
+}
+
 export function formatDate(date: string | null) {
   if (!date) {
     return "No date";

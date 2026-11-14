@@ -16,6 +16,12 @@ export type Filters = {
 
 export type Mutation = "create" | "update" | "delete" | null;
 
+export type CashflowPoint = {
+  date: string;
+  income: number;
+  expense: number;
+};
+
 export type MovementFormState = {
   type: MovementType;
   title: string;
