@@ -40,18 +40,18 @@ export function BalanceSection({
     <section aria-labelledby="balance-heading" className="mb-12">
       <div className="mb-5 flex items-end justify-between gap-4">
         <div>
-          <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--color-primary)]">
+          <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-(--color-primary)">
             Lifetime view
           </p>
-          <h2 id="balance-heading" className="font-display text-2xl text-[var(--color-ink)] sm:text-3xl">
+          <h2 id="balance-heading" className="font-display text-2xl text-(--color-ink) sm:text-3xl">
             The bottom line.
           </h2>
         </div>
-        <span className="hidden font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--color-muted)] sm:block">
+        <span className="hidden font-mono text-[10px] uppercase tracking-[0.14em] text-(--color-muted) sm:block">
           Updated from every movement
         </span>
       </div>
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid grid-cols-3 gap-2 sm:gap-4">
         {balanceCards.map((card) => (
           <BalanceCard
             key={card.label}

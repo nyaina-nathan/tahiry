@@ -6,11 +6,8 @@ import type {
 } from "@/types/money-movement.types";
 import type {
   CurrentUser,
-  DashboardData,
   Filters,
 } from "@/features/dashboard/types";
-
-const PAGE_SIZE = 25;
 
 type ApiErrorResponse = {
   error?: {
@@ -39,7 +36,7 @@ async function fetchJson<T>(url: string, fallback: string) {
 export function buildMovementQuery(filters: Filters) {
   const params = new URLSearchParams({
     page: filters.page.toString(),
-    page_size: PAGE_SIZE.toString(),
+    page_size: filters.pageSize.toString(),
   });
 
   if (filters.movementType !== "ALL") {
@@ -58,22 +55,42 @@ export function buildMovementQuery(filters: Filters) {
   return params.toString();
 }
 
-export async function fetchDashboardData(filters: Filters): Promise<DashboardData> {
+export type WorkspaceSnapshot = {
+  currentUser: CurrentUser;
+  currentBalance: Balance | null;
+  currentCategories: Category[];
+  currentMovements: MovementPage;
+};
+
+function fetchBalance(includeBalance: boolean) {
+  return includeBalance
+    ? fetchJson<Balance>("/api/balance", "Balance could not be loaded.")
+    : Promise.resolve(null);
+}
+
+function fetchMovementPage(filters: Filters) {
+  return fetchJson<MovementPage>(
+    `/api/money-movements?${buildMovementQuery(filters)}`,
+    "Money movements could not be loaded.",
+  );
+}
+
+export async function fetchWorkspaceData(
+  filters: Filters,
+  includeBalance: boolean,
+): Promise<WorkspaceSnapshot> {
   const [currentUser, currentBalance, currentCategories, currentMovements] =
     await Promise.all([
       fetchJson<CurrentUser>(
         "/api/auth/me",
         "Your session could not be loaded.",
       ),
-      fetchJson<Balance>("/api/balance", "Balance could not be loaded."),
+      fetchBalance(includeBalance),
       fetchJson<Category[]>(
         "/api/categories",
         "Categories could not be loaded.",
       ),
-      fetchJson<MovementPage>(
-        `/api/money-movements?${buildMovementQuery(filters)}`,
-        "Money movements could not be loaded.",
-      ),
+      fetchMovementPage(filters),
     ]);
 
   return {
@@ -84,13 +101,13 @@ export async function fetchDashboardData(filters: Filters): Promise<DashboardDat
   };
 }
 
-export async function fetchBalanceAndMovements(filters: Filters) {
+export async function fetchWorkspaceUpdates(
+  filters: Filters,
+  includeBalance: boolean,
+) {
   const [currentBalance, currentMovements] = await Promise.all([
-    fetchJson<Balance>("/api/balance", "Balance could not be loaded."),
-    fetchJson<MovementPage>(
-      `/api/money-movements?${buildMovementQuery(filters)}`,
-      "Money movements could not be loaded.",
-    ),
+    fetchBalance(includeBalance),
+    fetchMovementPage(filters),
   ]);
 
   return { currentBalance, currentMovements };

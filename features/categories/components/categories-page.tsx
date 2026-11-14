@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AppHeader } from "@/components/app-header";
+import { AppHeader, PRIMARY_NAV_LINKS } from "@/components/app-header";
 import {
   CategoriesActionError,
   CategoriesEmptyState,
@@ -48,8 +48,8 @@ export function CategoriesPage() {
   const deletingId = mutation?.type === "delete" ? mutation.id : null;
 
   return (
-    <main className="min-h-screen bg-[var(--color-canvas)]">
-      <AppHeader links={[{ href: "/", label: "Back to overview" }]} />
+    <main className="min-h-screen bg-(--color-canvas)">
+      <AppHeader links={PRIMARY_NAV_LINKS} />
 
       <div className="mx-auto max-w-7xl px-5 py-10 sm:px-8 sm:py-14 lg:px-12 lg:py-16">
         <CategoriesIntro

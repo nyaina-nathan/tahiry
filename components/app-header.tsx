@@ -1,25 +1,47 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 
-type AppHeaderLink = {
+export type AppHeaderLink = {
   href: string;
   label: string;
 };
+
+export const PRIMARY_NAV_LINKS: AppHeaderLink[] = [
+  { href: "/", label: "Overview" },
+  { href: "/expenses", label: "Expenses" },
+  { href: "/incomes", label: "Incomes" },
+  { href: "/categories", label: "Categories" },
+];
 
 type AppHeaderProps = {
   links?: AppHeaderLink[];
 };
 
 const linkClassName =
-  "font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-muted)] transition-colors hover:text-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary)]";
+  "font-mono text-[10px] font-bold uppercase tracking-[0.14em] transition-colors hover:text-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary)]";
+
+function isActiveLink(href: string, pathname: string) {
+  return href === "/"
+    ? pathname === "/"
+    : pathname === href || pathname.startsWith(`${href}/`);
+}
+
+function linkClassNameFor(href: string, pathname: string) {
+  return `${linkClassName} ${
+    isActiveLink(href, pathname)
+      ? "text-[var(--color-ink)]"
+      : "text-[var(--color-muted)]"
+  }`;
+}
 
 const SIGN_OUT_ERROR = "You could not be signed out. Please try again.";
 
 export function AppHeader({ links = [] }: AppHeaderProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [logoutError, setLogoutError] = useState("");
@@ -81,7 +103,12 @@ export function AppHeader({ links = [] }: AppHeaderProps) {
           className="hidden items-center gap-4 sm:flex sm:gap-6"
         >
           {links.map((link) => (
-            <Link key={link.href} href={link.href} className={linkClassName}>
+            <Link
+              key={link.href}
+              href={link.href}
+              aria-current={isActiveLink(link.href, pathname) ? "page" : undefined}
+              className={linkClassNameFor(link.href, pathname)}
+            >
               {link.label}
             </Link>
           ))}
@@ -128,7 +155,8 @@ export function AppHeader({ links = [] }: AppHeaderProps) {
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsMenuOpen(false)}
-                className={`${linkClassName} min-h-11 flex items-center border-b border-[var(--color-line)] pb-3`}
+                aria-current={isActiveLink(link.href, pathname) ? "page" : undefined}
+                className={`${linkClassNameFor(link.href, pathname)} min-h-11 flex items-center border-b border-[var(--color-line)] pb-3`}
               >
                 {link.label}
               </Link>

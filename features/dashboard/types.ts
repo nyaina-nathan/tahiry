@@ -1,9 +1,4 @@
-import type { Category } from "@/types/category.types";
-import type { Balance } from "@/types/balance.types";
-import type {
-  MovementPage,
-  MovementType,
-} from "@/types/money-movement.types";
+import type { MovementType } from "@/types/money-movement.types";
 
 export type CurrentUser = {
   currency: string;
@@ -16,16 +11,10 @@ export type Filters = {
   loggedForFrom: string;
   loggedForTo: string;
   page: number;
+  pageSize: number;
 };
 
 export type Mutation = "create" | "update" | "delete" | null;
-
-export type DashboardData = {
-  currentUser: CurrentUser;
-  currentBalance: Balance;
-  currentCategories: Category[];
-  currentMovements: MovementPage;
-};
 
 export type MovementFormState = {
   type: MovementType;
