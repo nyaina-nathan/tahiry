@@ -20,6 +20,8 @@ type MovementListProps = {
   onCancelDelete: () => void;
   onPreviousPage: () => void;
   onNextPage: () => void;
+  emptyTitle?: string;
+  emptyDescription?: string;
 };
 
 export function MovementList({
@@ -37,13 +39,20 @@ export function MovementList({
   onCancelDelete,
   onPreviousPage,
   onNextPage,
+  emptyTitle,
+  emptyDescription,
 }: MovementListProps) {
   if (isLoading || isListLoading) {
     return <MovementLoading />;
   }
 
   if (!movements?.items.length) {
-    return <MovementEmptyState />;
+    return (
+      <MovementEmptyState
+        title={emptyTitle}
+        description={emptyDescription}
+      />
+    );
   }
 
   return (

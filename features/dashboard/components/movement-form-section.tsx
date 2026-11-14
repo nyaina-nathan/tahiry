@@ -26,6 +26,7 @@ type MovementFormSectionProps = {
   onLoggedForChange: (loggedFor: string) => void;
   onReset: () => void;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  fixedType?: MovementType;
 };
 
 export function MovementFormSection({
@@ -49,8 +50,15 @@ export function MovementFormSection({
   onLoggedForChange,
   onReset,
   onSubmit,
+  fixedType,
 }: MovementFormSectionProps) {
   const isDialogOpen = Boolean(editingId) || isCreateFormOpen;
+  const typeLabel =
+    fixedType === "EXPENSE"
+      ? "expense"
+      : fixedType === "INCOME"
+        ? "income"
+        : null;
 
   useEffect(() => {
     if (!editingId && !isCreateFormOpen) {
@@ -95,6 +103,7 @@ export function MovementFormSection({
         onDescriptionChange={onDescriptionChange}
         onLoggedForChange={onLoggedForChange}
         autoFocus={isDialogOpen}
+        hideTypeSelector={Boolean(fixedType)}
       />
       {formError && (
         <p role="alert" className="mt-5 text-sm text-[var(--color-danger)]">
@@ -136,7 +145,11 @@ export function MovementFormSection({
                 id="movement-form-heading"
                 className="font-display text-2xl text-[var(--color-ink)] sm:text-3xl"
               >
-                {isEditing ? "Edit movement" : "New movement"}
+                {typeLabel
+                  ? `${isEditing ? "Edit" : "New"} ${typeLabel}`
+                  : isEditing
+                    ? "Edit movement"
+                    : "New movement"}
               </h2>
             </div>
             <button

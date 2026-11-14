@@ -2,6 +2,7 @@ import type { Category } from "@/types/category.types";
 import type {
   MoneyMovement,
   MovementPage,
+  MovementType,
 } from "@/types/money-movement.types";
 import type { Filters } from "@/features/dashboard/types";
 import { MovementFilters } from "@/features/dashboard/components/movement-filters";
@@ -25,6 +26,12 @@ type MovementListSectionProps = {
   onCancelDelete: () => void;
   onPreviousPage: () => void;
   onNextPage: () => void;
+  fixedType?: MovementType;
+  eyebrow?: string;
+  heading?: string;
+  createLabel?: string;
+  emptyTitle?: string;
+  emptyDescription?: string;
 };
 
 export function MovementListSection({
@@ -45,16 +52,22 @@ export function MovementListSection({
   onCancelDelete,
   onPreviousPage,
   onNextPage,
+  fixedType,
+  eyebrow = "Your record",
+  heading = "Recent movements.",
+  createLabel = "Create new movement",
+  emptyTitle,
+  emptyDescription,
 }: MovementListSectionProps) {
   return (
     <section aria-labelledby="movements-heading">
       <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--color-secondary)]">
-            Your record
+            {eyebrow}
           </p>
           <h2 id="movements-heading" className="font-display text-2xl text-[var(--color-ink)] sm:text-3xl">
-            Recent movements.
+            {heading}
           </h2>
         </div>
         <div className="flex flex-wrap items-center gap-3">
@@ -66,7 +79,7 @@ export function MovementListSection({
             onClick={onCreateNewMovement}
             className="min-h-10 bg-[var(--color-ink)] px-4 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-white transition-colors hover:bg-[var(--color-primary)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary)]"
           >
-            Create new movement
+            {createLabel}
           </button>
         </div>
       </div>
@@ -74,6 +87,7 @@ export function MovementListSection({
       <MovementFilters
         filters={filters}
         categories={categories}
+        fixedType={fixedType}
         onChange={onFiltersChange}
       />
       <MovementList
@@ -91,6 +105,8 @@ export function MovementListSection({
         onCancelDelete={onCancelDelete}
         onPreviousPage={onPreviousPage}
         onNextPage={onNextPage}
+        emptyTitle={emptyTitle}
+        emptyDescription={emptyDescription}
       />
     </section>
   );

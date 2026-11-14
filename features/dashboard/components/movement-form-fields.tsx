@@ -24,6 +24,7 @@ type MovementFormFieldsProps = {
   onDescriptionChange: (description: string) => void;
   onLoggedForChange: (loggedFor: string) => void;
   autoFocus?: boolean;
+  hideTypeSelector?: boolean;
 };
 
 export function MovementFormFields({
@@ -42,10 +43,13 @@ export function MovementFormFields({
   onDescriptionChange,
   onLoggedForChange,
   autoFocus = false,
+  hideTypeSelector = false,
 }: MovementFormFieldsProps) {
   return (
     <div className="space-y-5">
-      <MovementTypeSelector value={type} onChange={onTypeChange} />
+      {!hideTypeSelector && (
+        <MovementTypeSelector value={type} onChange={onTypeChange} />
+      )}
 
       <div>
         <label
