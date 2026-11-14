@@ -78,6 +78,12 @@ export function DashboardPage() {
               isListLoading={isListLoading}
               pendingDeleteId={pendingDeleteId}
               deletingId={deletingId}
+              heading="Latest movements."
+              showFilters={false}
+              pageSize={filters.pageSize}
+              onPageSizeChange={(pageSize) =>
+                updateFilters({ ...filters, pageSize, page: 1 })
+              }
               onFiltersChange={updateFilters}
               onBeginEditing={beginEditing}
               onCreateNewMovement={beginCreating}

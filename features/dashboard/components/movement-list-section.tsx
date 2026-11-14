@@ -7,6 +7,7 @@ import type {
 import type { Filters } from "@/features/dashboard/types";
 import { MovementFilters } from "@/features/dashboard/components/movement-filters";
 import { MovementList } from "@/features/dashboard/components/movement-list";
+import { MovementPageSizeControl } from "@/features/dashboard/components/movement-page-size-control";
 
 type MovementListSectionProps = {
   movements: MovementPage | null;
@@ -32,6 +33,9 @@ type MovementListSectionProps = {
   createLabel?: string;
   emptyTitle?: string;
   emptyDescription?: string;
+  showFilters?: boolean;
+  pageSize?: number;
+  onPageSizeChange?: (pageSize: number) => void;
 };
 
 export function MovementListSection({
@@ -55,9 +59,12 @@ export function MovementListSection({
   fixedType,
   eyebrow = "Your record",
   heading = "Recent movements.",
-  createLabel = "Create new movement",
+  createLabel = "New +",
   emptyTitle,
   emptyDescription,
+  showFilters = true,
+  pageSize,
+  onPageSizeChange,
 }: MovementListSectionProps) {
   return (
     <section aria-labelledby="movements-heading">
@@ -84,12 +91,19 @@ export function MovementListSection({
         </div>
       </div>
 
-      <MovementFilters
-        filters={filters}
-        categories={categories}
-        fixedType={fixedType}
-        onChange={onFiltersChange}
-      />
+      {showFilters ? (
+        <MovementFilters
+          filters={filters}
+          categories={categories}
+          fixedType={fixedType}
+          onChange={onFiltersChange}
+        />
+      ) : pageSize !== undefined && onPageSizeChange ? (
+        <MovementPageSizeControl
+          pageSize={pageSize}
+          onPageSizeChange={onPageSizeChange}
+        />
+      ) : null}
       <MovementList
         movements={movements}
         categories={categories}

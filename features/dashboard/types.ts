@@ -11,6 +11,7 @@ export type Filters = {
   loggedForFrom: string;
   loggedForTo: string;
   page: number;
+  pageSize: number;
 };
 
 export type Mutation = "create" | "update" | "delete" | null;

@@ -26,21 +26,27 @@ import type {
 type UseMoneyMovementsOptions = {
   fixedType?: MovementType;
   withBalance?: boolean;
+  initialPageSize?: number;
 };
 
-function createInitialFilters(fixedType?: MovementType): Filters {
+function createInitialFilters(
+  fixedType?: MovementType,
+  pageSize = 25,
+): Filters {
   return {
     movementType: fixedType ?? "ALL",
     categoryId: "",
     loggedForFrom: "",
     loggedForTo: "",
     page: 1,
+    pageSize,
   };
 }
 
 export function useMoneyMovements({
   fixedType,
   withBalance = true,
+  initialPageSize = 25,
 }: UseMoneyMovementsOptions = {}) {
   const [user, setUser] = useState<CurrentUser>({
     currency: "MGA",
@@ -55,7 +61,7 @@ export function useMoneyMovements({
   const [actionError, setActionError] = useState("");
   const [mutation, setMutation] = useState<Mutation>(null);
   const [filters, setFilters] = useState<Filters>(() =>
-    createInitialFilters(fixedType),
+    createInitialFilters(fixedType, initialPageSize),
   );
 
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -99,11 +105,11 @@ export function useMoneyMovements({
     async function loadWorkspace() {
       setIsLoading(true);
       setLoadError("");
-      setFilters(createInitialFilters(fixedType));
+      setFilters(createInitialFilters(fixedType, initialPageSize));
 
       try {
         const data = await fetchWorkspaceData(
-          createInitialFilters(fixedType),
+          createInitialFilters(fixedType, initialPageSize),
           withBalance,
         );
 
@@ -133,7 +139,7 @@ export function useMoneyMovements({
     return () => {
       cancelled = true;
     };
-  }, [fixedType, withBalance]);
+  }, [fixedType, withBalance, initialPageSize]);
 
   function updateFilters(nextFilters: Filters) {
     const normalizedFilters = fixedType

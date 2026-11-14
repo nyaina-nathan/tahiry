@@ -9,8 +9,6 @@ import type {
   Filters,
 } from "@/features/dashboard/types";
 
-const PAGE_SIZE = 25;
-
 type ApiErrorResponse = {
   error?: {
     message?: string;
@@ -38,7 +36,7 @@ async function fetchJson<T>(url: string, fallback: string) {
 export function buildMovementQuery(filters: Filters) {
   const params = new URLSearchParams({
     page: filters.page.toString(),
-    page_size: PAGE_SIZE.toString(),
+    page_size: filters.pageSize.toString(),
   });
 
   if (filters.movementType !== "ALL") {
