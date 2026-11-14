@@ -55,7 +55,6 @@ export function DashboardPage() {
       <AppHeader links={[{ href: "/categories", label: "Categories" }]} />
 
       <div className="mx-auto max-w-7xl px-5 py-10 sm:px-8 sm:py-14 lg:px-12 lg:py-16">
-        <DashboardIntro user={user} />
 
         {loadError ? (
           <DashboardLoadError

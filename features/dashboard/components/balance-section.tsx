@@ -51,7 +51,7 @@ export function BalanceSection({
           Updated from every movement
         </span>
       </div>
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid grid-cols-3 gap-2 sm:gap-4">
         {balanceCards.map((card) => (
           <BalanceCard
             key={card.label}
