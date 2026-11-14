@@ -3,7 +3,6 @@
 import { BalanceSection } from "@/features/dashboard/components/balance-section";
 import { AppHeader } from "@/components/app-header";
 import { DashboardActionError } from "@/features/dashboard/components/dashboard-action-error";
-import { DashboardIntro } from "@/features/dashboard/components/dashboard-intro";
 import { DashboardLoadError } from "@/features/dashboard/components/dashboard-load-error";
 import { MovementFormSection } from "@/features/dashboard/components/movement-form-section";
 import { MovementListSection } from "@/features/dashboard/components/movement-list-section";
@@ -51,7 +50,7 @@ export function DashboardPage() {
   const deletingId = mutation === "delete" ? pendingDeleteId : null;
 
   return (
-    <main className="min-h-screen overflow-x-clip bg-[var(--color-canvas)]">
+    <main className="min-h-screen overflow-x-clip bg-(--color-canvas)">
       <AppHeader links={[{ href: "/categories", label: "Categories" }]} />
 
       <div className="mx-auto max-w-7xl px-5 py-10 sm:px-8 sm:py-14 lg:px-12 lg:py-16">

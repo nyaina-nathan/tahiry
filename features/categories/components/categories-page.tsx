@@ -48,7 +48,7 @@ export function CategoriesPage() {
   const deletingId = mutation?.type === "delete" ? mutation.id : null;
 
   return (
-    <main className="min-h-screen bg-[var(--color-canvas)]">
+    <main className="min-h-screen bg-(--color-canvas)">
       <AppHeader links={[{ href: "/", label: "Back to overview" }]} />
 
       <div className="mx-auto max-w-7xl px-5 py-10 sm:px-8 sm:py-14 lg:px-12 lg:py-16">
