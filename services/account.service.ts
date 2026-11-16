@@ -43,6 +43,15 @@ function conflictError(): AppError {
   );
 }
 
+function lastAccountError(): AppError {
+  return new AppError(
+    "Conflict",
+    "You must keep at least one account.",
+    409,
+    "account",
+  );
+}
+
 function requireUserId(userId: string | null): string {
   if (!userId || !UUID_PATTERN.test(userId)) {
     throw unauthorizedError();
@@ -169,11 +178,29 @@ export async function deleteAccount(
 ): Promise<void> {
   const userId = requireUserId(userIdHeader);
   const id = requireAccountId(accountId);
-  const result = await prisma.account.deleteMany({
-    where: { id, id_user: userId },
-  });
 
-  if (result.count === 0) {
-    throw notFoundError();
-  }
+  await prisma.$transaction(async (transaction) => {
+    await transaction.$queryRaw<{ id: string }[]>`
+      SELECT id FROM users WHERE id = ${userId} FOR UPDATE
+    `;
+
+    const account = await transaction.account.findFirst({
+      where: { id, id_user: userId },
+      select: { id: true },
+    });
+
+    if (!account) {
+      throw notFoundError();
+    }
+
+    const accountCount = await transaction.account.count({
+      where: { id_user: userId },
+    });
+
+    if (accountCount <= 1) {
+      throw lastAccountError();
+    }
+
+    await transaction.account.delete({ where: { id } });
+  });
 }

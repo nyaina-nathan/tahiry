@@ -278,6 +278,10 @@ export function useMoneyMovements({
       return "Negative amounts are not allowed.";
     }
 
+    if (!editingId && !formAccountId) {
+      return "Choose an account.";
+    }
+
     if (!formLoggedFor) {
       return "Choose a date.";
     }

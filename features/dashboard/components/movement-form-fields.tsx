@@ -91,9 +91,12 @@ export function MovementFormFields({
           value={accountId}
           onChange={(event) => onAccountChange(event.target.value)}
           disabled={accountLocked}
+          required={!accountLocked}
           className={`${selectClassName} disabled:cursor-not-allowed disabled:opacity-60`}
         >
-          <option value="">No account</option>
+          <option value="" disabled>
+            Select an account
+          </option>
           {accounts.map((account) => (
             <option key={account.id} value={account.id}>
               {account.name}

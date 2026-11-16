@@ -216,6 +216,9 @@ paths:
           description: Account deleted. Related movements retain their records with `id_account` and `id_account_source` set to null.
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '409':
+          description: The account cannot be deleted because it is the user's only remaining account.
+          $ref: '#/components/responses/Conflict'
         '404':
           $ref: '#/components/responses/NotFound'
 
