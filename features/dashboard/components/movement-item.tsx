@@ -5,6 +5,8 @@ import { formatDate, formatMoney } from "@/features/dashboard/utils/formatters";
 type MovementItemProps = {
   movement: MoneyMovement;
   categoryName: string;
+  accountName?: string;
+  sourceAccountName?: string;
   currency: string;
   accountId?: string;
   isDeleting: boolean;
@@ -18,6 +20,8 @@ type MovementItemProps = {
 export function MovementItem({
   movement,
   categoryName,
+  accountName,
+  sourceAccountName,
   currency,
   accountId,
   isDeleting,
@@ -64,6 +68,9 @@ export function MovementItem({
             </p>
             <p className="mt-1 truncate text-sm text-[var(--color-muted)]">
               {categoryName} · {formatDate(movement.logged_for)}
+              {(accountName || sourceAccountName) && (
+                <> · {sourceAccountName ? `${sourceAccountName} → ${accountName ?? "No account"}` : accountName}</>
+              )}
             </p>
             {movement.description && (
               <p className="mt-2 line-clamp-2 text-sm text-[var(--color-muted)]">

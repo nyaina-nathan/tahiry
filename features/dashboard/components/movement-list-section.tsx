@@ -1,4 +1,5 @@
 import type { Category } from "@/types/category.types";
+import type { Account } from "@/types/account.types";
 import type {
   MoneyMovement,
   MovementPage,
@@ -12,6 +13,7 @@ import { MovementPageSizeControl } from "@/features/dashboard/components/movemen
 type MovementListSectionProps = {
   movements: MovementPage | null;
   categories: Category[];
+  accounts: Account[];
   currency: string;
   filters: Filters;
   totalPages: number;
@@ -42,6 +44,7 @@ type MovementListSectionProps = {
 export function MovementListSection({
   movements,
   categories,
+  accounts,
   currency,
   filters,
   totalPages,
@@ -110,6 +113,7 @@ export function MovementListSection({
       <MovementList
         movements={movements}
         categories={categories}
+        accounts={accounts}
         currency={currency}
         totalPages={totalPages}
         isLoading={isLoading}

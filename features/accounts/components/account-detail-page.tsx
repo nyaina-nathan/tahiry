@@ -57,6 +57,7 @@ export function AccountDetailPage({ accountId }: AccountDetailPageProps) {
     user,
     balance,
     categories,
+    accounts,
     movements,
     isLoading,
     isListLoading,
@@ -70,6 +71,7 @@ export function AccountDetailPage({ accountId }: AccountDetailPageProps) {
     formTitle,
     formAmount,
     formCategoryId,
+    formAccountId,
     formDescription,
     formLoggedFor,
     formError,
@@ -86,6 +88,7 @@ export function AccountDetailPage({ accountId }: AccountDetailPageProps) {
     setFormTitle,
     setFormAmount,
     setFormCategoryId,
+    setFormAccountId,
     setFormDescription,
     setFormLoggedFor,
     setPendingDeleteId,
@@ -187,6 +190,7 @@ export function AccountDetailPage({ accountId }: AccountDetailPageProps) {
             <MovementListSection
               movements={movements}
               categories={categories}
+              accounts={accounts}
               currency={user.currency}
               filters={filters}
               totalPages={totalPages}
@@ -221,16 +225,20 @@ export function AccountDetailPage({ accountId }: AccountDetailPageProps) {
               formTitle={formTitle}
               formAmount={formAmount}
               formCategoryId={formCategoryId}
+              formAccountId={formAccountId}
               formDescription={formDescription}
               formLoggedFor={formLoggedFor}
               formError={formError}
               categories={categories}
+              accounts={accounts}
               currency={user.currency}
               mutation={mutation}
+              fixedAccountId={accountId}
               onTypeChange={setFormType}
               onTitleChange={setFormTitle}
               onAmountChange={setFormAmount}
               onCategoryChange={setFormCategoryId}
+              onAccountChange={setFormAccountId}
               onDescriptionChange={setFormDescription}
               onLoggedForChange={setFormLoggedFor}
               onReset={resetForm}

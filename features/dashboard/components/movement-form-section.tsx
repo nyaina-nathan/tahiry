@@ -1,5 +1,6 @@
 import { useEffect, type FormEvent } from "react";
 import type { Category } from "@/types/category.types";
+import type { Account } from "@/types/account.types";
 import type { MovementType } from "@/types/money-movement.types";
 import type { Mutation } from "@/features/dashboard/types";
 import { MovementFormActions } from "@/features/dashboard/components/movement-form-actions";
@@ -12,21 +13,25 @@ type MovementFormSectionProps = {
   formTitle: string;
   formAmount: string;
   formCategoryId: string;
+  formAccountId: string;
   formDescription: string;
   formLoggedFor: string;
   formError: string;
   categories: Category[];
+  accounts: Account[];
   currency: string;
   mutation: Mutation;
   onTypeChange: (type: MovementType) => void;
   onTitleChange: (title: string) => void;
   onAmountChange: (amount: string) => void;
   onCategoryChange: (categoryId: string) => void;
+  onAccountChange: (accountId: string) => void;
   onDescriptionChange: (description: string) => void;
   onLoggedForChange: (loggedFor: string) => void;
   onReset: () => void;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
   fixedType?: MovementType;
+  fixedAccountId?: string;
 };
 
 export function MovementFormSection({
@@ -36,21 +41,25 @@ export function MovementFormSection({
   formTitle,
   formAmount,
   formCategoryId,
+  formAccountId,
   formDescription,
   formLoggedFor,
   formError,
   categories,
+  accounts,
   currency,
   mutation,
   onTypeChange,
   onTitleChange,
   onAmountChange,
   onCategoryChange,
+  onAccountChange,
   onDescriptionChange,
   onLoggedForChange,
   onReset,
   onSubmit,
   fixedType,
+  fixedAccountId,
 }: MovementFormSectionProps) {
   const isDialogOpen = Boolean(editingId) || isCreateFormOpen;
   const typeLabel =
@@ -92,18 +101,22 @@ export function MovementFormSection({
         title={formTitle}
         amount={formAmount}
         categoryId={formCategoryId}
+        accountId={formAccountId}
         description={formDescription}
         loggedFor={formLoggedFor}
         categories={categories}
+        accounts={accounts}
         currency={currency}
         onTypeChange={onTypeChange}
         onTitleChange={onTitleChange}
         onAmountChange={onAmountChange}
         onCategoryChange={onCategoryChange}
+        onAccountChange={onAccountChange}
         onDescriptionChange={onDescriptionChange}
         onLoggedForChange={onLoggedForChange}
         autoFocus={isDialogOpen}
         hideTypeSelector={Boolean(fixedType)}
+        accountLocked={Boolean(editingId) || Boolean(fixedAccountId)}
       />
       {formError && (
         <p role="alert" className="mt-5 text-sm text-[var(--color-negative)]">

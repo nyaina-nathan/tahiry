@@ -3,6 +3,7 @@
 import type { FormEvent } from "react";
 import { useEffect, useState } from "react";
 import type { Category } from "@/types/category.types";
+import type { Account } from "@/types/account.types";
 import type { Balance } from "@/types/balance.types";
 import type {
   MoneyMovement,
@@ -62,6 +63,7 @@ export function useMoneyMovements({
   });
   const [balance, setBalance] = useState<Balance | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [accounts, setAccounts] = useState<Account[]>([]);
   const [movements, setMovements] = useState<MovementPage | null>(null);
   const [cashflow, setCashflow] = useState<CashflowPoint[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -83,6 +85,7 @@ export function useMoneyMovements({
   const [formTitle, setFormTitle] = useState("");
   const [formAmount, setFormAmount] = useState("");
   const [formCategoryId, setFormCategoryId] = useState("");
+  const [formAccountId, setFormAccountId] = useState(accountId ?? "");
   const [formDescription, setFormDescription] = useState("");
   const [formLoggedFor, setFormLoggedFor] = useState(today);
   const [formError, setFormError] = useState("");
@@ -163,6 +166,7 @@ export function useMoneyMovements({
         setUser(data.currentUser);
         setBalance(data.currentBalance);
         setCategories(data.currentCategories);
+        setAccounts(data.currentAccounts);
         setMovements(data.currentMovements);
       } else {
         setLoadError(
@@ -230,6 +234,7 @@ export function useMoneyMovements({
     setFormTitle("");
     setFormAmount("");
     setFormCategoryId("");
+    setFormAccountId(accountId ?? "");
     setFormDescription("");
     setFormLoggedFor(today());
     setFormError("");
@@ -252,6 +257,7 @@ export function useMoneyMovements({
     setFormTitle(movement.title);
     setFormAmount(movement.amount);
     setFormCategoryId(movement.id_category ?? "");
+    setFormAccountId(movement.id_account ?? "");
     setFormDescription(movement.description ?? "");
     setFormLoggedFor(movement.logged_for ?? today());
   }
@@ -297,7 +303,7 @@ export function useMoneyMovements({
       title: formTitle.trim(),
       amount: formAmount.trim(),
       id_category: formCategoryId || null,
-      ...(accountId === undefined || editingId ? {} : { id_account: accountId }),
+      ...(editingId ? {} : { id_account: formAccountId || null }),
       description: formDescription.trim() || null,
       logged_for: formLoggedFor || null,
     };
@@ -353,6 +359,7 @@ export function useMoneyMovements({
     user,
     balance,
     categories,
+    accounts,
     movements,
     cashflow,
     isLoading,
@@ -369,6 +376,7 @@ export function useMoneyMovements({
     formTitle,
     formAmount,
     formCategoryId,
+    formAccountId,
     formDescription,
     formLoggedFor,
     formError,
@@ -386,6 +394,7 @@ export function useMoneyMovements({
     setFormTitle,
     setFormAmount,
     setFormCategoryId,
+    setFormAccountId,
     setFormDescription,
     setFormLoggedFor,
     setPendingDeleteId,
