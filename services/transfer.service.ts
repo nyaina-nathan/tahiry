@@ -1,11 +1,13 @@
 import { prisma } from "@/libs/db/prisma";
 import { AppError } from "@/libs/errors/app-error";
+import { Prisma } from "../prisma/generated/client";
 import type { TransferInput } from "@/types/transfer.types";
 import type { MoneyMovement } from "@/types/money-movement.types";
 import {
   movementSelect,
   toMoneyMovement,
 } from "@/services/money-movement.service";
+import { isSufficientBalance } from "@/services/transfer-balance";
 
 const UUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -25,6 +27,15 @@ function accountNotFoundError(): AppError {
     "Account not found.",
     404,
     "account",
+  );
+}
+
+function insufficientFundsError(): AppError {
+  return new AppError(
+    "Conflict",
+    "The source account does not have enough funds for this transfer.",
+    409,
+    "transfer",
   );
 }
 
@@ -61,6 +72,41 @@ async function ensureAccountsBelongToUser(
   return accounts;
 }
 
+async function getSourceBalance(
+  userId: string,
+  sourceId: string,
+): Promise<Prisma.Decimal> {
+  const [byDestination, bySource] = await Promise.all([
+    prisma.money_movements.groupBy({
+      by: ["movement_type"],
+      where: { id_user: userId, id_account: sourceId },
+      _sum: { amount: true },
+    }),
+    prisma.money_movements.aggregate({
+      where: {
+        id_user: userId,
+        id_account_source: sourceId,
+        movement_type: "TRANSFERT",
+      },
+      _sum: { amount: true },
+    }),
+  ]);
+
+  let balance = new Prisma.Decimal(0);
+
+  for (const row of byDestination) {
+    const amount = row._sum.amount ?? new Prisma.Decimal(0);
+
+    if (row.movement_type === "INCOME" || row.movement_type === "TRANSFERT") {
+      balance = balance.plus(amount);
+    } else if (row.movement_type === "EXPENSE") {
+      balance = balance.minus(amount);
+    }
+  }
+
+  return balance.minus(bySource._sum.amount ?? new Prisma.Decimal(0));
+}
+
 export async function createTransfer(
   userIdHeader: string | null,
   payload: TransferInput,
@@ -71,6 +117,15 @@ export async function createTransfer(
     payload.id_account_source,
     payload.id_account,
   );
+  const sourceBalance = await getSourceBalance(
+    userId,
+    payload.id_account_source,
+  );
+
+  if (!isSufficientBalance(sourceBalance.toFixed(2), payload.amount)) {
+    throw insufficientFundsError();
+  }
+
   const destination = accounts.find(
     (account) => account.id === payload.id_account,
   );
