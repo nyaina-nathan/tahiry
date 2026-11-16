@@ -53,7 +53,8 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   categories: 'categories',
   money_movements: 'money_movements',
-  users: 'users'
+  users: 'users',
+  account: 'account'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -86,12 +87,13 @@ export const Money_movementsScalarFieldEnum = {
   id: 'id',
   id_user: 'id_user',
   id_category: 'id_category',
-  movement_type: 'movement_type',
   title: 'title',
   description: 'description',
   amount: 'amount',
   logged_for: 'logged_for',
-  logged_at: 'logged_at'
+  logged_at: 'logged_at',
+  id_account: 'id_account',
+  movement_type: 'movement_type'
 } as const
 
 export type Money_movementsScalarFieldEnum = (typeof Money_movementsScalarFieldEnum)[keyof typeof Money_movementsScalarFieldEnum]
@@ -107,6 +109,16 @@ export const UsersScalarFieldEnum = {
 } as const
 
 export type UsersScalarFieldEnum = (typeof UsersScalarFieldEnum)[keyof typeof UsersScalarFieldEnum]
+
+
+export const AccountScalarFieldEnum = {
+  id: 'id',
+  id_user: 'id_user',
+  name: 'name',
+  created_at: 'created_at'
+} as const
+
+export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
 
 
 export const SortOrder = {

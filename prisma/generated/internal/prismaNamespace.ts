@@ -399,7 +399,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   categories: 'categories',
   money_movements: 'money_movements',
-  users: 'users'
+  users: 'users',
+  account: 'account'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -415,7 +416,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "categories" | "money_movements" | "users"
+    modelProps: "categories" | "money_movements" | "users" | "account"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -641,6 +642,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    account: {
+      payload: Prisma.$accountPayload<ExtArgs>
+      fields: Prisma.accountFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.accountFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$accountPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.accountFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$accountPayload>
+        }
+        findFirst: {
+          args: Prisma.accountFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$accountPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.accountFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$accountPayload>
+        }
+        findMany: {
+          args: Prisma.accountFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$accountPayload>[]
+        }
+        create: {
+          args: Prisma.accountCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$accountPayload>
+        }
+        createMany: {
+          args: Prisma.accountCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.accountCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$accountPayload>[]
+        }
+        delete: {
+          args: Prisma.accountDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$accountPayload>
+        }
+        update: {
+          args: Prisma.accountUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$accountPayload>
+        }
+        deleteMany: {
+          args: Prisma.accountDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.accountUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.accountUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$accountPayload>[]
+        }
+        upsert: {
+          args: Prisma.accountUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$accountPayload>
+        }
+        aggregate: {
+          args: Prisma.AccountAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAccount>
+        }
+        groupBy: {
+          args: Prisma.accountGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AccountGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.accountCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AccountCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -694,12 +769,13 @@ export const Money_movementsScalarFieldEnum = {
   id: 'id',
   id_user: 'id_user',
   id_category: 'id_category',
-  movement_type: 'movement_type',
   title: 'title',
   description: 'description',
   amount: 'amount',
   logged_for: 'logged_for',
-  logged_at: 'logged_at'
+  logged_at: 'logged_at',
+  id_account: 'id_account',
+  movement_type: 'movement_type'
 } as const
 
 export type Money_movementsScalarFieldEnum = (typeof Money_movementsScalarFieldEnum)[keyof typeof Money_movementsScalarFieldEnum]
@@ -715,6 +791,16 @@ export const UsersScalarFieldEnum = {
 } as const
 
 export type UsersScalarFieldEnum = (typeof UsersScalarFieldEnum)[keyof typeof UsersScalarFieldEnum]
+
+
+export const AccountScalarFieldEnum = {
+  id: 'id',
+  id_user: 'id_user',
+  name: 'name',
+  created_at: 'created_at'
+} as const
+
+export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -786,6 +872,20 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'movement_type'
+ */
+export type Enummovement_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'movement_type'>
+    
+
+
+/**
+ * Reference to a field of type 'movement_type[]'
+ */
+export type ListEnummovement_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'movement_type[]'>
     
 
 
@@ -956,6 +1056,7 @@ export type GlobalOmitConfig = {
   categories?: Prisma.categoriesOmit
   money_movements?: Prisma.money_movementsOmit
   users?: Prisma.usersOmit
+  account?: Prisma.accountOmit
 }
 
 /* Types for Logging */
