@@ -254,6 +254,38 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
+  /api/exports:
+    post:
+      tags: [Money movements]
+      summary: Export money movements to Excel
+      operationId: exportMoneyMovements
+      description: Exports all money movements owned by the authenticated user. If either date is omitted, that side of the date range is unbounded.
+      security:
+        - ProxyUserId: []
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExportInput'
+      responses:
+        '200':
+          description: Excel workbook containing the requested money movements.
+          headers:
+            Content-Disposition:
+              schema:
+                type: string
+                example: attachment; filename="money-movements.xlsx"
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
   /api/balance:
     get:
       tags: [Balance]
@@ -631,6 +663,19 @@ components:
         password:
           type: string
           format: password
+
+    ExportInput:
+      type: object
+      additionalProperties: false
+      properties:
+        from:
+          type: string
+          format: date
+          description: Inclusive start date. Omit for no lower bound.
+        to:
+          type: string
+          format: date
+          description: Inclusive end date. Omit for no upper bound.
 
     CategoryType:
       type: string
