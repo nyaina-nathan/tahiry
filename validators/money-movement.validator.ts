@@ -5,6 +5,7 @@ import type {
   MovementPatch,
   MovementType,
 } from "@/types/money-movement.types";
+import type { TransferInput } from "@/types/transfer.types";
 
 const UUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -43,11 +44,23 @@ export function validateUuid(value: unknown, fieldName: string): string {
 }
 
 export function validateMovementType(value: unknown): MovementType {
-  if (value !== "EXPENSE" && value !== "INCOME") {
-    throw validationError("Movement type must be EXPENSE or INCOME.");
+  if (value !== "EXPENSE" && value !== "INCOME" && value !== "TRANSFERT") {
+    throw validationError(
+      "Movement type must be EXPENSE, INCOME or TRANSFERT.",
+    );
   }
 
   return value;
+}
+
+function rejectTransfert(movementType: MovementType): MovementType {
+  if (movementType === "TRANSFERT") {
+    throw validationError(
+      "Movement type TRANSFERT can only be created through the transfer endpoint.",
+    );
+  }
+
+  return movementType;
 }
 
 function validateTitle(value: unknown): string {
@@ -142,7 +155,7 @@ export function validateMovementInput(payload: unknown): MovementInput {
   const movementType =
     payload.movement_type === undefined
       ? undefined
-      : validateMovementType(payload.movement_type);
+      : rejectTransfert(validateMovementType(payload.movement_type));
   const idCategory =
     payload.id_category === undefined
       ? undefined
@@ -201,7 +214,9 @@ export function validateMovementPatch(payload: unknown): MovementPatch {
   }
 
   if ("movement_type" in payload) {
-    patch.movement_type = validateMovementType(payload.movement_type);
+    patch.movement_type = rejectTransfert(
+      validateMovementType(payload.movement_type),
+    );
   }
 
   if ("title" in payload) {
@@ -261,6 +276,64 @@ function parsePositiveInteger(
   }
 
   return parsed;
+}
+
+const POSITIVE_AMOUNT_PATTERN = /^\d{1,8}(?:\.\d{1,2})?$/;
+
+function validatePositiveAmount(value: unknown): string {
+  if (typeof value !== "string" || !POSITIVE_AMOUNT_PATTERN.test(value)) {
+    throw validationError(
+      "Amount must be a positive decimal string with up to 8 integer digits and 2 fractional digits.",
+    );
+  }
+
+  if (Number(value) <= 0) {
+    throw validationError("Amount must be greater than 0.");
+  }
+
+  return value;
+}
+
+export function validateTransferInput(payload: unknown): TransferInput {
+  if (!isRecord(payload)) {
+    throw validationError("Request body must be a JSON object.");
+  }
+
+  const sourceId = validateUuid(payload.id_account_source, "id_account_source");
+  const destinationId = validateUuid(payload.id_account, "id_account");
+
+  if (sourceId.toLowerCase() === destinationId.toLowerCase()) {
+    throw validationError("Source and destination accounts must be different.");
+  }
+
+  const title =
+    payload.title === undefined ? undefined : validateTitle(payload.title);
+  const description =
+    payload.description === undefined
+      ? undefined
+      : validateDescription(payload.description);
+  const loggedFor =
+    payload.logged_for === undefined
+      ? undefined
+      : payload.logged_for === null
+        ? null
+        : validateDate(payload.logged_for);
+  const loggedAt =
+    payload.logged_at === undefined
+      ? undefined
+      : payload.logged_at === null
+        ? null
+        : validateDateTime(payload.logged_at);
+
+  return {
+    id_account_source: sourceId,
+    id_account: destinationId,
+    amount: validatePositiveAmount(payload.amount),
+    ...(title === undefined ? {} : { title }),
+    ...(description === undefined ? {} : { description }),
+    ...(loggedFor === undefined ? {} : { logged_for: loggedFor }),
+    ...(loggedAt === undefined ? {} : { logged_at: loggedAt }),
+  };
 }
 
 export function parseMovementFilters(

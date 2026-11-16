@@ -13,11 +13,13 @@ import type {
 const UUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
-const movementSelect = {
+export const movementSelect = {
   id: true,
   id_user: true,
   id_category: true,
   movement_type: true,
+  id_account: true,
+  id_account_source: true,
   title: true,
   description: true,
   amount: true,
@@ -25,11 +27,13 @@ const movementSelect = {
   logged_at: true,
 } as const;
 
-type StoredMovement = {
+export type StoredMovement = {
   id: string;
   id_user: string;
   id_category: string | null;
   movement_type: string;
+  id_account: string | null;
+  id_account_source: string | null;
   title: string;
   description: string | null;
   amount: Prisma.Decimal;
@@ -92,12 +96,14 @@ function formatDateOnly(value: Date | null): string | null {
   return value === null ? null : value.toISOString().slice(0, 10);
 }
 
-function toMoneyMovement(movement: StoredMovement): MoneyMovement {
+export function toMoneyMovement(movement: StoredMovement): MoneyMovement {
   return {
     id: movement.id,
     id_user: movement.id_user,
     id_category: movement.id_category,
     movement_type: movement.movement_type as MovementType,
+    id_account: movement.id_account,
+    id_account_source: movement.id_account_source,
     title: movement.title,
     description: movement.description,
     amount: movement.amount.toFixed(2),

@@ -459,6 +459,7 @@ paths:
       tags: [Money movements]
       summary: Update a money movement
       operationId: updateMoneyMovement
+      description: The `TRANSFERT` movement type is not accepted here; transfers cannot be converted to or from other movement types.
       security:
         - ProxyUserId: []
       requestBody:
@@ -672,7 +673,7 @@ components:
     MovementType:
       type: string
       enum: [EXPENSE, INCOME, TRANSFERT]
-      description: TRANSFERT movements are only created through POST /api/transfer and rejected on direct creation.
+      description: TRANSFERT movements are only created through POST /api/transfer and rejected on direct creation and on PATCH.
 
     AccountInput:
       type: object
@@ -804,6 +805,14 @@ components:
           format: uuid
         movement_type:
           $ref: '#/components/schemas/MovementType'
+        id_account:
+          type: [string, 'null']
+          format: uuid
+          description: Destination account. Only set for TRANSFERT movements.
+        id_account_source:
+          type: [string, 'null']
+          format: uuid
+          description: Source account. Only set for TRANSFERT movements.
         title:
           type: string
           maxLength: 255

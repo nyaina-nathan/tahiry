@@ -1,10 +1,12 @@
-export type MovementType = "EXPENSE" | "INCOME";
+export type MovementType = "EXPENSE" | "INCOME" | "TRANSFERT";
 
 export type MoneyMovement = {
   id: string;
   id_user: string;
   id_category: string | null;
   movement_type: MovementType;
+  id_account: string | null;
+  id_account_source: string | null;
   title: string;
   description: string | null;
   amount: string;

@@ -9,7 +9,7 @@ import { MovementListSection } from "@/features/dashboard/components/movement-li
 import { useMoneyMovements } from "@/features/movements/hooks/use-money-movements";
 
 type MovementsPageProps = {
-  type: MovementType;
+  type: Exclude<MovementType, "TRANSFERT">;
 };
 
 type PageCopy = {
@@ -22,7 +22,7 @@ type PageCopy = {
   emptyDescription: string;
 };
 
-const PAGE_COPY: Record<MovementType, PageCopy> = {
+const PAGE_COPY: Record<Exclude<MovementType, "TRANSFERT">, PageCopy> = {
   EXPENSE: {
     eyebrow: "Money out",
     heading: "Expenses.",
