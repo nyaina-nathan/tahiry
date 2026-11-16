@@ -107,7 +107,20 @@ export async function createMoneyMovementsExport(
   worksheet.getColumn("amount").numFmt = "0.00";
   worksheet.getColumn("date").numFmt = "yyyy-mm-dd";
 
+  let totalMoneyMovedInCents = 0;
+  let totalExpenseInCents = 0;
+  let totalIncomeInCents = 0;
+
   for (const movement of movements) {
+    const amountInCents = Math.round(Number(movement.amount) * 100);
+    totalMoneyMovedInCents += amountInCents;
+
+    if (movement.movement_type === "EXPENSE") {
+      totalExpenseInCents += amountInCents;
+    } else if (movement.movement_type === "INCOME") {
+      totalIncomeInCents += amountInCents;
+    }
+
     worksheet.addRow({
       title: movement.title,
       category: movement.id_category
@@ -129,6 +142,21 @@ export async function createMoneyMovementsExport(
           : movement.movement_type.toLowerCase(),
       date: movement.logged_for ?? null,
     });
+  }
+
+  worksheet.addRow([]);
+  const summaryRows = [
+    ["Total money moved", totalMoneyMovedInCents],
+    ["Total expense", totalExpenseInCents],
+    ["Total income", totalIncomeInCents],
+  ];
+
+  for (const [label, amountInCents] of summaryRows) {
+    const row = worksheet.addRow({
+      title: label,
+      amount: Number(amountInCents) / 100,
+    });
+    row.font = { bold: true };
   }
 
   const buffer = await workbook.xlsx.writeBuffer();

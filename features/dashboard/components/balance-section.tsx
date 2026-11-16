@@ -1,6 +1,11 @@
+"use client";
+
+import { useState, type FormEvent } from "react";
 import type { Balance } from "@/types/balance.types";
 import { AccountBalanceCard } from "@/features/dashboard/components/account-balance-card";
 import { BalanceCard } from "@/features/dashboard/components/balance-card";
+import { downloadMoneyMovementsExport } from "@/features/dashboard/api/export-api";
+import { MoneyMovementsExportModal } from "@/features/dashboard/components/money-movements-export-modal";
 
 type BalanceSectionProps = {
   balance: Balance | null;
@@ -16,6 +21,50 @@ export function BalanceSection({
   isLoading,
 }: BalanceSectionProps) {
   const accounts = balance?.accounts ?? [];
+  const [isExportOpen, setIsExportOpen] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
+  const [exportFrom, setExportFrom] = useState("");
+  const [exportTo, setExportTo] = useState("");
+  const [exportError, setExportError] = useState("");
+
+  function openExport() {
+    setExportError("");
+    setIsExportOpen(true);
+  }
+
+  function closeExport() {
+    if (!isExporting) {
+      setIsExportOpen(false);
+    }
+  }
+
+  async function handleExport(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (exportFrom && exportTo && exportFrom > exportTo) {
+      setExportError("The start date cannot be after the end date.");
+      return;
+    }
+
+    setExportError("");
+    setIsExporting(true);
+
+    try {
+      await downloadMoneyMovementsExport({
+        ...(exportFrom ? { from: exportFrom } : {}),
+        ...(exportTo ? { to: exportTo } : {}),
+      });
+      setIsExportOpen(false);
+    } catch (error) {
+      setExportError(
+        error instanceof Error
+          ? error.message
+          : "The Excel export could not be created.",
+      );
+    } finally {
+      setIsExporting(false);
+    }
+  }
 
   return (
     <section aria-labelledby="balance-heading" className="mb-12">
@@ -32,6 +81,17 @@ export function BalanceSection({
           Updated from every movement
         </span>
       </div>
+
+      <button
+        type="button"
+        onClick={openExport}
+        className="mb-4 inline-flex min-h-11 items-center gap-3 border border-(--color-strong) bg-(--color-strong) px-4 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-white transition-colors hover:border-(--color-accent) hover:bg-(--color-accent) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent)"
+      >
+        <span>Export in Excel</span>
+        <span aria-hidden="true" className="text-base">
+          ↓
+        </span>
+      </button>
 
       <BalanceCard
         label="Current balance"
@@ -74,6 +134,19 @@ export function BalanceSection({
                 />
               ))}
         </div>
+      )}
+
+      {isExportOpen && (
+        <MoneyMovementsExportModal
+          from={exportFrom}
+          to={exportTo}
+          error={exportError}
+          isExporting={isExporting}
+          onFromChange={setExportFrom}
+          onToChange={setExportTo}
+          onSubmit={(event) => void handleExport(event)}
+          onCancel={closeExport}
+        />
       )}
     </section>
   );
