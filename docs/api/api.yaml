@@ -17,6 +17,7 @@ tags:
   - name: Balance
   - name: Categories
   - name: Money movements
+  - name: Accounts
 
 paths:
   /api/auth/register:
@@ -106,6 +107,142 @@ paths:
                 $ref: '#/components/schemas/User'
         '401':
           $ref: '#/components/responses/Unauthorized'
+
+  /api/accounts:
+    get:
+      tags: [Accounts]
+      summary: List the current user's accounts
+      operationId: listAccounts
+      security:
+        - ProxyUserId: []
+      responses:
+        '200':
+          description: Accounts owned by the authenticated user.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Account'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      tags: [Accounts]
+      summary: Create an account
+      operationId: createAccount
+      security:
+        - ProxyUserId: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountInput'
+      responses:
+        '201':
+          description: Account created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/accounts/{id}:
+    parameters:
+      - $ref: '#/components/parameters/ResourceId'
+    get:
+      tags: [Accounts]
+      summary: Get one account
+      operationId: getAccount
+      security:
+        - ProxyUserId: []
+      responses:
+        '200':
+          description: Account owned by the authenticated user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    patch:
+      tags: [Accounts]
+      summary: Update an account
+      operationId: updateAccount
+      security:
+        - ProxyUserId: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountPatch'
+      responses:
+        '200':
+          description: Account updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      tags: [Accounts]
+      summary: Delete an account
+      operationId: deleteAccount
+      security:
+        - ProxyUserId: []
+      responses:
+        '204':
+          description: Account deleted. Related movements retain their records with `id_account` and `id_account_source` set to null.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/transfer:
+    post:
+      tags: [Money movements]
+      summary: Transfer money between two accounts
+      operationId: transferMoney
+      description: Creates a single `TRANSFERT` movement where `id_account` is the destination account and `id_account_source` is the source account. Both accounts must belong to the authenticated user and be distinct.
+      security:
+        - ProxyUserId: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferInput'
+      responses:
+        '201':
+          description: Transfer created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MoneyMovement'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: Source or destination account does not exist or is not owned by the current user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
   /api/balance:
     get:
@@ -245,6 +382,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/MovementType'
         - $ref: '#/components/parameters/CategoryId'
+        - $ref: '#/components/parameters/AccountId'
         - $ref: '#/components/parameters/LoggedForFrom'
         - $ref: '#/components/parameters/LoggedForTo'
         - $ref: '#/components/parameters/Page'
@@ -263,6 +401,7 @@ paths:
       tags: [Money movements]
       summary: Create a money movement
       operationId: createMoneyMovement
+      description: The `TRANSFERT` movement type is not accepted here; transfers are created through `POST /api/transfer`.
       security:
         - ProxyUserId: []
       requestBody:
@@ -386,6 +525,13 @@ components:
     CategoryId:
       name: id_category
       in: query
+      schema:
+        type: string
+        format: uuid
+    AccountId:
+      name: id_account
+      in: query
+      description: Filter movements linked to this account, either as destination (`id_account`) or as source (`id_account_source`), so transfers involving the account are included.
       schema:
         type: string
         format: uuid
@@ -519,7 +665,72 @@ components:
 
     MovementType:
       type: string
-      enum: [EXPENSE, INCOME]
+      enum: [EXPENSE, INCOME, TRANSFERT]
+      description: TRANSFERT movements are only created through POST /api/transfer and rejected on direct creation.
+
+    AccountInput:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 50
+
+    AccountPatch:
+      type: object
+      minProperties: 1
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 50
+
+    Account:
+      type: object
+      required: [id, id_user, name]
+      properties:
+        id:
+          type: string
+          format: uuid
+        id_user:
+          type: string
+          format: uuid
+        name:
+          type: string
+          maxLength: 50
+        created_at:
+          type: [string, 'null']
+          format: date-time
+
+    TransferInput:
+      type: object
+      required: [id_account_source, id_account, amount]
+      properties:
+        id_account_source:
+          type: string
+          format: uuid
+          description: Source account the money leaves. Stored in `id_account_source`.
+        id_account:
+          type: string
+          format: uuid
+          description: Destination account the money goes to. Stored in `id_account`.
+        amount:
+          type: string
+          pattern: '^\d{1,8}(\.\d{1,2})?$'
+          description: Positive decimal amount with up to 10 total digits and 2 fractional digits.
+        title:
+          type: string
+          minLength: 1
+          maxLength: 255
+        description:
+          type: [string, 'null']
+        logged_for:
+          type: [string, 'null']
+          format: date
+        logged_at:
+          type: [string, 'null']
+          format: date-time
 
     MovementInput:
       type: object
@@ -622,17 +833,42 @@ components:
 
     Balance:
       type: object
-      required: [income, expense, balance]
+      required: [income, expense, balance, accounts]
       properties:
         income:
           type: string
-          description: Lifetime income total with two fractional digits.
+          description: Lifetime income total with two fractional digits, excluding transfers.
         expense:
           type: string
-          description: Lifetime expense total with two fractional digits.
+          description: Lifetime expense total with two fractional digits, excluding transfers.
         balance:
           type: string
-          description: Lifetime income minus lifetime expenses with two fractional digits.
+          description: Global lifetime income minus lifetime expenses with two fractional digits. Transfers have no effect on it.
+        accounts:
+          type: array
+          description: Per-account balances for every account owned by the current user, including accounts without movements (reported as zeroed totals).
+          items:
+            $ref: '#/components/schemas/AccountBalance'
+
+    AccountBalance:
+      type: object
+      required: [id_account, name, income, expense, balance]
+      properties:
+        id_account:
+          type: string
+          format: uuid
+        name:
+          type: string
+          maxLength: 50
+        income:
+          type: string
+          description: Income logged on the account with two fractional digits.
+        expense:
+          type: string
+          description: Expenses logged on the account with two fractional digits.
+        balance:
+          type: string
+          description: Account balance with two fractional digits. Transfers count toward it — money entering (destination) is positive, money leaving (source) is negative.
 
     Error:
       type: object
