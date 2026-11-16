@@ -35,8 +35,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
       className={`${limelight.variable} ${jetBrainsMono.variable} h-full antialiased`}
     >
-      <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        {children}
+      </body>
     </html>
   );
 }
