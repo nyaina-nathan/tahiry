@@ -91,12 +91,12 @@ export function AccountCreateModal({
     <div
       ref={dialogRef}
       onKeyDown={handleKeyDown}
-      className="fixed inset-0 z-50 flex min-h-screen items-center justify-center overflow-y-auto bg-(--color-overlay) p-4 backdrop-blur-md sm:p-8"
+      className="fixed inset-0 z-50 flex min-h-[100dvh] items-start justify-center overflow-y-auto bg-(--color-overlay) p-4 backdrop-blur-md sm:items-center sm:p-8"
       role="dialog"
       aria-modal="true"
       aria-labelledby="create-account-heading"
     >
-      <div className="max-h-[calc(100vh-2rem)] w-full max-w-xl overflow-y-auto border border-(--color-line) bg-(--color-canvas) shadow-2xl sm:max-h-[calc(100vh-4rem)]">
+      <div className="max-h-[calc(100dvh-2rem)] w-full max-w-xl overflow-y-auto border border-(--color-line) bg-(--color-canvas) shadow-2xl sm:max-h-[calc(100dvh-4rem)]">
         <section aria-labelledby="create-account-heading">
           <div className="flex items-start justify-between gap-4 p-5 pb-0 sm:p-6 sm:pb-0">
             <div>
