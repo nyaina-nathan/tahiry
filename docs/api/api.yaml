@@ -25,6 +25,7 @@ paths:
       tags: [Auth]
       summary: Register a user
       operationId: register
+      description: Registers and authenticates a new user. A default account named `cash` is created for the user's profile as part of the registration transaction.
       requestBody:
         required: true
         content:
@@ -33,7 +34,7 @@ paths:
               $ref: '#/components/schemas/RegisterRequest'
       responses:
         '201':
-          description: User registered and authenticated.
+          description: User registered and authenticated. A default `cash` account is also created for the new user.
           headers:
             Set-Cookie:
               $ref: '#/components/headers/SessionCookie'
