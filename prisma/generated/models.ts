@@ -11,4 +11,5 @@
 export type * from './models/categories'
 export type * from './models/money_movements'
 export type * from './models/users'
+export type * from './models/account'
 export type * from './commonInputTypes'

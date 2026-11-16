@@ -66,6 +66,7 @@ export function MovementFilters({
               <option value="ALL">All types</option>
               <option value="EXPENSE">Expenses</option>
               <option value="INCOME">Income</option>
+              <option value="TRANSFERT">Transfers</option>
             </select>
           </div>
         )}

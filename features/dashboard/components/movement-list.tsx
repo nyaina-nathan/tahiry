@@ -1,4 +1,5 @@
 import type { Category } from "@/types/category.types";
+import type { Account } from "@/types/account.types";
 import type { MoneyMovement, MovementPage } from "@/types/money-movement.types";
 import { MovementEmptyState } from "@/features/dashboard/components/movement-empty-state";
 import { MovementItem } from "@/features/dashboard/components/movement-item";
@@ -8,6 +9,7 @@ import { MovementPagination } from "@/features/dashboard/components/movement-pag
 type MovementListProps = {
   movements: MovementPage | null;
   categories: Category[];
+  accounts: Account[];
   currency: string;
   totalPages: number;
   isLoading: boolean;
@@ -20,6 +22,7 @@ type MovementListProps = {
   onCancelDelete: () => void;
   onPreviousPage: () => void;
   onNextPage: () => void;
+  accountId?: string;
   emptyTitle?: string;
   emptyDescription?: string;
 };
@@ -27,6 +30,7 @@ type MovementListProps = {
 export function MovementList({
   movements,
   categories,
+  accounts,
   currency,
   totalPages,
   isLoading,
@@ -39,6 +43,7 @@ export function MovementList({
   onCancelDelete,
   onPreviousPage,
   onNextPage,
+  accountId,
   emptyTitle,
   emptyDescription,
 }: MovementListProps) {
@@ -62,13 +67,20 @@ export function MovementList({
           const category = categories.find(
             (item) => item.id === movement.id_category,
           );
+          const account = accounts.find((item) => item.id === movement.id_account);
+          const sourceAccount = accounts.find(
+            (item) => item.id === movement.id_account_source,
+          );
 
           return (
             <MovementItem
               key={movement.id}
               movement={movement}
               categoryName={category?.cat_name ?? "Uncategorized"}
+              accountName={account?.name}
+              sourceAccountName={sourceAccount?.name}
               currency={currency}
+              accountId={accountId}
               isDeleting={pendingDeleteId === movement.id}
               isDeletingThis={deletingId === movement.id}
               onBeginEditing={() => onBeginEditing(movement)}

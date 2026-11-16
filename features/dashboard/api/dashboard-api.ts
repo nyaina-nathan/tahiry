@@ -1,4 +1,5 @@
 import type { Category } from "@/types/category.types";
+import type { Account } from "@/types/account.types";
 import type { Balance } from "@/types/balance.types";
 import type {
   MoneyMovement,
@@ -10,6 +11,7 @@ import type {
   CurrentUser,
   Filters,
 } from "@/features/dashboard/types";
+import { fetchAccounts } from "@/features/accounts/api/accounts-api";
 
 type ApiErrorResponse = {
   error?: {
@@ -47,6 +49,9 @@ export function buildMovementQuery(filters: Filters) {
   if (filters.categoryId) {
     params.set("id_category", filters.categoryId);
   }
+  if (filters.accountId) {
+    params.set("id_account", filters.accountId);
+  }
   if (filters.loggedForFrom) {
     params.set("logged_for_from", filters.loggedForFrom);
   }
@@ -61,6 +66,7 @@ export type WorkspaceSnapshot = {
   currentUser: CurrentUser;
   currentBalance: Balance | null;
   currentCategories: Category[];
+  currentAccounts: Account[];
   currentMovements: MovementPage;
 };
 
@@ -153,7 +159,7 @@ export async function fetchWorkspaceData(
   filters: Filters,
   includeBalance: boolean,
 ): Promise<WorkspaceSnapshot> {
-  const [currentUser, currentBalance, currentCategories, currentMovements] =
+  const [currentUser, currentBalance, currentCategories, currentAccounts, currentMovements] =
     await Promise.all([
       fetchJson<CurrentUser>(
         "/api/auth/me",
@@ -164,6 +170,7 @@ export async function fetchWorkspaceData(
         "/api/categories",
         "Categories could not be loaded.",
       ),
+      fetchAccounts(),
       fetchMovementPage(filters),
     ]);
 
@@ -171,6 +178,7 @@ export async function fetchWorkspaceData(
     currentUser,
     currentBalance,
     currentCategories,
+    currentAccounts,
     currentMovements,
   };
 }

@@ -1,4 +1,5 @@
 import type { Category } from "@/types/category.types";
+import type { Account } from "@/types/account.types";
 import type { MovementType } from "@/types/money-movement.types";
 import { MovementTypeSelector } from "@/features/dashboard/components/movement-type-selector";
 
@@ -13,18 +14,22 @@ type MovementFormFieldsProps = {
   title: string;
   amount: string;
   categoryId: string;
+  accountId: string;
   description: string;
   loggedFor: string;
   categories: Category[];
+  accounts: Account[];
   currency: string;
   onTypeChange: (type: MovementType) => void;
   onTitleChange: (title: string) => void;
   onAmountChange: (amount: string) => void;
   onCategoryChange: (categoryId: string) => void;
+  onAccountChange: (accountId: string) => void;
   onDescriptionChange: (description: string) => void;
   onLoggedForChange: (loggedFor: string) => void;
   autoFocus?: boolean;
   hideTypeSelector?: boolean;
+  accountLocked?: boolean;
 };
 
 export function MovementFormFields({
@@ -32,18 +37,22 @@ export function MovementFormFields({
   title,
   amount,
   categoryId,
+  accountId,
   description,
   loggedFor,
   categories,
+  accounts,
   currency,
   onTypeChange,
   onTitleChange,
   onAmountChange,
   onCategoryChange,
+  onAccountChange,
   onDescriptionChange,
   onLoggedForChange,
   autoFocus = false,
   hideTypeSelector = false,
+  accountLocked = false,
 }: MovementFormFieldsProps) {
   return (
     <div className="space-y-5">
@@ -68,6 +77,37 @@ export function MovementFormFields({
           className={inputClassName}
           placeholder="e.g. Weekly groceries"
         />
+      </div>
+
+      <div>
+        <label
+          htmlFor="movement-account"
+          className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-ink)]"
+        >
+          Account
+        </label>
+        <select
+          id="movement-account"
+          value={accountId}
+          onChange={(event) => onAccountChange(event.target.value)}
+          disabled={accountLocked}
+          required={!accountLocked}
+          className={`${selectClassName} disabled:cursor-not-allowed disabled:opacity-60`}
+        >
+          <option value="" disabled>
+            Select an account
+          </option>
+          {accounts.map((account) => (
+            <option key={account.id} value={account.id}>
+              {account.name}
+            </option>
+          ))}
+        </select>
+        {accountLocked && (
+          <p className="mt-2 text-xs text-[var(--color-muted)]">
+            The account cannot be changed after creation.
+          </p>
+        )}
       </div>
 
       <div>

@@ -14,6 +14,7 @@ export function DashboardPage() {
     user,
     balance,
     categories,
+    accounts,
     movements,
     cashflow,
     isLoading,
@@ -30,6 +31,7 @@ export function DashboardPage() {
     formTitle,
     formAmount,
     formCategoryId,
+    formAccountId,
     formDescription,
     formLoggedFor,
     formError,
@@ -47,6 +49,7 @@ export function DashboardPage() {
     setFormTitle,
     setFormAmount,
     setFormCategoryId,
+    setFormAccountId,
     setFormDescription,
     setFormLoggedFor,
     setPendingDeleteId,
@@ -84,6 +87,7 @@ export function DashboardPage() {
             <MovementListSection
               movements={movements}
               categories={categories}
+              accounts={accounts}
               currency={user.currency}
               filters={filters}
               totalPages={totalPages}
@@ -118,16 +122,19 @@ export function DashboardPage() {
               formTitle={formTitle}
               formAmount={formAmount}
               formCategoryId={formCategoryId}
+              formAccountId={formAccountId}
               formDescription={formDescription}
               formLoggedFor={formLoggedFor}
               formError={formError}
               categories={categories}
+              accounts={accounts}
               currency={user.currency}
               mutation={mutation}
               onTypeChange={setFormType}
               onTitleChange={setFormTitle}
               onAmountChange={setFormAmount}
               onCategoryChange={setFormCategoryId}
+              onAccountChange={setFormAccountId}
               onDescriptionChange={setFormDescription}
               onLoggedForChange={setFormLoggedFor}
               onReset={resetForm}

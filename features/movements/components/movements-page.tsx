@@ -9,7 +9,7 @@ import { MovementListSection } from "@/features/dashboard/components/movement-li
 import { useMoneyMovements } from "@/features/movements/hooks/use-money-movements";
 
 type MovementsPageProps = {
-  type: MovementType;
+  type: Exclude<MovementType, "TRANSFERT">;
 };
 
 type PageCopy = {
@@ -22,7 +22,7 @@ type PageCopy = {
   emptyDescription: string;
 };
 
-const PAGE_COPY: Record<MovementType, PageCopy> = {
+const PAGE_COPY: Record<Exclude<MovementType, "TRANSFERT">, PageCopy> = {
   EXPENSE: {
     eyebrow: "Money out",
     heading: "Expenses.",
@@ -48,6 +48,7 @@ export function MovementsPage({ type }: MovementsPageProps) {
   const {
     user,
     categories,
+    accounts,
     movements,
     isLoading,
     isListLoading,
@@ -61,6 +62,7 @@ export function MovementsPage({ type }: MovementsPageProps) {
     formTitle,
     formAmount,
     formCategoryId,
+    formAccountId,
     formDescription,
     formLoggedFor,
     formError,
@@ -77,6 +79,7 @@ export function MovementsPage({ type }: MovementsPageProps) {
     setFormTitle,
     setFormAmount,
     setFormCategoryId,
+    setFormAccountId,
     setFormDescription,
     setFormLoggedFor,
     setPendingDeleteId,
@@ -114,6 +117,7 @@ export function MovementsPage({ type }: MovementsPageProps) {
             <MovementListSection
               movements={movements}
               categories={categories}
+              accounts={accounts}
               currency={user.currency}
               filters={filters}
               totalPages={totalPages}
@@ -147,10 +151,12 @@ export function MovementsPage({ type }: MovementsPageProps) {
               formTitle={formTitle}
               formAmount={formAmount}
               formCategoryId={formCategoryId}
+              formAccountId={formAccountId}
               formDescription={formDescription}
               formLoggedFor={formLoggedFor}
               formError={formError}
               categories={categories}
+              accounts={accounts}
               currency={user.currency}
               mutation={mutation}
               fixedType={type}
@@ -158,6 +164,7 @@ export function MovementsPage({ type }: MovementsPageProps) {
               onTitleChange={setFormTitle}
               onAmountChange={setFormAmount}
               onCategoryChange={setFormCategoryId}
+              onAccountChange={setFormAccountId}
               onDescriptionChange={setFormDescription}
               onLoggedForChange={setFormLoggedFor}
               onReset={resetForm}

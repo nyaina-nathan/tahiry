@@ -3,6 +3,7 @@
 import type { FormEvent } from "react";
 import { useEffect, useState } from "react";
 import type { Category } from "@/types/category.types";
+import type { Account } from "@/types/account.types";
 import type { Balance } from "@/types/balance.types";
 import type {
   MoneyMovement,
@@ -27,6 +28,7 @@ import type {
 
 type UseMoneyMovementsOptions = {
   fixedType?: MovementType;
+  accountId?: string;
   withBalance?: boolean;
   withCashflow?: boolean;
   initialPageSize?: number;
@@ -35,10 +37,12 @@ type UseMoneyMovementsOptions = {
 function createInitialFilters(
   fixedType?: MovementType,
   pageSize = 25,
+  accountId?: string,
 ): Filters {
   return {
     movementType: fixedType ?? "ALL",
     categoryId: "",
+    ...(accountId === undefined ? {} : { accountId }),
     loggedForFrom: "",
     loggedForTo: "",
     page: 1,
@@ -48,6 +52,7 @@ function createInitialFilters(
 
 export function useMoneyMovements({
   fixedType,
+  accountId,
   withBalance = true,
   withCashflow = false,
   initialPageSize = 25,
@@ -58,6 +63,7 @@ export function useMoneyMovements({
   });
   const [balance, setBalance] = useState<Balance | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [accounts, setAccounts] = useState<Account[]>([]);
   const [movements, setMovements] = useState<MovementPage | null>(null);
   const [cashflow, setCashflow] = useState<CashflowPoint[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -68,7 +74,7 @@ export function useMoneyMovements({
   const [cashflowError, setCashflowError] = useState("");
   const [mutation, setMutation] = useState<Mutation>(null);
   const [filters, setFilters] = useState<Filters>(() =>
-    createInitialFilters(fixedType, initialPageSize),
+    createInitialFilters(fixedType, initialPageSize, accountId),
   );
 
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -79,6 +85,7 @@ export function useMoneyMovements({
   const [formTitle, setFormTitle] = useState("");
   const [formAmount, setFormAmount] = useState("");
   const [formCategoryId, setFormCategoryId] = useState("");
+  const [formAccountId, setFormAccountId] = useState(accountId ?? "");
   const [formDescription, setFormDescription] = useState("");
   const [formLoggedFor, setFormLoggedFor] = useState(today);
   const [formError, setFormError] = useState("");
@@ -137,11 +144,11 @@ export function useMoneyMovements({
       setIsCashflowLoading(withCashflow);
       setLoadError("");
       setCashflowError("");
-      setFilters(createInitialFilters(fixedType, initialPageSize));
+      setFilters(createInitialFilters(fixedType, initialPageSize, accountId));
 
       const [workspaceResult, cashflowResult] = await Promise.allSettled([
         fetchWorkspaceData(
-          createInitialFilters(fixedType, initialPageSize),
+          createInitialFilters(fixedType, initialPageSize, accountId),
           withBalance,
         ),
         withCashflow
@@ -159,6 +166,7 @@ export function useMoneyMovements({
         setUser(data.currentUser);
         setBalance(data.currentBalance);
         setCategories(data.currentCategories);
+        setAccounts(data.currentAccounts);
         setMovements(data.currentMovements);
       } else {
         setLoadError(
@@ -187,7 +195,7 @@ export function useMoneyMovements({
     return () => {
       cancelled = true;
     };
-  }, [fixedType, withBalance, withCashflow, initialPageSize]);
+  }, [fixedType, accountId, withBalance, withCashflow, initialPageSize]);
 
   async function refreshCashflow() {
     if (!withCashflow) {
@@ -226,6 +234,7 @@ export function useMoneyMovements({
     setFormTitle("");
     setFormAmount("");
     setFormCategoryId("");
+    setFormAccountId(accountId ?? "");
     setFormDescription("");
     setFormLoggedFor(today());
     setFormError("");
@@ -248,6 +257,7 @@ export function useMoneyMovements({
     setFormTitle(movement.title);
     setFormAmount(movement.amount);
     setFormCategoryId(movement.id_category ?? "");
+    setFormAccountId(movement.id_account ?? "");
     setFormDescription(movement.description ?? "");
     setFormLoggedFor(movement.logged_for ?? today());
   }
@@ -266,6 +276,10 @@ export function useMoneyMovements({
 
     if (Number(amount) < 0) {
       return "Negative amounts are not allowed.";
+    }
+
+    if (!editingId && !formAccountId) {
+      return "Choose an account.";
     }
 
     if (!formLoggedFor) {
@@ -293,6 +307,7 @@ export function useMoneyMovements({
       title: formTitle.trim(),
       amount: formAmount.trim(),
       id_category: formCategoryId || null,
+      ...(editingId ? {} : { id_account: formAccountId || null }),
       description: formDescription.trim() || null,
       logged_for: formLoggedFor || null,
     };
@@ -348,6 +363,7 @@ export function useMoneyMovements({
     user,
     balance,
     categories,
+    accounts,
     movements,
     cashflow,
     isLoading,
@@ -364,6 +380,7 @@ export function useMoneyMovements({
     formTitle,
     formAmount,
     formCategoryId,
+    formAccountId,
     formDescription,
     formLoggedFor,
     formError,
@@ -381,6 +398,7 @@ export function useMoneyMovements({
     setFormTitle,
     setFormAmount,
     setFormCategoryId,
+    setFormAccountId,
     setFormDescription,
     setFormLoggedFor,
     setPendingDeleteId,

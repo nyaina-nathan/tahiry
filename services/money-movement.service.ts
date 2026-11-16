@@ -13,11 +13,13 @@ import type {
 const UUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
-const movementSelect = {
+export const movementSelect = {
   id: true,
   id_user: true,
   id_category: true,
   movement_type: true,
+  id_account: true,
+  id_account_source: true,
   title: true,
   description: true,
   amount: true,
@@ -25,11 +27,13 @@ const movementSelect = {
   logged_at: true,
 } as const;
 
-type StoredMovement = {
+export type StoredMovement = {
   id: string;
   id_user: string;
   id_category: string | null;
   movement_type: string;
+  id_account: string | null;
+  id_account_source: string | null;
   title: string;
   description: string | null;
   amount: Prisma.Decimal;
@@ -64,6 +68,15 @@ function categoryNotFoundError(): AppError {
   );
 }
 
+function accountNotFoundError(): AppError {
+  return new AppError(
+    "Not Found",
+    "Account not found.",
+    404,
+    "account",
+  );
+}
+
 function requireUserId(userId: string | null): string {
   if (!userId || !UUID_PATTERN.test(userId)) {
     throw unauthorizedError();
@@ -92,12 +105,14 @@ function formatDateOnly(value: Date | null): string | null {
   return value === null ? null : value.toISOString().slice(0, 10);
 }
 
-function toMoneyMovement(movement: StoredMovement): MoneyMovement {
+export function toMoneyMovement(movement: StoredMovement): MoneyMovement {
   return {
     id: movement.id,
     id_user: movement.id_user,
     id_category: movement.id_category,
     movement_type: movement.movement_type as MovementType,
+    id_account: movement.id_account,
+    id_account_source: movement.id_account_source,
     title: movement.title,
     description: movement.description,
     amount: movement.amount.toFixed(2),
@@ -128,6 +143,28 @@ async function ensureCategoryBelongsToUser(
   }
 }
 
+async function ensureAccountBelongsToUser(
+  userId: string,
+  accountId: string | null | undefined,
+): Promise<void> {
+  if (accountId === undefined || accountId === null) {
+    return;
+  }
+
+  if (!UUID_PATTERN.test(accountId)) {
+    throw accountNotFoundError();
+  }
+
+  const account = await prisma.account.findFirst({
+    where: { id: accountId, id_user: userId },
+    select: { id: true },
+  });
+
+  if (!account) {
+    throw accountNotFoundError();
+  }
+}
+
 function buildMovementWhere(
   userId: string,
   filters: MovementFilters,
@@ -140,6 +177,14 @@ function buildMovementWhere(
     ...(filters.categoryId === undefined
       ? {}
       : { id_category: filters.categoryId }),
+    ...(filters.accountId === undefined
+      ? {}
+      : {
+          OR: [
+            { id_account: filters.accountId },
+            { id_account_source: filters.accountId },
+          ],
+        }),
     ...(filters.loggedForFrom === undefined && filters.loggedForTo === undefined
       ? {}
       : {
@@ -164,6 +209,9 @@ function toCreateData(
     ...(payload.id_category === undefined
       ? {}
       : { id_category: payload.id_category }),
+    ...(payload.id_account === undefined
+      ? {}
+      : { id_account: payload.id_account }),
     ...(payload.movement_type === undefined
       ? {}
       : { movement_type: payload.movement_type }),
@@ -260,6 +308,7 @@ export async function createMoneyMovement(
 ): Promise<MoneyMovement> {
   const userId = requireUserId(userIdHeader);
   await ensureCategoryBelongsToUser(userId, payload.id_category);
+  await ensureAccountBelongsToUser(userId, payload.id_account);
   const movement = await prisma.money_movements.create({
     data: toCreateData(userId, payload),
     select: movementSelect,

@@ -1,4 +1,5 @@
 import type { Category } from "@/types/category.types";
+import type { Account } from "@/types/account.types";
 import type {
   MoneyMovement,
   MovementPage,
@@ -12,6 +13,7 @@ import { MovementPageSizeControl } from "@/features/dashboard/components/movemen
 type MovementListSectionProps = {
   movements: MovementPage | null;
   categories: Category[];
+  accounts: Account[];
   currency: string;
   filters: Filters;
   totalPages: number;
@@ -28,6 +30,7 @@ type MovementListSectionProps = {
   onPreviousPage: () => void;
   onNextPage: () => void;
   fixedType?: MovementType;
+  accountId?: string;
   eyebrow?: string;
   heading?: string;
   createLabel?: string;
@@ -41,6 +44,7 @@ type MovementListSectionProps = {
 export function MovementListSection({
   movements,
   categories,
+  accounts,
   currency,
   filters,
   totalPages,
@@ -57,6 +61,7 @@ export function MovementListSection({
   onPreviousPage,
   onNextPage,
   fixedType,
+  accountId,
   eyebrow = "Your record",
   heading = "Recent movements.",
   createLabel = "New +",
@@ -98,7 +103,8 @@ export function MovementListSection({
           fixedType={fixedType}
           onChange={onFiltersChange}
         />
-      ) : pageSize !== undefined && onPageSizeChange ? (
+      ) : null}
+      {pageSize !== undefined && onPageSizeChange ? (
         <MovementPageSizeControl
           pageSize={pageSize}
           onPageSizeChange={onPageSizeChange}
@@ -107,12 +113,14 @@ export function MovementListSection({
       <MovementList
         movements={movements}
         categories={categories}
+        accounts={accounts}
         currency={currency}
         totalPages={totalPages}
         isLoading={isLoading}
         isListLoading={isListLoading}
         pendingDeleteId={pendingDeleteId}
         deletingId={deletingId}
+        accountId={accountId}
         onBeginEditing={onBeginEditing}
         onRequestDelete={onRequestDelete}
         onConfirmDelete={onConfirmDelete}

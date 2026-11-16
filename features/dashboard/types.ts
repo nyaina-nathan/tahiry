@@ -8,6 +8,7 @@ export type CurrentUser = {
 export type Filters = {
   movementType: MovementType | "ALL";
   categoryId: string;
+  accountId?: string;
   loggedForFrom: string;
   loggedForTo: string;
   page: number;

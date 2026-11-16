@@ -32,3 +32,8 @@ export type money_movements = Prisma.money_movementsModel
  * 
  */
 export type users = Prisma.usersModel
+/**
+ * Model account
+ * 
+ */
+export type account = Prisma.accountModel
