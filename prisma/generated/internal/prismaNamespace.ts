@@ -775,7 +775,8 @@ export const Money_movementsScalarFieldEnum = {
   logged_for: 'logged_for',
   logged_at: 'logged_at',
   id_account: 'id_account',
-  movement_type: 'movement_type'
+  movement_type: 'movement_type',
+  id_account_source: 'id_account_source'
 } as const
 
 export type Money_movementsScalarFieldEnum = (typeof Money_movementsScalarFieldEnum)[keyof typeof Money_movementsScalarFieldEnum]

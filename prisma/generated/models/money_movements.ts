@@ -45,6 +45,7 @@ export type Money_movementsMinAggregateOutputType = {
   logged_at: Date | null
   id_account: string | null
   movement_type: $Enums.movement_type | null
+  id_account_source: string | null
 }
 
 export type Money_movementsMaxAggregateOutputType = {
@@ -58,6 +59,7 @@ export type Money_movementsMaxAggregateOutputType = {
   logged_at: Date | null
   id_account: string | null
   movement_type: $Enums.movement_type | null
+  id_account_source: string | null
 }
 
 export type Money_movementsCountAggregateOutputType = {
@@ -71,6 +73,7 @@ export type Money_movementsCountAggregateOutputType = {
   logged_at: number
   id_account: number
   movement_type: number
+  id_account_source: number
   _all: number
 }
 
@@ -94,6 +97,7 @@ export type Money_movementsMinAggregateInputType = {
   logged_at?: true
   id_account?: true
   movement_type?: true
+  id_account_source?: true
 }
 
 export type Money_movementsMaxAggregateInputType = {
@@ -107,6 +111,7 @@ export type Money_movementsMaxAggregateInputType = {
   logged_at?: true
   id_account?: true
   movement_type?: true
+  id_account_source?: true
 }
 
 export type Money_movementsCountAggregateInputType = {
@@ -120,6 +125,7 @@ export type Money_movementsCountAggregateInputType = {
   logged_at?: true
   id_account?: true
   movement_type?: true
+  id_account_source?: true
   _all?: true
 }
 
@@ -220,6 +226,7 @@ export type Money_movementsGroupByOutputType = {
   logged_at: Date | null
   id_account: string | null
   movement_type: $Enums.movement_type
+  id_account_source: string | null
   _count: Money_movementsCountAggregateOutputType | null
   _avg: Money_movementsAvgAggregateOutputType | null
   _sum: Money_movementsSumAggregateOutputType | null
@@ -256,9 +263,11 @@ export type money_movementsWhereInput = {
   logged_at?: Prisma.DateTimeNullableFilter<"money_movements"> | Date | string | null
   id_account?: Prisma.UuidNullableFilter<"money_movements"> | string | null
   movement_type?: Prisma.Enummovement_typeFilter<"money_movements"> | $Enums.movement_type
+  id_account_source?: Prisma.UuidNullableFilter<"money_movements"> | string | null
   categories?: Prisma.XOR<Prisma.CategoriesNullableScalarRelationFilter, Prisma.categoriesWhereInput> | null
   users?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
   account?: Prisma.XOR<Prisma.AccountNullableScalarRelationFilter, Prisma.accountWhereInput> | null
+  account_money_movements_id_account_sourceToaccount?: Prisma.XOR<Prisma.AccountNullableScalarRelationFilter, Prisma.accountWhereInput> | null
 }
 
 export type money_movementsOrderByWithRelationInput = {
@@ -272,9 +281,11 @@ export type money_movementsOrderByWithRelationInput = {
   logged_at?: Prisma.SortOrderInput | Prisma.SortOrder
   id_account?: Prisma.SortOrderInput | Prisma.SortOrder
   movement_type?: Prisma.SortOrder
+  id_account_source?: Prisma.SortOrderInput | Prisma.SortOrder
   categories?: Prisma.categoriesOrderByWithRelationInput
   users?: Prisma.usersOrderByWithRelationInput
   account?: Prisma.accountOrderByWithRelationInput
+  account_money_movements_id_account_sourceToaccount?: Prisma.accountOrderByWithRelationInput
 }
 
 export type money_movementsWhereUniqueInput = Prisma.AtLeast<{
@@ -291,9 +302,11 @@ export type money_movementsWhereUniqueInput = Prisma.AtLeast<{
   logged_at?: Prisma.DateTimeNullableFilter<"money_movements"> | Date | string | null
   id_account?: Prisma.UuidNullableFilter<"money_movements"> | string | null
   movement_type?: Prisma.Enummovement_typeFilter<"money_movements"> | $Enums.movement_type
+  id_account_source?: Prisma.UuidNullableFilter<"money_movements"> | string | null
   categories?: Prisma.XOR<Prisma.CategoriesNullableScalarRelationFilter, Prisma.categoriesWhereInput> | null
   users?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
   account?: Prisma.XOR<Prisma.AccountNullableScalarRelationFilter, Prisma.accountWhereInput> | null
+  account_money_movements_id_account_sourceToaccount?: Prisma.XOR<Prisma.AccountNullableScalarRelationFilter, Prisma.accountWhereInput> | null
 }, "id">
 
 export type money_movementsOrderByWithAggregationInput = {
@@ -307,6 +320,7 @@ export type money_movementsOrderByWithAggregationInput = {
   logged_at?: Prisma.SortOrderInput | Prisma.SortOrder
   id_account?: Prisma.SortOrderInput | Prisma.SortOrder
   movement_type?: Prisma.SortOrder
+  id_account_source?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.money_movementsCountOrderByAggregateInput
   _avg?: Prisma.money_movementsAvgOrderByAggregateInput
   _max?: Prisma.money_movementsMaxOrderByAggregateInput
@@ -328,6 +342,7 @@ export type money_movementsScalarWhereWithAggregatesInput = {
   logged_at?: Prisma.DateTimeNullableWithAggregatesFilter<"money_movements"> | Date | string | null
   id_account?: Prisma.UuidNullableWithAggregatesFilter<"money_movements"> | string | null
   movement_type?: Prisma.Enummovement_typeWithAggregatesFilter<"money_movements"> | $Enums.movement_type
+  id_account_source?: Prisma.UuidNullableWithAggregatesFilter<"money_movements"> | string | null
 }
 
 export type money_movementsCreateInput = {
@@ -341,6 +356,7 @@ export type money_movementsCreateInput = {
   categories?: Prisma.categoriesCreateNestedOneWithoutMoney_movementsInput
   users: Prisma.usersCreateNestedOneWithoutMoney_movementsInput
   account?: Prisma.accountCreateNestedOneWithoutMoney_movementsInput
+  account_money_movements_id_account_sourceToaccount?: Prisma.accountCreateNestedOneWithoutMoney_movements_money_movements_id_account_sourceToaccountInput
 }
 
 export type money_movementsUncheckedCreateInput = {
@@ -354,6 +370,7 @@ export type money_movementsUncheckedCreateInput = {
   logged_at?: Date | string | null
   id_account?: string | null
   movement_type?: $Enums.movement_type
+  id_account_source?: string | null
 }
 
 export type money_movementsUpdateInput = {
@@ -367,6 +384,7 @@ export type money_movementsUpdateInput = {
   categories?: Prisma.categoriesUpdateOneWithoutMoney_movementsNestedInput
   users?: Prisma.usersUpdateOneRequiredWithoutMoney_movementsNestedInput
   account?: Prisma.accountUpdateOneWithoutMoney_movementsNestedInput
+  account_money_movements_id_account_sourceToaccount?: Prisma.accountUpdateOneWithoutMoney_movements_money_movements_id_account_sourceToaccountNestedInput
 }
 
 export type money_movementsUncheckedUpdateInput = {
@@ -380,6 +398,7 @@ export type money_movementsUncheckedUpdateInput = {
   logged_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id_account?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   movement_type?: Prisma.Enummovement_typeFieldUpdateOperationsInput | $Enums.movement_type
+  id_account_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type money_movementsCreateManyInput = {
@@ -393,6 +412,7 @@ export type money_movementsCreateManyInput = {
   logged_at?: Date | string | null
   id_account?: string | null
   movement_type?: $Enums.movement_type
+  id_account_source?: string | null
 }
 
 export type money_movementsUpdateManyMutationInput = {
@@ -416,6 +436,7 @@ export type money_movementsUncheckedUpdateManyInput = {
   logged_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id_account?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   movement_type?: Prisma.Enummovement_typeFieldUpdateOperationsInput | $Enums.movement_type
+  id_account_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type Money_movementsListRelationFilter = {
@@ -439,6 +460,7 @@ export type money_movementsCountOrderByAggregateInput = {
   logged_at?: Prisma.SortOrder
   id_account?: Prisma.SortOrder
   movement_type?: Prisma.SortOrder
+  id_account_source?: Prisma.SortOrder
 }
 
 export type money_movementsAvgOrderByAggregateInput = {
@@ -456,6 +478,7 @@ export type money_movementsMaxOrderByAggregateInput = {
   logged_at?: Prisma.SortOrder
   id_account?: Prisma.SortOrder
   movement_type?: Prisma.SortOrder
+  id_account_source?: Prisma.SortOrder
 }
 
 export type money_movementsMinOrderByAggregateInput = {
@@ -469,6 +492,7 @@ export type money_movementsMinOrderByAggregateInput = {
   logged_at?: Prisma.SortOrder
   id_account?: Prisma.SortOrder
   movement_type?: Prisma.SortOrder
+  id_account_source?: Prisma.SortOrder
 }
 
 export type money_movementsSumOrderByAggregateInput = {
@@ -586,10 +610,24 @@ export type money_movementsCreateNestedManyWithoutAccountInput = {
   connect?: Prisma.money_movementsWhereUniqueInput | Prisma.money_movementsWhereUniqueInput[]
 }
 
+export type money_movementsCreateNestedManyWithoutAccount_money_movements_id_account_sourceToaccountInput = {
+  create?: Prisma.XOR<Prisma.money_movementsCreateWithoutAccount_money_movements_id_account_sourceToaccountInput, Prisma.money_movementsUncheckedCreateWithoutAccount_money_movements_id_account_sourceToaccountInput> | Prisma.money_movementsCreateWithoutAccount_money_movements_id_account_sourceToaccountInput[] | Prisma.money_movementsUncheckedCreateWithoutAccount_money_movements_id_account_sourceToaccountInput[]
+  connectOrCreate?: Prisma.money_movementsCreateOrConnectWithoutAccount_money_movements_id_account_sourceToaccountInput | Prisma.money_movementsCreateOrConnectWithoutAccount_money_movements_id_account_sourceToaccountInput[]
+  createMany?: Prisma.money_movementsCreateManyAccount_money_movements_id_account_sourceToaccountInputEnvelope
+  connect?: Prisma.money_movementsWhereUniqueInput | Prisma.money_movementsWhereUniqueInput[]
+}
+
 export type money_movementsUncheckedCreateNestedManyWithoutAccountInput = {
   create?: Prisma.XOR<Prisma.money_movementsCreateWithoutAccountInput, Prisma.money_movementsUncheckedCreateWithoutAccountInput> | Prisma.money_movementsCreateWithoutAccountInput[] | Prisma.money_movementsUncheckedCreateWithoutAccountInput[]
   connectOrCreate?: Prisma.money_movementsCreateOrConnectWithoutAccountInput | Prisma.money_movementsCreateOrConnectWithoutAccountInput[]
   createMany?: Prisma.money_movementsCreateManyAccountInputEnvelope
+  connect?: Prisma.money_movementsWhereUniqueInput | Prisma.money_movementsWhereUniqueInput[]
+}
+
+export type money_movementsUncheckedCreateNestedManyWithoutAccount_money_movements_id_account_sourceToaccountInput = {
+  create?: Prisma.XOR<Prisma.money_movementsCreateWithoutAccount_money_movements_id_account_sourceToaccountInput, Prisma.money_movementsUncheckedCreateWithoutAccount_money_movements_id_account_sourceToaccountInput> | Prisma.money_movementsCreateWithoutAccount_money_movements_id_account_sourceToaccountInput[] | Prisma.money_movementsUncheckedCreateWithoutAccount_money_movements_id_account_sourceToaccountInput[]
+  connectOrCreate?: Prisma.money_movementsCreateOrConnectWithoutAccount_money_movements_id_account_sourceToaccountInput | Prisma.money_movementsCreateOrConnectWithoutAccount_money_movements_id_account_sourceToaccountInput[]
+  createMany?: Prisma.money_movementsCreateManyAccount_money_movements_id_account_sourceToaccountInputEnvelope
   connect?: Prisma.money_movementsWhereUniqueInput | Prisma.money_movementsWhereUniqueInput[]
 }
 
@@ -607,6 +645,20 @@ export type money_movementsUpdateManyWithoutAccountNestedInput = {
   deleteMany?: Prisma.money_movementsScalarWhereInput | Prisma.money_movementsScalarWhereInput[]
 }
 
+export type money_movementsUpdateManyWithoutAccount_money_movements_id_account_sourceToaccountNestedInput = {
+  create?: Prisma.XOR<Prisma.money_movementsCreateWithoutAccount_money_movements_id_account_sourceToaccountInput, Prisma.money_movementsUncheckedCreateWithoutAccount_money_movements_id_account_sourceToaccountInput> | Prisma.money_movementsCreateWithoutAccount_money_movements_id_account_sourceToaccountInput[] | Prisma.money_movementsUncheckedCreateWithoutAccount_money_movements_id_account_sourceToaccountInput[]
+  connectOrCreate?: Prisma.money_movementsCreateOrConnectWithoutAccount_money_movements_id_account_sourceToaccountInput | Prisma.money_movementsCreateOrConnectWithoutAccount_money_movements_id_account_sourceToaccountInput[]
+  upsert?: Prisma.money_movementsUpsertWithWhereUniqueWithoutAccount_money_movements_id_account_sourceToaccountInput | Prisma.money_movementsUpsertWithWhereUniqueWithoutAccount_money_movements_id_account_sourceToaccountInput[]
+  createMany?: Prisma.money_movementsCreateManyAccount_money_movements_id_account_sourceToaccountInputEnvelope
+  set?: Prisma.money_movementsWhereUniqueInput | Prisma.money_movementsWhereUniqueInput[]
+  disconnect?: Prisma.money_movementsWhereUniqueInput | Prisma.money_movementsWhereUniqueInput[]
+  delete?: Prisma.money_movementsWhereUniqueInput | Prisma.money_movementsWhereUniqueInput[]
+  connect?: Prisma.money_movementsWhereUniqueInput | Prisma.money_movementsWhereUniqueInput[]
+  update?: Prisma.money_movementsUpdateWithWhereUniqueWithoutAccount_money_movements_id_account_sourceToaccountInput | Prisma.money_movementsUpdateWithWhereUniqueWithoutAccount_money_movements_id_account_sourceToaccountInput[]
+  updateMany?: Prisma.money_movementsUpdateManyWithWhereWithoutAccount_money_movements_id_account_sourceToaccountInput | Prisma.money_movementsUpdateManyWithWhereWithoutAccount_money_movements_id_account_sourceToaccountInput[]
+  deleteMany?: Prisma.money_movementsScalarWhereInput | Prisma.money_movementsScalarWhereInput[]
+}
+
 export type money_movementsUncheckedUpdateManyWithoutAccountNestedInput = {
   create?: Prisma.XOR<Prisma.money_movementsCreateWithoutAccountInput, Prisma.money_movementsUncheckedCreateWithoutAccountInput> | Prisma.money_movementsCreateWithoutAccountInput[] | Prisma.money_movementsUncheckedCreateWithoutAccountInput[]
   connectOrCreate?: Prisma.money_movementsCreateOrConnectWithoutAccountInput | Prisma.money_movementsCreateOrConnectWithoutAccountInput[]
@@ -621,6 +673,20 @@ export type money_movementsUncheckedUpdateManyWithoutAccountNestedInput = {
   deleteMany?: Prisma.money_movementsScalarWhereInput | Prisma.money_movementsScalarWhereInput[]
 }
 
+export type money_movementsUncheckedUpdateManyWithoutAccount_money_movements_id_account_sourceToaccountNestedInput = {
+  create?: Prisma.XOR<Prisma.money_movementsCreateWithoutAccount_money_movements_id_account_sourceToaccountInput, Prisma.money_movementsUncheckedCreateWithoutAccount_money_movements_id_account_sourceToaccountInput> | Prisma.money_movementsCreateWithoutAccount_money_movements_id_account_sourceToaccountInput[] | Prisma.money_movementsUncheckedCreateWithoutAccount_money_movements_id_account_sourceToaccountInput[]
+  connectOrCreate?: Prisma.money_movementsCreateOrConnectWithoutAccount_money_movements_id_account_sourceToaccountInput | Prisma.money_movementsCreateOrConnectWithoutAccount_money_movements_id_account_sourceToaccountInput[]
+  upsert?: Prisma.money_movementsUpsertWithWhereUniqueWithoutAccount_money_movements_id_account_sourceToaccountInput | Prisma.money_movementsUpsertWithWhereUniqueWithoutAccount_money_movements_id_account_sourceToaccountInput[]
+  createMany?: Prisma.money_movementsCreateManyAccount_money_movements_id_account_sourceToaccountInputEnvelope
+  set?: Prisma.money_movementsWhereUniqueInput | Prisma.money_movementsWhereUniqueInput[]
+  disconnect?: Prisma.money_movementsWhereUniqueInput | Prisma.money_movementsWhereUniqueInput[]
+  delete?: Prisma.money_movementsWhereUniqueInput | Prisma.money_movementsWhereUniqueInput[]
+  connect?: Prisma.money_movementsWhereUniqueInput | Prisma.money_movementsWhereUniqueInput[]
+  update?: Prisma.money_movementsUpdateWithWhereUniqueWithoutAccount_money_movements_id_account_sourceToaccountInput | Prisma.money_movementsUpdateWithWhereUniqueWithoutAccount_money_movements_id_account_sourceToaccountInput[]
+  updateMany?: Prisma.money_movementsUpdateManyWithWhereWithoutAccount_money_movements_id_account_sourceToaccountInput | Prisma.money_movementsUpdateManyWithWhereWithoutAccount_money_movements_id_account_sourceToaccountInput[]
+  deleteMany?: Prisma.money_movementsScalarWhereInput | Prisma.money_movementsScalarWhereInput[]
+}
+
 export type money_movementsCreateWithoutCategoriesInput = {
   id?: string
   title: string
@@ -631,6 +697,7 @@ export type money_movementsCreateWithoutCategoriesInput = {
   movement_type?: $Enums.movement_type
   users: Prisma.usersCreateNestedOneWithoutMoney_movementsInput
   account?: Prisma.accountCreateNestedOneWithoutMoney_movementsInput
+  account_money_movements_id_account_sourceToaccount?: Prisma.accountCreateNestedOneWithoutMoney_movements_money_movements_id_account_sourceToaccountInput
 }
 
 export type money_movementsUncheckedCreateWithoutCategoriesInput = {
@@ -643,6 +710,7 @@ export type money_movementsUncheckedCreateWithoutCategoriesInput = {
   logged_at?: Date | string | null
   id_account?: string | null
   movement_type?: $Enums.movement_type
+  id_account_source?: string | null
 }
 
 export type money_movementsCreateOrConnectWithoutCategoriesInput = {
@@ -685,6 +753,7 @@ export type money_movementsScalarWhereInput = {
   logged_at?: Prisma.DateTimeNullableFilter<"money_movements"> | Date | string | null
   id_account?: Prisma.UuidNullableFilter<"money_movements"> | string | null
   movement_type?: Prisma.Enummovement_typeFilter<"money_movements"> | $Enums.movement_type
+  id_account_source?: Prisma.UuidNullableFilter<"money_movements"> | string | null
 }
 
 export type money_movementsCreateWithoutUsersInput = {
@@ -697,6 +766,7 @@ export type money_movementsCreateWithoutUsersInput = {
   movement_type?: $Enums.movement_type
   categories?: Prisma.categoriesCreateNestedOneWithoutMoney_movementsInput
   account?: Prisma.accountCreateNestedOneWithoutMoney_movementsInput
+  account_money_movements_id_account_sourceToaccount?: Prisma.accountCreateNestedOneWithoutMoney_movements_money_movements_id_account_sourceToaccountInput
 }
 
 export type money_movementsUncheckedCreateWithoutUsersInput = {
@@ -709,6 +779,7 @@ export type money_movementsUncheckedCreateWithoutUsersInput = {
   logged_at?: Date | string | null
   id_account?: string | null
   movement_type?: $Enums.movement_type
+  id_account_source?: string | null
 }
 
 export type money_movementsCreateOrConnectWithoutUsersInput = {
@@ -747,6 +818,7 @@ export type money_movementsCreateWithoutAccountInput = {
   movement_type?: $Enums.movement_type
   categories?: Prisma.categoriesCreateNestedOneWithoutMoney_movementsInput
   users: Prisma.usersCreateNestedOneWithoutMoney_movementsInput
+  account_money_movements_id_account_sourceToaccount?: Prisma.accountCreateNestedOneWithoutMoney_movements_money_movements_id_account_sourceToaccountInput
 }
 
 export type money_movementsUncheckedCreateWithoutAccountInput = {
@@ -759,6 +831,7 @@ export type money_movementsUncheckedCreateWithoutAccountInput = {
   logged_for?: Date | string | null
   logged_at?: Date | string | null
   movement_type?: $Enums.movement_type
+  id_account_source?: string | null
 }
 
 export type money_movementsCreateOrConnectWithoutAccountInput = {
@@ -768,6 +841,42 @@ export type money_movementsCreateOrConnectWithoutAccountInput = {
 
 export type money_movementsCreateManyAccountInputEnvelope = {
   data: Prisma.money_movementsCreateManyAccountInput | Prisma.money_movementsCreateManyAccountInput[]
+  skipDuplicates?: boolean
+}
+
+export type money_movementsCreateWithoutAccount_money_movements_id_account_sourceToaccountInput = {
+  id?: string
+  title: string
+  description?: string | null
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  logged_for?: Date | string | null
+  logged_at?: Date | string | null
+  movement_type?: $Enums.movement_type
+  categories?: Prisma.categoriesCreateNestedOneWithoutMoney_movementsInput
+  users: Prisma.usersCreateNestedOneWithoutMoney_movementsInput
+  account?: Prisma.accountCreateNestedOneWithoutMoney_movementsInput
+}
+
+export type money_movementsUncheckedCreateWithoutAccount_money_movements_id_account_sourceToaccountInput = {
+  id?: string
+  id_user: string
+  id_category?: string | null
+  title: string
+  description?: string | null
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  logged_for?: Date | string | null
+  logged_at?: Date | string | null
+  id_account?: string | null
+  movement_type?: $Enums.movement_type
+}
+
+export type money_movementsCreateOrConnectWithoutAccount_money_movements_id_account_sourceToaccountInput = {
+  where: Prisma.money_movementsWhereUniqueInput
+  create: Prisma.XOR<Prisma.money_movementsCreateWithoutAccount_money_movements_id_account_sourceToaccountInput, Prisma.money_movementsUncheckedCreateWithoutAccount_money_movements_id_account_sourceToaccountInput>
+}
+
+export type money_movementsCreateManyAccount_money_movements_id_account_sourceToaccountInputEnvelope = {
+  data: Prisma.money_movementsCreateManyAccount_money_movements_id_account_sourceToaccountInput | Prisma.money_movementsCreateManyAccount_money_movements_id_account_sourceToaccountInput[]
   skipDuplicates?: boolean
 }
 
@@ -787,6 +896,22 @@ export type money_movementsUpdateManyWithWhereWithoutAccountInput = {
   data: Prisma.XOR<Prisma.money_movementsUpdateManyMutationInput, Prisma.money_movementsUncheckedUpdateManyWithoutAccountInput>
 }
 
+export type money_movementsUpsertWithWhereUniqueWithoutAccount_money_movements_id_account_sourceToaccountInput = {
+  where: Prisma.money_movementsWhereUniqueInput
+  update: Prisma.XOR<Prisma.money_movementsUpdateWithoutAccount_money_movements_id_account_sourceToaccountInput, Prisma.money_movementsUncheckedUpdateWithoutAccount_money_movements_id_account_sourceToaccountInput>
+  create: Prisma.XOR<Prisma.money_movementsCreateWithoutAccount_money_movements_id_account_sourceToaccountInput, Prisma.money_movementsUncheckedCreateWithoutAccount_money_movements_id_account_sourceToaccountInput>
+}
+
+export type money_movementsUpdateWithWhereUniqueWithoutAccount_money_movements_id_account_sourceToaccountInput = {
+  where: Prisma.money_movementsWhereUniqueInput
+  data: Prisma.XOR<Prisma.money_movementsUpdateWithoutAccount_money_movements_id_account_sourceToaccountInput, Prisma.money_movementsUncheckedUpdateWithoutAccount_money_movements_id_account_sourceToaccountInput>
+}
+
+export type money_movementsUpdateManyWithWhereWithoutAccount_money_movements_id_account_sourceToaccountInput = {
+  where: Prisma.money_movementsScalarWhereInput
+  data: Prisma.XOR<Prisma.money_movementsUpdateManyMutationInput, Prisma.money_movementsUncheckedUpdateManyWithoutAccount_money_movements_id_account_sourceToaccountInput>
+}
+
 export type money_movementsCreateManyCategoriesInput = {
   id?: string
   id_user: string
@@ -797,6 +922,7 @@ export type money_movementsCreateManyCategoriesInput = {
   logged_at?: Date | string | null
   id_account?: string | null
   movement_type?: $Enums.movement_type
+  id_account_source?: string | null
 }
 
 export type money_movementsUpdateWithoutCategoriesInput = {
@@ -809,6 +935,7 @@ export type money_movementsUpdateWithoutCategoriesInput = {
   movement_type?: Prisma.Enummovement_typeFieldUpdateOperationsInput | $Enums.movement_type
   users?: Prisma.usersUpdateOneRequiredWithoutMoney_movementsNestedInput
   account?: Prisma.accountUpdateOneWithoutMoney_movementsNestedInput
+  account_money_movements_id_account_sourceToaccount?: Prisma.accountUpdateOneWithoutMoney_movements_money_movements_id_account_sourceToaccountNestedInput
 }
 
 export type money_movementsUncheckedUpdateWithoutCategoriesInput = {
@@ -821,6 +948,7 @@ export type money_movementsUncheckedUpdateWithoutCategoriesInput = {
   logged_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id_account?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   movement_type?: Prisma.Enummovement_typeFieldUpdateOperationsInput | $Enums.movement_type
+  id_account_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type money_movementsUncheckedUpdateManyWithoutCategoriesInput = {
@@ -833,6 +961,7 @@ export type money_movementsUncheckedUpdateManyWithoutCategoriesInput = {
   logged_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id_account?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   movement_type?: Prisma.Enummovement_typeFieldUpdateOperationsInput | $Enums.movement_type
+  id_account_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type money_movementsCreateManyUsersInput = {
@@ -845,6 +974,7 @@ export type money_movementsCreateManyUsersInput = {
   logged_at?: Date | string | null
   id_account?: string | null
   movement_type?: $Enums.movement_type
+  id_account_source?: string | null
 }
 
 export type money_movementsUpdateWithoutUsersInput = {
@@ -857,6 +987,7 @@ export type money_movementsUpdateWithoutUsersInput = {
   movement_type?: Prisma.Enummovement_typeFieldUpdateOperationsInput | $Enums.movement_type
   categories?: Prisma.categoriesUpdateOneWithoutMoney_movementsNestedInput
   account?: Prisma.accountUpdateOneWithoutMoney_movementsNestedInput
+  account_money_movements_id_account_sourceToaccount?: Prisma.accountUpdateOneWithoutMoney_movements_money_movements_id_account_sourceToaccountNestedInput
 }
 
 export type money_movementsUncheckedUpdateWithoutUsersInput = {
@@ -869,6 +1000,7 @@ export type money_movementsUncheckedUpdateWithoutUsersInput = {
   logged_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id_account?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   movement_type?: Prisma.Enummovement_typeFieldUpdateOperationsInput | $Enums.movement_type
+  id_account_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type money_movementsUncheckedUpdateManyWithoutUsersInput = {
@@ -881,6 +1013,7 @@ export type money_movementsUncheckedUpdateManyWithoutUsersInput = {
   logged_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id_account?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   movement_type?: Prisma.Enummovement_typeFieldUpdateOperationsInput | $Enums.movement_type
+  id_account_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type money_movementsCreateManyAccountInput = {
@@ -892,6 +1025,20 @@ export type money_movementsCreateManyAccountInput = {
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   logged_for?: Date | string | null
   logged_at?: Date | string | null
+  movement_type?: $Enums.movement_type
+  id_account_source?: string | null
+}
+
+export type money_movementsCreateManyAccount_money_movements_id_account_sourceToaccountInput = {
+  id?: string
+  id_user: string
+  id_category?: string | null
+  title: string
+  description?: string | null
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  logged_for?: Date | string | null
+  logged_at?: Date | string | null
+  id_account?: string | null
   movement_type?: $Enums.movement_type
 }
 
@@ -905,6 +1052,7 @@ export type money_movementsUpdateWithoutAccountInput = {
   movement_type?: Prisma.Enummovement_typeFieldUpdateOperationsInput | $Enums.movement_type
   categories?: Prisma.categoriesUpdateOneWithoutMoney_movementsNestedInput
   users?: Prisma.usersUpdateOneRequiredWithoutMoney_movementsNestedInput
+  account_money_movements_id_account_sourceToaccount?: Prisma.accountUpdateOneWithoutMoney_movements_money_movements_id_account_sourceToaccountNestedInput
 }
 
 export type money_movementsUncheckedUpdateWithoutAccountInput = {
@@ -917,6 +1065,7 @@ export type money_movementsUncheckedUpdateWithoutAccountInput = {
   logged_for?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   logged_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   movement_type?: Prisma.Enummovement_typeFieldUpdateOperationsInput | $Enums.movement_type
+  id_account_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type money_movementsUncheckedUpdateManyWithoutAccountInput = {
@@ -928,6 +1077,46 @@ export type money_movementsUncheckedUpdateManyWithoutAccountInput = {
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   logged_for?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   logged_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  movement_type?: Prisma.Enummovement_typeFieldUpdateOperationsInput | $Enums.movement_type
+  id_account_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type money_movementsUpdateWithoutAccount_money_movements_id_account_sourceToaccountInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  logged_for?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  logged_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  movement_type?: Prisma.Enummovement_typeFieldUpdateOperationsInput | $Enums.movement_type
+  categories?: Prisma.categoriesUpdateOneWithoutMoney_movementsNestedInput
+  users?: Prisma.usersUpdateOneRequiredWithoutMoney_movementsNestedInput
+  account?: Prisma.accountUpdateOneWithoutMoney_movementsNestedInput
+}
+
+export type money_movementsUncheckedUpdateWithoutAccount_money_movements_id_account_sourceToaccountInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id_user?: Prisma.StringFieldUpdateOperationsInput | string
+  id_category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  logged_for?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  logged_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  id_account?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  movement_type?: Prisma.Enummovement_typeFieldUpdateOperationsInput | $Enums.movement_type
+}
+
+export type money_movementsUncheckedUpdateManyWithoutAccount_money_movements_id_account_sourceToaccountInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id_user?: Prisma.StringFieldUpdateOperationsInput | string
+  id_category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  logged_for?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  logged_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  id_account?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   movement_type?: Prisma.Enummovement_typeFieldUpdateOperationsInput | $Enums.movement_type
 }
 
@@ -944,9 +1133,11 @@ export type money_movementsSelect<ExtArgs extends runtime.Types.Extensions.Inter
   logged_at?: boolean
   id_account?: boolean
   movement_type?: boolean
+  id_account_source?: boolean
   categories?: boolean | Prisma.money_movements$categoriesArgs<ExtArgs>
   users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   account?: boolean | Prisma.money_movements$accountArgs<ExtArgs>
+  account_money_movements_id_account_sourceToaccount?: boolean | Prisma.money_movements$account_money_movements_id_account_sourceToaccountArgs<ExtArgs>
 }, ExtArgs["result"]["money_movements"]>
 
 export type money_movementsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -960,9 +1151,11 @@ export type money_movementsSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   logged_at?: boolean
   id_account?: boolean
   movement_type?: boolean
+  id_account_source?: boolean
   categories?: boolean | Prisma.money_movements$categoriesArgs<ExtArgs>
   users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   account?: boolean | Prisma.money_movements$accountArgs<ExtArgs>
+  account_money_movements_id_account_sourceToaccount?: boolean | Prisma.money_movements$account_money_movements_id_account_sourceToaccountArgs<ExtArgs>
 }, ExtArgs["result"]["money_movements"]>
 
 export type money_movementsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -976,9 +1169,11 @@ export type money_movementsSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   logged_at?: boolean
   id_account?: boolean
   movement_type?: boolean
+  id_account_source?: boolean
   categories?: boolean | Prisma.money_movements$categoriesArgs<ExtArgs>
   users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   account?: boolean | Prisma.money_movements$accountArgs<ExtArgs>
+  account_money_movements_id_account_sourceToaccount?: boolean | Prisma.money_movements$account_money_movements_id_account_sourceToaccountArgs<ExtArgs>
 }, ExtArgs["result"]["money_movements"]>
 
 export type money_movementsSelectScalar = {
@@ -992,23 +1187,27 @@ export type money_movementsSelectScalar = {
   logged_at?: boolean
   id_account?: boolean
   movement_type?: boolean
+  id_account_source?: boolean
 }
 
-export type money_movementsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "id_user" | "id_category" | "title" | "description" | "amount" | "logged_for" | "logged_at" | "id_account" | "movement_type", ExtArgs["result"]["money_movements"]>
+export type money_movementsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "id_user" | "id_category" | "title" | "description" | "amount" | "logged_for" | "logged_at" | "id_account" | "movement_type" | "id_account_source", ExtArgs["result"]["money_movements"]>
 export type money_movementsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   categories?: boolean | Prisma.money_movements$categoriesArgs<ExtArgs>
   users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   account?: boolean | Prisma.money_movements$accountArgs<ExtArgs>
+  account_money_movements_id_account_sourceToaccount?: boolean | Prisma.money_movements$account_money_movements_id_account_sourceToaccountArgs<ExtArgs>
 }
 export type money_movementsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   categories?: boolean | Prisma.money_movements$categoriesArgs<ExtArgs>
   users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   account?: boolean | Prisma.money_movements$accountArgs<ExtArgs>
+  account_money_movements_id_account_sourceToaccount?: boolean | Prisma.money_movements$account_money_movements_id_account_sourceToaccountArgs<ExtArgs>
 }
 export type money_movementsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   categories?: boolean | Prisma.money_movements$categoriesArgs<ExtArgs>
   users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   account?: boolean | Prisma.money_movements$accountArgs<ExtArgs>
+  account_money_movements_id_account_sourceToaccount?: boolean | Prisma.money_movements$account_money_movements_id_account_sourceToaccountArgs<ExtArgs>
 }
 
 export type $money_movementsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1017,6 +1216,7 @@ export type $money_movementsPayload<ExtArgs extends runtime.Types.Extensions.Int
     categories: Prisma.$categoriesPayload<ExtArgs> | null
     users: Prisma.$usersPayload<ExtArgs>
     account: Prisma.$accountPayload<ExtArgs> | null
+    account_money_movements_id_account_sourceToaccount: Prisma.$accountPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1029,6 +1229,7 @@ export type $money_movementsPayload<ExtArgs extends runtime.Types.Extensions.Int
     logged_at: Date | null
     id_account: string | null
     movement_type: $Enums.movement_type
+    id_account_source: string | null
   }, ExtArgs["result"]["money_movements"]>
   composites: {}
 }
@@ -1426,6 +1627,7 @@ export interface Prisma__money_movementsClient<T, Null = never, ExtArgs extends 
   categories<T extends Prisma.money_movements$categoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.money_movements$categoriesArgs<ExtArgs>>): Prisma.Prisma__categoriesClient<runtime.Types.Result.GetResult<Prisma.$categoriesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   users<T extends Prisma.usersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.usersDefaultArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   account<T extends Prisma.money_movements$accountArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.money_movements$accountArgs<ExtArgs>>): Prisma.Prisma__accountClient<runtime.Types.Result.GetResult<Prisma.$accountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  account_money_movements_id_account_sourceToaccount<T extends Prisma.money_movements$account_money_movements_id_account_sourceToaccountArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.money_movements$account_money_movements_id_account_sourceToaccountArgs<ExtArgs>>): Prisma.Prisma__accountClient<runtime.Types.Result.GetResult<Prisma.$accountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1465,6 +1667,7 @@ export interface money_movementsFieldRefs {
   readonly logged_at: Prisma.FieldRef<"money_movements", 'DateTime'>
   readonly id_account: Prisma.FieldRef<"money_movements", 'String'>
   readonly movement_type: Prisma.FieldRef<"money_movements", 'movement_type'>
+  readonly id_account_source: Prisma.FieldRef<"money_movements", 'String'>
 }
     
 
@@ -1888,6 +2091,25 @@ export type money_movements$categoriesArgs<ExtArgs extends runtime.Types.Extensi
  * money_movements.account
  */
 export type money_movements$accountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the account
+   */
+  select?: Prisma.accountSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the account
+   */
+  omit?: Prisma.accountOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.accountInclude<ExtArgs> | null
+  where?: Prisma.accountWhereInput
+}
+
+/**
+ * money_movements.account_money_movements_id_account_sourceToaccount
+ */
+export type money_movements$account_money_movements_id_account_sourceToaccountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the account
    */
