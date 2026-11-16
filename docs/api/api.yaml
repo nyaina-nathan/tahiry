@@ -150,6 +150,9 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '409':
+          description: The current user already owns an account with the same name, compared case-insensitively.
+          $ref: '#/components/responses/Conflict'
 
   /api/accounts/{id}:
     parameters:
@@ -197,6 +200,9 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          description: The current user already owns another account with the same name, compared case-insensitively.
+          $ref: '#/components/responses/Conflict'
 
     delete:
       tags: [Accounts]
@@ -889,6 +895,12 @@ components:
   responses:
     BadRequest:
       description: Request validation failed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Conflict:
+      description: The request conflicts with an existing resource.
       content:
         application/json:
           schema:
