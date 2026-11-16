@@ -2,6 +2,8 @@ import type { Account } from "@/types/account.types";
 import type { AccountInput } from "@/types/account.types";
 import type { Balance } from "@/types/balance.types";
 import type { CurrentUser } from "@/features/dashboard/types";
+import type { MoneyMovement } from "@/types/money-movement.types";
+import type { TransferInput } from "@/types/transfer.types";
 
 type ApiErrorResponse = {
   error?: {
@@ -55,6 +57,24 @@ export async function createAccount(payload: AccountInput) {
   }
 
   return (await response.json()) as Account;
+}
+
+export async function createTransfer(
+  payload: TransferInput,
+): Promise<MoneyMovement> {
+  const response = await fetch("/api/transfer", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    throw new Error(
+      await getErrorMessage(response, "Transfer could not be completed."),
+    );
+  }
+
+  return (await response.json()) as MoneyMovement;
 }
 
 export async function fetchAccountsWorkspace(): Promise<AccountsWorkspace> {
