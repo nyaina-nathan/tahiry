@@ -24,6 +24,22 @@ export async function parseJsonPayload(request: Request): Promise<unknown> {
   }
 }
 
+export async function parseOptionalJsonPayload(
+  request: Request,
+): Promise<unknown> {
+  const body = await request.text();
+
+  if (!body.trim()) {
+    return {};
+  }
+
+  try {
+    return JSON.parse(body);
+  } catch {
+    throw validationError("Request body must contain valid JSON.");
+  }
+}
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
