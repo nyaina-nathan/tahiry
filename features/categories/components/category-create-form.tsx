@@ -44,7 +44,7 @@ export function CategoryCreateForm({
   return (
     <div
       id="create-category-form"
-      className="fixed inset-0 z-50 flex min-h-screen items-center justify-center overflow-y-auto bg-[rgba(17,24,39,0.55)] p-4 backdrop-blur-md sm:p-8"
+      className="fixed inset-0 z-50 flex min-h-screen items-center justify-center overflow-y-auto bg-[var(--color-overlay)] p-4 backdrop-blur-md sm:p-8"
       role="dialog"
       aria-modal="true"
       aria-labelledby="create-category-heading"
@@ -53,7 +53,7 @@ export function CategoryCreateForm({
         <section aria-labelledby="create-category-heading">
           <div className="flex items-start justify-between gap-4 p-5 pb-0 sm:p-6 sm:pb-0">
             <div>
-              <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--color-primary)]">
+              <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--color-accent)]">
                 Add a new label
               </p>
               <h2
@@ -80,7 +80,7 @@ export function CategoryCreateForm({
                 layout="stacked"
               />
               {error && (
-                <p role="alert" className="text-sm text-[var(--color-danger)]">
+                <p role="alert" className="text-sm text-[var(--color-negative)]">
                   {error}
                 </p>
               )}
@@ -88,7 +88,7 @@ export function CategoryCreateForm({
                 <button
                   type="submit"
                   disabled={isCreating}
-                  className="flex min-h-13 flex-1 items-center justify-between bg-[var(--color-ink)] px-4 font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-white transition-colors hover:bg-[var(--color-primary)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary)] disabled:cursor-wait disabled:opacity-60"
+                  className="flex min-h-13 flex-1 items-center justify-between bg-[var(--color-strong)] px-4 font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-white transition-colors hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-contrast)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)] disabled:cursor-wait disabled:opacity-60"
                 >
                   <span>{isCreating ? "Creating..." : "Add category"}</span>
                   <span aria-hidden="true" className="text-lg">
@@ -99,7 +99,7 @@ export function CategoryCreateForm({
                   type="button"
                   onClick={onCancel}
                   disabled={isCreating}
-                  className="min-h-13 border border-[var(--color-line)] px-4 font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-[var(--color-ink)] transition-colors hover:border-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary)] disabled:opacity-60"
+                  className="min-h-13 border border-[var(--color-line)] px-4 font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-[var(--color-ink)] transition-colors hover:border-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)] disabled:opacity-60"
                 >
                   Cancel
                 </button>

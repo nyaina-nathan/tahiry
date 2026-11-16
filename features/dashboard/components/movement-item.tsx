@@ -32,7 +32,7 @@ export function MovementItem({
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex min-w-0 items-start gap-4">
           <span
-            className={`flex h-11 w-11 shrink-0 items-center justify-center font-display text-2xl text-white ${isIncome ? "bg-[var(--color-secondary)]" : "bg-[var(--color-primary)]"}`}
+            className={`flex h-11 w-11 shrink-0 items-center justify-center font-display text-2xl text-white ${isIncome ? "bg-[var(--color-positive)]" : "bg-[var(--color-negative-fill)]"}`}
             aria-hidden="true"
           >
             {isIncome ? "+" : "-"}
@@ -53,7 +53,7 @@ export function MovementItem({
         </div>
         <div className="flex shrink-0 flex-col items-start gap-3 sm:items-end">
           <p
-            className={`font-mono text-lg font-bold ${isIncome ? "text-[var(--color-secondary)]" : "text-[var(--color-primary)]"}`}
+            className={`font-mono text-lg font-bold ${isIncome ? "text-[var(--color-accent)]" : "text-[var(--color-negative)]"}`}
           >
             {isIncome ? "+" : "-"}
             {formatMoney(movement.amount, currency)}
@@ -73,14 +73,14 @@ export function MovementItem({
                 onClick={onBeginEditing}
                 aria-haspopup="dialog"
                 aria-controls="movement-edit-dialog"
-                className="min-h-10 border border-[var(--color-line)] px-3 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--color-ink)] transition-colors hover:border-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary)]"
+                className="min-h-10 border border-[var(--color-line)] px-3 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--color-ink)] transition-colors hover:border-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
               >
                 Edit
               </button>
               <button
                 type="button"
                 onClick={onRequestDelete}
-                className="min-h-10 border border-[#efbcbc] px-3 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--color-danger)] transition-colors hover:bg-[#fff1f1] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-danger)]"
+                className="min-h-10 border border-[var(--color-negative-line)] px-3 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--color-negative)] transition-colors hover:bg-[var(--color-negative-soft)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-negative)]"
               >
                 Delete
               </button>
@@ -89,7 +89,7 @@ export function MovementItem({
         </div>
       </div>
       {isDeleting && (
-        <p className="mt-3 border-l-2 border-[var(--color-danger)] pl-3 text-xs text-[#812020]">
+        <p className="mt-3 border-l-2 border-[var(--color-negative)] pl-3 text-xs text-[var(--color-negative-strong)]">
           This movement will be permanently removed.
         </p>
       )}

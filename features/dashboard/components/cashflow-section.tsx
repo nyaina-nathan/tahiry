@@ -25,7 +25,7 @@ export function CashflowSection({
     <section aria-labelledby="cashflow-heading" className="mb-12">
       <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-(--color-primary)">
+          <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-(--color-accent)">
             Cash flow
           </p>
           <h2
@@ -37,11 +37,11 @@ export function CashflowSection({
         </div>
         <div className="flex flex-wrap items-center gap-4 font-mono text-[10px] uppercase tracking-[0.14em] text-(--color-muted)">
           <span className="flex items-center gap-2">
-            <span className="h-2 w-2 bg-(--color-secondary)" aria-hidden="true" />
+            <span className="h-2 w-2 bg-(--color-accent)" aria-hidden="true" />
             Income
           </span>
           <span className="flex items-center gap-2">
-            <span className="h-2 w-2 bg-(--color-primary)" aria-hidden="true" />
+            <span className="h-2 w-2 bg-(--color-negative)" aria-hidden="true" />
             Expenses
           </span>
           {points.length > 0 && (
@@ -59,7 +59,7 @@ export function CashflowSection({
             <button
               type="button"
               onClick={onRetry}
-              className="min-h-10 bg-(--color-ink) px-4 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-white transition-colors hover:bg-(--color-primary) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-primary)"
+              className="min-h-10 bg-(--color-strong) px-4 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-white transition-colors hover:bg-(--color-accent) hover:text-(--color-accent-contrast) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent)"
             >
               Try again
             </button>
@@ -90,7 +90,7 @@ export function CashflowSection({
                 <dt className="font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-(--color-muted)">
                   Income this week
                 </dt>
-                <dd className="mt-1 font-mono text-sm font-bold text-(--color-secondary)">
+                <dd className="mt-1 font-mono text-sm font-bold text-(--color-accent)">
                   {formatMoney(incomeTotal.toFixed(2), currency)}
                 </dd>
               </div>
@@ -98,7 +98,7 @@ export function CashflowSection({
                 <dt className="font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-(--color-muted)">
                   Expenses this week
                 </dt>
-                <dd className="mt-1 font-mono text-sm font-bold text-(--color-primary)">
+                <dd className="mt-1 font-mono text-sm font-bold text-(--color-negative)">
                   {formatMoney(expenseTotal.toFixed(2), currency)}
                 </dd>
               </div>

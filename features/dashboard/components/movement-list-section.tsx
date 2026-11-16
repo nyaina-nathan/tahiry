@@ -70,7 +70,7 @@ export function MovementListSection({
     <section aria-labelledby="movements-heading">
       <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--color-secondary)]">
+          <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--color-accent)]">
             {eyebrow}
           </p>
           <h2 id="movements-heading" className="font-display text-2xl text-[var(--color-ink)] sm:text-3xl">
@@ -84,7 +84,7 @@ export function MovementListSection({
           <button
             type="button"
             onClick={onCreateNewMovement}
-            className="min-h-10 bg-[var(--color-ink)] px-4 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-white transition-colors hover:bg-[var(--color-primary)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary)]"
+            className="min-h-10 bg-[var(--color-strong)] px-4 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-white transition-colors hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-contrast)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
           >
             {createLabel}
           </button>

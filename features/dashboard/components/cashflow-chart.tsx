@@ -27,8 +27,8 @@ type CashflowTooltipProps = TooltipContentProps & {
   currency: string;
 };
 
-const INCOME_COLOR = "#BEE7B8";
-const EXPENSE_COLOR = "#DF2935";
+const INCOME_COLOR = "var(--color-accent)";
+const EXPENSE_COLOR = "var(--color-negative)";
 
 function CashflowTooltip({
   active,
@@ -49,7 +49,7 @@ function CashflowTooltip({
       <dl className="mt-2 space-y-1">
         <div className="flex items-center justify-between gap-6">
           <dt className="flex items-center gap-2 text-xs text-(--color-muted)">
-            <span className="h-1.5 w-1.5 bg-(--color-secondary)" />
+            <span className="h-1.5 w-1.5 bg-(--color-accent)" />
             Income
           </dt>
           <dd className="font-mono text-xs font-bold text-(--color-ink)">
@@ -58,7 +58,7 @@ function CashflowTooltip({
         </div>
         <div className="flex items-center justify-between gap-6">
           <dt className="flex items-center gap-2 text-xs text-(--color-muted)">
-            <span className="h-1.5 w-1.5 bg-(--color-primary)" />
+            <span className="h-1.5 w-1.5 bg-(--color-negative)" />
             Expenses
           </dt>
           <dd className="font-mono text-xs font-bold text-(--color-ink)">

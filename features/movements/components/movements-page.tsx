@@ -99,7 +99,7 @@ export function MovementsPage({ type }: MovementsPageProps) {
           <>
             <header className="mb-10 border-b border-(--color-line) pb-8 sm:flex sm:items-end sm:justify-between sm:gap-8">
               <div>
-                <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-(--color-primary)">
+                <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-(--color-accent)">
                   {copy.eyebrow}
                 </p>
                 <h1 className="font-display text-5xl leading-none tracking-tight text-(--color-ink) sm:text-7xl">

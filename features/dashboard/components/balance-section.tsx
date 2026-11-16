@@ -11,22 +11,22 @@ const balanceCards = [
   {
     label: "Current balance",
     detail: "Income minus expenses",
-    className: "bg-[var(--color-ink)] text-white",
-    mutedClassName: "text-[#b7bdca]",
+    className: "bg-[var(--color-strong)] text-white",
+    mutedClassName: "text-white/70",
     valueKey: "balance",
   },
   {
     label: "Income",
     detail: "Money that moved in",
-    className: "bg-[var(--color-secondary)] text-white",
-    mutedClassName: "text-[#e3dafe]",
+    className: "bg-[var(--color-positive)] text-white",
+    mutedClassName: "text-white/70",
     valueKey: "income",
   },
   {
     label: "Expenses",
     detail: "Money that moved out",
-    className: "bg-[var(--color-primary)] text-white",
-    mutedClassName: "text-[#dbe4ff]",
+    className: "bg-[var(--color-negative-fill)] text-white",
+    mutedClassName: "text-white/70",
     valueKey: "expense",
   },
 ] as const;
@@ -40,7 +40,7 @@ export function BalanceSection({
     <section aria-labelledby="balance-heading" className="mb-12">
       <div className="mb-5 flex items-end justify-between gap-4">
         <div>
-          <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-(--color-primary)">
+          <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-(--color-accent)">
             Lifetime view
           </p>
           <h2 id="balance-heading" className="font-display text-2xl text-(--color-ink) sm:text-3xl">

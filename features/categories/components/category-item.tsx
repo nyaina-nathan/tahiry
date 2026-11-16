@@ -89,14 +89,14 @@ export function CategoryItem({
               <button
                 type="button"
                 onClick={onBeginEditing}
-                className="min-h-11 border border-[var(--color-line)] px-3 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-ink)] transition-colors hover:border-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary)]"
+                className="min-h-11 border border-[var(--color-line)] px-3 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-ink)] transition-colors hover:border-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
               >
                 Edit
               </button>
               <button
                 type="button"
                 onClick={onRequestDelete}
-                className="min-h-11 border border-[#efbcbc] px-3 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-danger)] transition-colors hover:bg-[#fff1f1] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-danger)]"
+                className="min-h-11 border border-[var(--color-negative-line)] px-3 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-negative)] transition-colors hover:bg-[var(--color-negative-soft)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-negative)]"
               >
                 Delete
               </button>

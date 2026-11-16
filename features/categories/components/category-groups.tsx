@@ -45,7 +45,7 @@ export function CategoryGroups({
         type="EXPENSE"
         title="Expenses"
         description="Money that moves out."
-        accentClassName="bg-[var(--color-primary)]"
+        accentClassName="bg-[var(--color-negative-fill)]"
         categories={categories}
         editingId={editingId}
         pendingDeleteId={pendingDeleteId}
@@ -67,7 +67,7 @@ export function CategoryGroups({
         type="INCOME"
         title="Income"
         description="Money that moves in."
-        accentClassName="bg-[var(--color-secondary)]"
+        accentClassName="bg-[var(--color-positive)]"
         categories={categories}
         editingId={editingId}
         pendingDeleteId={pendingDeleteId}

@@ -28,7 +28,7 @@ export function CategoriesIntro({
           onClick={onCreateCategory}
           aria-expanded={isCreateFormOpen}
           aria-controls="create-category-form"
-          className="flex min-h-10 items-center justify-between gap-5 border border-(--color-line) px-3 text-(--color-ink) transition-colors hover:border-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-primary)"
+          className="flex min-h-10 items-center justify-between gap-5 border border-(--color-line) px-3 text-(--color-ink) transition-colors hover:border-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent)"
         >
           <span>Create category</span>
           <span aria-hidden="true" className="text-lg leading-none">

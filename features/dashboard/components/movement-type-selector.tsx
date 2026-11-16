@@ -21,11 +21,11 @@ export function MovementTypeSelector({
             type="button"
             onClick={() => onChange(type)}
             aria-pressed={value === type}
-            className={`min-h-12 border px-3 font-mono text-[10px] font-bold uppercase tracking-[0.12em] transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary)] ${
+            className={`min-h-12 border px-3 font-mono text-[10px] font-bold uppercase tracking-[0.12em] transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)] ${
               value === type
                 ? type === "EXPENSE"
-                  ? "border-[var(--color-primary)] bg-[var(--color-primary)] text-white"
-                  : "border-[var(--color-secondary)] bg-[var(--color-secondary)] text-white"
+                  ? "border-[var(--color-negative-fill)] bg-[var(--color-negative-fill)] text-white"
+                  : "border-[var(--color-positive)] bg-[var(--color-positive)] text-white"
                 : "border-[var(--color-line)] text-[var(--color-muted)] hover:border-[var(--color-ink)]"
             }`}
           >

@@ -18,12 +18,24 @@ export const metadata: Metadata = {
   description: "Manage your money my friend",
 };
 
+const themeInitScript = `(function () {
+  try {
+    var stored = localStorage.getItem("theme");
+    var dark = stored
+      ? stored === "dark"
+      : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    document.documentElement.classList.toggle("dark", dark);
+  } catch (e) {}
+})();`;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${limelight.variable} ${jetBrainsMono.variable} h-full antialiased`}
     >
+      <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

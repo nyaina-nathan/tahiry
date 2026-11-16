@@ -27,7 +27,7 @@ export function MovementDeleteConfirmation({
         type="button"
         onClick={onConfirm}
         disabled={isDeletingThis}
-        className="min-h-10 bg-[var(--color-danger)] px-3 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-danger)] disabled:opacity-60"
+        className="min-h-10 bg-[var(--color-negative-fill)] px-3 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-negative)] disabled:opacity-60"
       >
         {isDeletingThis ? "Deleting..." : "Confirm"}
       </button>
@@ -35,7 +35,7 @@ export function MovementDeleteConfirmation({
         type="button"
         onClick={onCancel}
         disabled={isDeletingThis}
-        className="min-h-10 border border-[var(--color-line)] px-3 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary)] disabled:opacity-60"
+        className="min-h-10 border border-[var(--color-line)] px-3 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)] disabled:opacity-60"
       >
         Keep
       </button>

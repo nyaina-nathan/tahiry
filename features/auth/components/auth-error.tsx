@@ -10,7 +10,7 @@ export function AuthError({ message }: AuthErrorProps) {
   return (
     <div
       role="alert"
-      className="border-l-4 border-[var(--color-danger)] bg-[#fff1f1] px-4 py-3 text-sm leading-6 text-[#9d2020]"
+      className="border-l-4 border-[var(--color-negative)] bg-[var(--color-negative-soft)] px-4 py-3 text-sm leading-6 text-[var(--color-negative-strong)]"
     >
       {message}
     </div>
