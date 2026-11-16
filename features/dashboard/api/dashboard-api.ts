@@ -47,6 +47,9 @@ export function buildMovementQuery(filters: Filters) {
   if (filters.categoryId) {
     params.set("id_category", filters.categoryId);
   }
+  if (filters.accountId) {
+    params.set("id_account", filters.accountId);
+  }
   if (filters.loggedForFrom) {
     params.set("logged_for_from", filters.loggedForFrom);
   }

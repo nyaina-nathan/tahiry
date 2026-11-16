@@ -16,6 +16,7 @@ export type MoneyMovement = {
 
 export type MovementInput = {
   id_category?: string | null;
+  id_account?: string | null;
   movement_type?: MovementType;
   title: string;
   description?: string | null;
@@ -37,6 +38,7 @@ export type MovementPatch = {
 export type MovementFilters = {
   movementType?: MovementType;
   categoryId?: string;
+  accountId?: string;
   loggedForFrom?: string;
   loggedForTo?: string;
   page: number;

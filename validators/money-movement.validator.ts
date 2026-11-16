@@ -147,6 +147,10 @@ function validateCategoryId(value: unknown): string | null {
   return value === null ? null : validateUuid(value, "id_category");
 }
 
+function validateAccountId(value: unknown): string | null {
+  return value === null ? null : validateUuid(value, "id_account");
+}
+
 export function validateMovementInput(payload: unknown): MovementInput {
   if (!isRecord(payload)) {
     throw validationError("Request body must be a JSON object.");
@@ -160,6 +164,10 @@ export function validateMovementInput(payload: unknown): MovementInput {
     payload.id_category === undefined
       ? undefined
       : validateCategoryId(payload.id_category);
+  const idAccount =
+    payload.id_account === undefined
+      ? undefined
+      : validateAccountId(payload.id_account);
   const description =
     payload.description === undefined
       ? undefined
@@ -179,6 +187,7 @@ export function validateMovementInput(payload: unknown): MovementInput {
 
   return {
     ...(idCategory === undefined ? {} : { id_category: idCategory }),
+    ...(idAccount === undefined ? {} : { id_account: idAccount }),
     ...(movementType === undefined ? {} : { movement_type: movementType }),
     title: validateTitle(payload.title),
     ...(description === undefined ? {} : { description }),
@@ -341,6 +350,7 @@ export function parseMovementFilters(
 ): MovementFilters {
   const movementTypeValue = searchParams.get("movement_type");
   const categoryIdValue = searchParams.get("id_category");
+  const accountIdValue = searchParams.get("id_account");
   const loggedForFromValue = searchParams.get("logged_for_from");
   const loggedForToValue = searchParams.get("logged_for_to");
   const movementType =
@@ -351,6 +361,10 @@ export function parseMovementFilters(
     categoryIdValue === null
       ? undefined
       : validateUuid(categoryIdValue, "id_category");
+  const accountId =
+    accountIdValue === null
+      ? undefined
+      : validateUuid(accountIdValue, "id_account");
   const loggedForFrom =
     loggedForFromValue === null
       ? undefined
@@ -365,6 +379,7 @@ export function parseMovementFilters(
   return {
     ...(movementType === undefined ? {} : { movementType }),
     ...(categoryId === undefined ? {} : { categoryId }),
+    ...(accountId === undefined ? {} : { accountId }),
     ...(loggedForFrom === undefined ? {} : { loggedForFrom }),
     ...(loggedForTo === undefined ? {} : { loggedForTo }),
     page: parsePositiveInteger(searchParams.get("page"), "page", 1),

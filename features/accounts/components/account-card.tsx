@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import type { AccountWithBalance } from "@/features/accounts/api/accounts-api";
 import { formatMoney } from "@/features/dashboard/utils/formatters";
 
@@ -14,7 +15,13 @@ export function AccountCard({ account, currency }: AccountCardProps) {
   const isNegative = account.balance.startsWith("-");
 
   return (
-    <article className="border border-(--color-line) bg-(--color-surface) p-3 sm:p-5">
+    <article className="relative border border-(--color-line) bg-(--color-surface) p-3 transition-colors hover:border-(--color-ink) sm:p-5">
+      <Link
+        href={`/accounts/${account.id}`}
+        className="absolute inset-0 z-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent)"
+      >
+        <span className="sr-only">Open {account.name}</span>
+      </Link>
       <div className="flex items-start justify-between gap-3">
         <p className="min-w-0 truncate font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-(--color-muted) sm:text-[10px]">
           {account.name}
@@ -24,7 +31,7 @@ export function AccountCard({ account, currency }: AccountCardProps) {
           aria-pressed={isShown}
           aria-label={isShown ? "Hide account balance" : "Show account balance"}
           onClick={() => setIsShown((shown) => !shown)}
-          className="shrink-0 font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-(--color-muted) transition-colors hover:text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) cursor-pointer"
+          className="relative z-10 shrink-0 font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-(--color-muted) transition-colors hover:text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) cursor-pointer"
         >
           {isShown ? "Hide" : "Show"}
         </button>

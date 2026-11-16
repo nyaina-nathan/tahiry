@@ -428,7 +428,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
         '404':
-          description: Referenced category does not belong to the current user.
+          description: Referenced category or account does not belong to the current user.
           content:
             application/json:
               schema:
@@ -459,7 +459,7 @@ paths:
       tags: [Money movements]
       summary: Update a money movement
       operationId: updateMoneyMovement
-      description: The `TRANSFERT` movement type is not accepted here; transfers cannot be converted to or from other movement types.
+      description: The `TRANSFERT` movement type is not accepted here; transfers cannot be converted to or from other movement types. The movement's account is not changed by PATCH.
       security:
         - ProxyUserId: []
       requestBody:
@@ -746,6 +746,10 @@ components:
         id_category:
           type: [string, 'null']
           format: uuid
+        id_account:
+          type: [string, 'null']
+          format: uuid
+          description: Assigns the movement to an account owned by the current user. Omitted or null leaves it unassigned. The account cannot be changed through PATCH.
         movement_type:
           $ref: '#/components/schemas/MovementType'
         title:

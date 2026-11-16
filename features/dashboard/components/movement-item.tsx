@@ -6,6 +6,7 @@ type MovementItemProps = {
   movement: MoneyMovement;
   categoryName: string;
   currency: string;
+  accountId?: string;
   isDeleting: boolean;
   isDeletingThis: boolean;
   onBeginEditing: () => void;
@@ -18,6 +19,7 @@ export function MovementItem({
   movement,
   categoryName,
   currency,
+  accountId,
   isDeleting,
   isDeletingThis,
   onBeginEditing,
@@ -25,17 +27,36 @@ export function MovementItem({
   onConfirmDelete,
   onCancelDelete,
 }: MovementItemProps) {
-  const isIncome = movement.movement_type === "INCOME";
+  const isTransfer = movement.movement_type === "TRANSFERT";
+  const isTransferIn =
+    isTransfer && accountId !== undefined && movement.id_account === accountId;
+  const isTransferOut =
+    isTransfer &&
+    accountId !== undefined &&
+    movement.id_account_source === accountId;
+  const isIncome = movement.movement_type === "INCOME" || isTransferIn;
+  const isExpense = movement.movement_type === "EXPENSE" || isTransferOut;
+  const badge = isIncome ? "+" : isExpense ? "-" : "⇄";
+  const badgeClassName = isIncome
+    ? "bg-[var(--color-positive)]"
+    : isExpense
+      ? "bg-[var(--color-negative-fill)]"
+      : "bg-[var(--color-strong)]";
+  const amountClassName = isIncome
+    ? "text-[var(--color-accent)]"
+    : isExpense
+      ? "text-[var(--color-negative)]"
+      : "text-[var(--color-ink)]";
 
   return (
     <li className="border border-[var(--color-line)] bg-[var(--color-surface)] p-4 sm:p-5">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex min-w-0 items-start gap-4">
           <span
-            className={`flex h-11 w-11 shrink-0 items-center justify-center font-display text-2xl text-white ${isIncome ? "bg-[var(--color-positive)]" : "bg-[var(--color-negative-fill)]"}`}
+            className={`flex h-11 w-11 shrink-0 items-center justify-center font-display text-2xl text-white ${badgeClassName}`}
             aria-hidden="true"
           >
-            {isIncome ? "+" : "-"}
+            {badge}
           </span>
           <div className="min-w-0">
             <p className="truncate text-lg font-semibold text-[var(--color-ink)]">
@@ -53,9 +74,9 @@ export function MovementItem({
         </div>
         <div className="flex shrink-0 flex-col items-start gap-3 sm:items-end">
           <p
-            className={`font-mono text-lg font-bold ${isIncome ? "text-[var(--color-accent)]" : "text-[var(--color-negative)]"}`}
+            className={`font-mono text-lg font-bold ${amountClassName}`}
           >
-            {isIncome ? "+" : "-"}
+            {isIncome ? "+" : isExpense ? "-" : ""}
             {formatMoney(movement.amount, currency)}
           </p>
           {isDeleting ? (

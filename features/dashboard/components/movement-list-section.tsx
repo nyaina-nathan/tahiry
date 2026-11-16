@@ -28,6 +28,7 @@ type MovementListSectionProps = {
   onPreviousPage: () => void;
   onNextPage: () => void;
   fixedType?: MovementType;
+  accountId?: string;
   eyebrow?: string;
   heading?: string;
   createLabel?: string;
@@ -57,6 +58,7 @@ export function MovementListSection({
   onPreviousPage,
   onNextPage,
   fixedType,
+  accountId,
   eyebrow = "Your record",
   heading = "Recent movements.",
   createLabel = "New +",
@@ -98,7 +100,8 @@ export function MovementListSection({
           fixedType={fixedType}
           onChange={onFiltersChange}
         />
-      ) : pageSize !== undefined && onPageSizeChange ? (
+      ) : null}
+      {pageSize !== undefined && onPageSizeChange ? (
         <MovementPageSizeControl
           pageSize={pageSize}
           onPageSizeChange={onPageSizeChange}
@@ -113,6 +116,7 @@ export function MovementListSection({
         isListLoading={isListLoading}
         pendingDeleteId={pendingDeleteId}
         deletingId={deletingId}
+        accountId={accountId}
         onBeginEditing={onBeginEditing}
         onRequestDelete={onRequestDelete}
         onConfirmDelete={onConfirmDelete}

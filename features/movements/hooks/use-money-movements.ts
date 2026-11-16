@@ -27,6 +27,7 @@ import type {
 
 type UseMoneyMovementsOptions = {
   fixedType?: MovementType;
+  accountId?: string;
   withBalance?: boolean;
   withCashflow?: boolean;
   initialPageSize?: number;
@@ -35,10 +36,12 @@ type UseMoneyMovementsOptions = {
 function createInitialFilters(
   fixedType?: MovementType,
   pageSize = 25,
+  accountId?: string,
 ): Filters {
   return {
     movementType: fixedType ?? "ALL",
     categoryId: "",
+    ...(accountId === undefined ? {} : { accountId }),
     loggedForFrom: "",
     loggedForTo: "",
     page: 1,
@@ -48,6 +51,7 @@ function createInitialFilters(
 
 export function useMoneyMovements({
   fixedType,
+  accountId,
   withBalance = true,
   withCashflow = false,
   initialPageSize = 25,
@@ -68,7 +72,7 @@ export function useMoneyMovements({
   const [cashflowError, setCashflowError] = useState("");
   const [mutation, setMutation] = useState<Mutation>(null);
   const [filters, setFilters] = useState<Filters>(() =>
-    createInitialFilters(fixedType, initialPageSize),
+    createInitialFilters(fixedType, initialPageSize, accountId),
   );
 
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -137,11 +141,11 @@ export function useMoneyMovements({
       setIsCashflowLoading(withCashflow);
       setLoadError("");
       setCashflowError("");
-      setFilters(createInitialFilters(fixedType, initialPageSize));
+      setFilters(createInitialFilters(fixedType, initialPageSize, accountId));
 
       const [workspaceResult, cashflowResult] = await Promise.allSettled([
         fetchWorkspaceData(
-          createInitialFilters(fixedType, initialPageSize),
+          createInitialFilters(fixedType, initialPageSize, accountId),
           withBalance,
         ),
         withCashflow
@@ -187,7 +191,7 @@ export function useMoneyMovements({
     return () => {
       cancelled = true;
     };
-  }, [fixedType, withBalance, withCashflow, initialPageSize]);
+  }, [fixedType, accountId, withBalance, withCashflow, initialPageSize]);
 
   async function refreshCashflow() {
     if (!withCashflow) {
@@ -293,6 +297,7 @@ export function useMoneyMovements({
       title: formTitle.trim(),
       amount: formAmount.trim(),
       id_category: formCategoryId || null,
+      ...(accountId === undefined || editingId ? {} : { id_account: accountId }),
       description: formDescription.trim() || null,
       logged_for: formLoggedFor || null,
     };

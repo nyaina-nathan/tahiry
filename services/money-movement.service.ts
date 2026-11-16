@@ -68,6 +68,15 @@ function categoryNotFoundError(): AppError {
   );
 }
 
+function accountNotFoundError(): AppError {
+  return new AppError(
+    "Not Found",
+    "Account not found.",
+    404,
+    "account",
+  );
+}
+
 function requireUserId(userId: string | null): string {
   if (!userId || !UUID_PATTERN.test(userId)) {
     throw unauthorizedError();
@@ -134,6 +143,28 @@ async function ensureCategoryBelongsToUser(
   }
 }
 
+async function ensureAccountBelongsToUser(
+  userId: string,
+  accountId: string | null | undefined,
+): Promise<void> {
+  if (accountId === undefined || accountId === null) {
+    return;
+  }
+
+  if (!UUID_PATTERN.test(accountId)) {
+    throw accountNotFoundError();
+  }
+
+  const account = await prisma.account.findFirst({
+    where: { id: accountId, id_user: userId },
+    select: { id: true },
+  });
+
+  if (!account) {
+    throw accountNotFoundError();
+  }
+}
+
 function buildMovementWhere(
   userId: string,
   filters: MovementFilters,
@@ -146,6 +177,14 @@ function buildMovementWhere(
     ...(filters.categoryId === undefined
       ? {}
       : { id_category: filters.categoryId }),
+    ...(filters.accountId === undefined
+      ? {}
+      : {
+          OR: [
+            { id_account: filters.accountId },
+            { id_account_source: filters.accountId },
+          ],
+        }),
     ...(filters.loggedForFrom === undefined && filters.loggedForTo === undefined
       ? {}
       : {
@@ -170,6 +209,9 @@ function toCreateData(
     ...(payload.id_category === undefined
       ? {}
       : { id_category: payload.id_category }),
+    ...(payload.id_account === undefined
+      ? {}
+      : { id_account: payload.id_account }),
     ...(payload.movement_type === undefined
       ? {}
       : { movement_type: payload.movement_type }),
@@ -266,6 +308,7 @@ export async function createMoneyMovement(
 ): Promise<MoneyMovement> {
   const userId = requireUserId(userIdHeader);
   await ensureCategoryBelongsToUser(userId, payload.id_category);
+  await ensureAccountBelongsToUser(userId, payload.id_account);
   const movement = await prisma.money_movements.create({
     data: toCreateData(userId, payload),
     select: movementSelect,

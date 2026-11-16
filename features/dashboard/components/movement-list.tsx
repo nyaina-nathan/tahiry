@@ -20,6 +20,7 @@ type MovementListProps = {
   onCancelDelete: () => void;
   onPreviousPage: () => void;
   onNextPage: () => void;
+  accountId?: string;
   emptyTitle?: string;
   emptyDescription?: string;
 };
@@ -39,6 +40,7 @@ export function MovementList({
   onCancelDelete,
   onPreviousPage,
   onNextPage,
+  accountId,
   emptyTitle,
   emptyDescription,
 }: MovementListProps) {
@@ -69,6 +71,7 @@ export function MovementList({
               movement={movement}
               categoryName={category?.cat_name ?? "Uncategorized"}
               currency={currency}
+              accountId={accountId}
               isDeleting={pendingDeleteId === movement.id}
               isDeletingThis={deletingId === movement.id}
               onBeginEditing={() => onBeginEditing(movement)}
