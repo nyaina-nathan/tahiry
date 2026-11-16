@@ -247,8 +247,14 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '404':
-          description: Source or destination account does not exist or is not owned by the current user.
+         '404':
+           description: Source or destination account does not exist or is not owned by the current user.
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/Error'
+        '409':
+          description: The source account does not have enough funds for the transfer.
           content:
             application/json:
               schema:

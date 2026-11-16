@@ -4,12 +4,14 @@ import { useState } from "react";
 import { AppHeader, PRIMARY_NAV_LINKS } from "@/components/app-header";
 import { AccountCard } from "@/features/accounts/components/account-card";
 import { AccountCreateModal } from "@/features/accounts/components/account-create-modal";
+import { AccountTransferModal } from "@/features/accounts/components/account-transfer-modal";
 import { useAccounts } from "@/features/accounts/hooks/use-accounts";
 
 const ACCOUNT_SKELETON_COUNT = 3;
 
 export function AccountsPage() {
   const [showCreateForm, setShowCreateForm] = useState(false);
+  const [showTransferForm, setShowTransferForm] = useState(false);
   const {
     accounts,
     currency,
@@ -21,6 +23,18 @@ export function AccountsPage() {
     createError,
     isCreating,
     handleCreate,
+    transferSourceId,
+    setTransferSourceId,
+    transferDestinationId,
+    setTransferDestinationId,
+    transferAmount,
+    setTransferAmount,
+    transferReason,
+    setTransferReason,
+    transferError,
+    isTransferring,
+    handleTransfer,
+    resetTransferForm,
   } = useAccounts();
 
   return (
@@ -44,18 +58,32 @@ export function AccountsPage() {
               </span>
               accounts total
             </div>
-            <button
-              type="button"
-              onClick={() => setShowCreateForm(true)}
-              aria-expanded={showCreateForm}
-              aria-controls="create-account-modal"
-              className="flex min-h-10 items-center justify-between gap-5 border border-(--color-line) px-3 text-(--color-ink) transition-colors hover:border-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent)"
-            >
-              <span>New account</span>
-              <span aria-hidden="true" className="text-lg leading-none">
-                +
-              </span>
-            </button>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => setShowTransferForm(true)}
+                aria-expanded={showTransferForm}
+                aria-controls="transfer-account-modal"
+                className="flex min-h-10 items-center justify-between gap-5 border border-(--color-line) px-3 text-(--color-ink) transition-colors hover:border-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent)"
+              >
+                <span>Transfer</span>
+                <span aria-hidden="true" className="text-lg leading-none">
+                  →
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowCreateForm(true)}
+                aria-expanded={showCreateForm}
+                aria-controls="create-account-modal"
+                className="flex min-h-10 items-center justify-between gap-5 border border-(--color-line) px-3 text-(--color-ink) transition-colors hover:border-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent)"
+              >
+                <span>New account</span>
+                <span aria-hidden="true" className="text-lg leading-none">
+                  +
+                </span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -73,6 +101,34 @@ export function AccountsPage() {
               }
             }}
             onCancel={() => setShowCreateForm(false)}
+          />
+        )}
+
+        {showTransferForm && (
+          <AccountTransferModal
+            accounts={accounts}
+            sourceId={transferSourceId}
+            destinationId={transferDestinationId}
+            amount={transferAmount}
+            reason={transferReason}
+            currency={currency}
+            error={transferError}
+            isTransferring={isTransferring}
+            onSourceChange={setTransferSourceId}
+            onDestinationChange={setTransferDestinationId}
+            onAmountChange={setTransferAmount}
+            onReasonChange={setTransferReason}
+            onSubmit={async (event) => {
+              const transferred = await handleTransfer(event);
+
+              if (transferred) {
+                setShowTransferForm(false);
+              }
+            }}
+            onCancel={() => {
+              setShowTransferForm(false);
+              resetTransferForm();
+            }}
           />
         )}
 
