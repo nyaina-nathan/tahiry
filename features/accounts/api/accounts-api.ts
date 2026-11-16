@@ -1,4 +1,5 @@
 import type { Account } from "@/types/account.types";
+import type { AccountInput } from "@/types/account.types";
 import type { Balance } from "@/types/balance.types";
 import type { CurrentUser } from "@/features/dashboard/types";
 
@@ -38,6 +39,22 @@ export async function fetchAccounts(): Promise<Account[]> {
   }
 
   return (await response.json()) as Account[];
+}
+
+export async function createAccount(payload: AccountInput) {
+  const response = await fetch("/api/accounts", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    throw new Error(
+      await getErrorMessage(response, "Account could not be created."),
+    );
+  }
+
+  return (await response.json()) as Account;
 }
 
 export async function fetchAccountsWorkspace(): Promise<AccountsWorkspace> {

@@ -1,14 +1,27 @@
 "use client";
 
+import { useState } from "react";
 import { AppHeader, PRIMARY_NAV_LINKS } from "@/components/app-header";
 import { AccountCard } from "@/features/accounts/components/account-card";
+import { AccountCreateModal } from "@/features/accounts/components/account-create-modal";
 import { useAccounts } from "@/features/accounts/hooks/use-accounts";
 
 const ACCOUNT_SKELETON_COUNT = 3;
 
 export function AccountsPage() {
-  const { accounts, currency, isLoading, loadError, loadAccounts } =
-    useAccounts();
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const {
+    accounts,
+    currency,
+    isLoading,
+    loadError,
+    loadAccounts,
+    newName,
+    setNewName,
+    createError,
+    isCreating,
+    handleCreate,
+  } = useAccounts();
 
   return (
     <main className="min-h-screen bg-(--color-canvas)">
@@ -33,6 +46,9 @@ export function AccountsPage() {
             </div>
             <button
               type="button"
+              onClick={() => setShowCreateForm(true)}
+              aria-expanded={showCreateForm}
+              aria-controls="create-account-modal"
               className="flex min-h-10 items-center justify-between gap-5 border border-(--color-line) px-3 text-(--color-ink) transition-colors hover:border-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent)"
             >
               <span>New account</span>
@@ -42,6 +58,23 @@ export function AccountsPage() {
             </button>
           </div>
         </div>
+
+        {showCreateForm && (
+          <AccountCreateModal
+            name={newName}
+            error={createError}
+            isCreating={isCreating}
+            onNameChange={setNewName}
+            onSubmit={async (event) => {
+              const created = await handleCreate(event);
+
+              if (created) {
+                setShowCreateForm(false);
+              }
+            }}
+            onCancel={() => setShowCreateForm(false)}
+          />
+        )}
 
         <div aria-live="polite">
           {isLoading ? (

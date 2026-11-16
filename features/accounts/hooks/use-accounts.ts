@@ -1,7 +1,9 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import type { FormEvent } from "react";
 import {
+  createAccount,
   fetchAccountsWorkspace,
   type AccountWithBalance,
   type AccountsWorkspace,
@@ -15,6 +17,9 @@ export function useAccounts() {
   const [currency, setCurrency] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
+  const [newName, setNewName] = useState("");
+  const [createError, setCreateError] = useState("");
+  const [isCreating, setIsCreating] = useState(false);
 
   const loadAccounts = useCallback(async () => {
     setIsLoading(true);
@@ -66,6 +71,33 @@ export function useAccounts() {
     };
   }, []);
 
+  async function handleCreate(
+    event: FormEvent<HTMLFormElement>,
+  ): Promise<boolean> {
+    event.preventDefault();
+
+    if (isCreating) {
+      return false;
+    }
+
+    setIsCreating(true);
+    setCreateError("");
+
+    try {
+      await createAccount({ name: newName });
+      setNewName("");
+      await loadAccounts();
+      return true;
+    } catch (error) {
+      setCreateError(
+        error instanceof Error ? error.message : "Account could not be created.",
+      );
+      return false;
+    } finally {
+      setIsCreating(false);
+    }
+  }
+
   return {
     accounts,
     balance,
@@ -73,5 +105,10 @@ export function useAccounts() {
     isLoading,
     loadError,
     loadAccounts,
+    newName,
+    setNewName,
+    createError,
+    isCreating,
+    handleCreate,
   };
 }
