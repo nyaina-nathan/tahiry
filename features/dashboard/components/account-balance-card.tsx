@@ -1,4 +1,5 @@
 import type { AccountBalance } from "@/types/balance.types";
+import Link from "next/link";
 import { formatMoney } from "@/features/dashboard/utils/formatters";
 
 type AccountBalanceCardProps = {
@@ -22,13 +23,15 @@ export function AccountBalanceCard({
       {isLoading ? (
         <div className="mt-2 h-4 w-full animate-pulse bg-(--color-canvas) sm:mt-5 sm:h-6 sm:w-28" />
       ) : (
-        <p
-          className={`mt-2 break-all text-xs font-bold tabular-nums tracking-tight sm:mt-5 sm:text-xl md:text-2xl ${
+        <Link
+          href={`/accounts/${account.id_account}`}
+          aria-label={`View ${account.name} account`}
+          className={`mt-2 block break-all text-xs font-bold tabular-nums tracking-tight hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) sm:mt-5 sm:text-xl md:text-2xl ${
             isNegative ? "text-(--color-negative)" : "text-(--color-ink)"
           }`}
         >
           {formatMoney(account.balance, currency)}
-        </p>
+        </Link>
       )}
       <p className="mt-2 hidden text-xs text-(--color-muted) sm:block">
         {formatMoney(account.income, currency)} in ·{" "}
