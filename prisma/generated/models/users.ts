@@ -217,6 +217,7 @@ export type usersWhereInput = {
   account?: Prisma.AccountListRelationFilter
   categories?: Prisma.CategoriesListRelationFilter
   money_movements?: Prisma.Money_movementsListRelationFilter
+  password_reset_token?: Prisma.Password_reset_tokenListRelationFilter
   weekly_reminder?: Prisma.XOR<Prisma.Weekly_reminderNullableScalarRelationFilter, Prisma.weekly_reminderWhereInput> | null
 }
 
@@ -233,6 +234,7 @@ export type usersOrderByWithRelationInput = {
   account?: Prisma.accountOrderByRelationAggregateInput
   categories?: Prisma.categoriesOrderByRelationAggregateInput
   money_movements?: Prisma.money_movementsOrderByRelationAggregateInput
+  password_reset_token?: Prisma.password_reset_tokenOrderByRelationAggregateInput
   weekly_reminder?: Prisma.weekly_reminderOrderByWithRelationInput
 }
 
@@ -252,6 +254,7 @@ export type usersWhereUniqueInput = Prisma.AtLeast<{
   account?: Prisma.AccountListRelationFilter
   categories?: Prisma.CategoriesListRelationFilter
   money_movements?: Prisma.Money_movementsListRelationFilter
+  password_reset_token?: Prisma.Password_reset_tokenListRelationFilter
   weekly_reminder?: Prisma.XOR<Prisma.Weekly_reminderNullableScalarRelationFilter, Prisma.weekly_reminderWhereInput> | null
 }, "id" | "email">
 
@@ -298,6 +301,7 @@ export type usersCreateInput = {
   account?: Prisma.accountCreateNestedManyWithoutUsersInput
   categories?: Prisma.categoriesCreateNestedManyWithoutUsersInput
   money_movements?: Prisma.money_movementsCreateNestedManyWithoutUsersInput
+  password_reset_token?: Prisma.password_reset_tokenCreateNestedManyWithoutUsersInput
   weekly_reminder?: Prisma.weekly_reminderCreateNestedOneWithoutUsersInput
 }
 
@@ -314,6 +318,7 @@ export type usersUncheckedCreateInput = {
   account?: Prisma.accountUncheckedCreateNestedManyWithoutUsersInput
   categories?: Prisma.categoriesUncheckedCreateNestedManyWithoutUsersInput
   money_movements?: Prisma.money_movementsUncheckedCreateNestedManyWithoutUsersInput
+  password_reset_token?: Prisma.password_reset_tokenUncheckedCreateNestedManyWithoutUsersInput
   weekly_reminder?: Prisma.weekly_reminderUncheckedCreateNestedOneWithoutUsersInput
 }
 
@@ -330,6 +335,7 @@ export type usersUpdateInput = {
   account?: Prisma.accountUpdateManyWithoutUsersNestedInput
   categories?: Prisma.categoriesUpdateManyWithoutUsersNestedInput
   money_movements?: Prisma.money_movementsUpdateManyWithoutUsersNestedInput
+  password_reset_token?: Prisma.password_reset_tokenUpdateManyWithoutUsersNestedInput
   weekly_reminder?: Prisma.weekly_reminderUpdateOneWithoutUsersNestedInput
 }
 
@@ -346,6 +352,7 @@ export type usersUncheckedUpdateInput = {
   account?: Prisma.accountUncheckedUpdateManyWithoutUsersNestedInput
   categories?: Prisma.categoriesUncheckedUpdateManyWithoutUsersNestedInput
   money_movements?: Prisma.money_movementsUncheckedUpdateManyWithoutUsersNestedInput
+  password_reset_token?: Prisma.password_reset_tokenUncheckedUpdateManyWithoutUsersNestedInput
   weekly_reminder?: Prisma.weekly_reminderUncheckedUpdateOneWithoutUsersNestedInput
 }
 
@@ -482,6 +489,20 @@ export type usersUpdateOneRequiredWithoutWeekly_reminderNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutWeekly_reminderInput, Prisma.usersUpdateWithoutWeekly_reminderInput>, Prisma.usersUncheckedUpdateWithoutWeekly_reminderInput>
 }
 
+export type usersCreateNestedOneWithoutPassword_reset_tokenInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutPassword_reset_tokenInput, Prisma.usersUncheckedCreateWithoutPassword_reset_tokenInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutPassword_reset_tokenInput
+  connect?: Prisma.usersWhereUniqueInput
+}
+
+export type usersUpdateOneRequiredWithoutPassword_reset_tokenNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutPassword_reset_tokenInput, Prisma.usersUncheckedCreateWithoutPassword_reset_tokenInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutPassword_reset_tokenInput
+  upsert?: Prisma.usersUpsertWithoutPassword_reset_tokenInput
+  connect?: Prisma.usersWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutPassword_reset_tokenInput, Prisma.usersUpdateWithoutPassword_reset_tokenInput>, Prisma.usersUncheckedUpdateWithoutPassword_reset_tokenInput>
+}
+
 export type usersCreateWithoutCategoriesInput = {
   id?: string
   username: string
@@ -494,6 +515,7 @@ export type usersCreateWithoutCategoriesInput = {
   email_change_expires_at?: string | null
   account?: Prisma.accountCreateNestedManyWithoutUsersInput
   money_movements?: Prisma.money_movementsCreateNestedManyWithoutUsersInput
+  password_reset_token?: Prisma.password_reset_tokenCreateNestedManyWithoutUsersInput
   weekly_reminder?: Prisma.weekly_reminderCreateNestedOneWithoutUsersInput
 }
 
@@ -509,6 +531,7 @@ export type usersUncheckedCreateWithoutCategoriesInput = {
   email_change_expires_at?: string | null
   account?: Prisma.accountUncheckedCreateNestedManyWithoutUsersInput
   money_movements?: Prisma.money_movementsUncheckedCreateNestedManyWithoutUsersInput
+  password_reset_token?: Prisma.password_reset_tokenUncheckedCreateNestedManyWithoutUsersInput
   weekly_reminder?: Prisma.weekly_reminderUncheckedCreateNestedOneWithoutUsersInput
 }
 
@@ -540,6 +563,7 @@ export type usersUpdateWithoutCategoriesInput = {
   email_change_expires_at?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   account?: Prisma.accountUpdateManyWithoutUsersNestedInput
   money_movements?: Prisma.money_movementsUpdateManyWithoutUsersNestedInput
+  password_reset_token?: Prisma.password_reset_tokenUpdateManyWithoutUsersNestedInput
   weekly_reminder?: Prisma.weekly_reminderUpdateOneWithoutUsersNestedInput
 }
 
@@ -555,6 +579,7 @@ export type usersUncheckedUpdateWithoutCategoriesInput = {
   email_change_expires_at?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   account?: Prisma.accountUncheckedUpdateManyWithoutUsersNestedInput
   money_movements?: Prisma.money_movementsUncheckedUpdateManyWithoutUsersNestedInput
+  password_reset_token?: Prisma.password_reset_tokenUncheckedUpdateManyWithoutUsersNestedInput
   weekly_reminder?: Prisma.weekly_reminderUncheckedUpdateOneWithoutUsersNestedInput
 }
 
@@ -570,6 +595,7 @@ export type usersCreateWithoutMoney_movementsInput = {
   email_change_expires_at?: string | null
   account?: Prisma.accountCreateNestedManyWithoutUsersInput
   categories?: Prisma.categoriesCreateNestedManyWithoutUsersInput
+  password_reset_token?: Prisma.password_reset_tokenCreateNestedManyWithoutUsersInput
   weekly_reminder?: Prisma.weekly_reminderCreateNestedOneWithoutUsersInput
 }
 
@@ -585,6 +611,7 @@ export type usersUncheckedCreateWithoutMoney_movementsInput = {
   email_change_expires_at?: string | null
   account?: Prisma.accountUncheckedCreateNestedManyWithoutUsersInput
   categories?: Prisma.categoriesUncheckedCreateNestedManyWithoutUsersInput
+  password_reset_token?: Prisma.password_reset_tokenUncheckedCreateNestedManyWithoutUsersInput
   weekly_reminder?: Prisma.weekly_reminderUncheckedCreateNestedOneWithoutUsersInput
 }
 
@@ -616,6 +643,7 @@ export type usersUpdateWithoutMoney_movementsInput = {
   email_change_expires_at?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   account?: Prisma.accountUpdateManyWithoutUsersNestedInput
   categories?: Prisma.categoriesUpdateManyWithoutUsersNestedInput
+  password_reset_token?: Prisma.password_reset_tokenUpdateManyWithoutUsersNestedInput
   weekly_reminder?: Prisma.weekly_reminderUpdateOneWithoutUsersNestedInput
 }
 
@@ -631,6 +659,7 @@ export type usersUncheckedUpdateWithoutMoney_movementsInput = {
   email_change_expires_at?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   account?: Prisma.accountUncheckedUpdateManyWithoutUsersNestedInput
   categories?: Prisma.categoriesUncheckedUpdateManyWithoutUsersNestedInput
+  password_reset_token?: Prisma.password_reset_tokenUncheckedUpdateManyWithoutUsersNestedInput
   weekly_reminder?: Prisma.weekly_reminderUncheckedUpdateOneWithoutUsersNestedInput
 }
 
@@ -646,6 +675,7 @@ export type usersCreateWithoutAccountInput = {
   email_change_expires_at?: string | null
   categories?: Prisma.categoriesCreateNestedManyWithoutUsersInput
   money_movements?: Prisma.money_movementsCreateNestedManyWithoutUsersInput
+  password_reset_token?: Prisma.password_reset_tokenCreateNestedManyWithoutUsersInput
   weekly_reminder?: Prisma.weekly_reminderCreateNestedOneWithoutUsersInput
 }
 
@@ -661,6 +691,7 @@ export type usersUncheckedCreateWithoutAccountInput = {
   email_change_expires_at?: string | null
   categories?: Prisma.categoriesUncheckedCreateNestedManyWithoutUsersInput
   money_movements?: Prisma.money_movementsUncheckedCreateNestedManyWithoutUsersInput
+  password_reset_token?: Prisma.password_reset_tokenUncheckedCreateNestedManyWithoutUsersInput
   weekly_reminder?: Prisma.weekly_reminderUncheckedCreateNestedOneWithoutUsersInput
 }
 
@@ -692,6 +723,7 @@ export type usersUpdateWithoutAccountInput = {
   email_change_expires_at?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categories?: Prisma.categoriesUpdateManyWithoutUsersNestedInput
   money_movements?: Prisma.money_movementsUpdateManyWithoutUsersNestedInput
+  password_reset_token?: Prisma.password_reset_tokenUpdateManyWithoutUsersNestedInput
   weekly_reminder?: Prisma.weekly_reminderUpdateOneWithoutUsersNestedInput
 }
 
@@ -707,6 +739,7 @@ export type usersUncheckedUpdateWithoutAccountInput = {
   email_change_expires_at?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categories?: Prisma.categoriesUncheckedUpdateManyWithoutUsersNestedInput
   money_movements?: Prisma.money_movementsUncheckedUpdateManyWithoutUsersNestedInput
+  password_reset_token?: Prisma.password_reset_tokenUncheckedUpdateManyWithoutUsersNestedInput
   weekly_reminder?: Prisma.weekly_reminderUncheckedUpdateOneWithoutUsersNestedInput
 }
 
@@ -723,6 +756,7 @@ export type usersCreateWithoutWeekly_reminderInput = {
   account?: Prisma.accountCreateNestedManyWithoutUsersInput
   categories?: Prisma.categoriesCreateNestedManyWithoutUsersInput
   money_movements?: Prisma.money_movementsCreateNestedManyWithoutUsersInput
+  password_reset_token?: Prisma.password_reset_tokenCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutWeekly_reminderInput = {
@@ -738,6 +772,7 @@ export type usersUncheckedCreateWithoutWeekly_reminderInput = {
   account?: Prisma.accountUncheckedCreateNestedManyWithoutUsersInput
   categories?: Prisma.categoriesUncheckedCreateNestedManyWithoutUsersInput
   money_movements?: Prisma.money_movementsUncheckedCreateNestedManyWithoutUsersInput
+  password_reset_token?: Prisma.password_reset_tokenUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutWeekly_reminderInput = {
@@ -769,6 +804,7 @@ export type usersUpdateWithoutWeekly_reminderInput = {
   account?: Prisma.accountUpdateManyWithoutUsersNestedInput
   categories?: Prisma.categoriesUpdateManyWithoutUsersNestedInput
   money_movements?: Prisma.money_movementsUpdateManyWithoutUsersNestedInput
+  password_reset_token?: Prisma.password_reset_tokenUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutWeekly_reminderInput = {
@@ -784,6 +820,87 @@ export type usersUncheckedUpdateWithoutWeekly_reminderInput = {
   account?: Prisma.accountUncheckedUpdateManyWithoutUsersNestedInput
   categories?: Prisma.categoriesUncheckedUpdateManyWithoutUsersNestedInput
   money_movements?: Prisma.money_movementsUncheckedUpdateManyWithoutUsersNestedInput
+  password_reset_token?: Prisma.password_reset_tokenUncheckedUpdateManyWithoutUsersNestedInput
+}
+
+export type usersCreateWithoutPassword_reset_tokenInput = {
+  id?: string
+  username: string
+  email: string
+  password_hash: string
+  currency: string
+  created_at?: Date | string | null
+  pending_email?: string | null
+  email_change_token_hash?: string | null
+  email_change_expires_at?: string | null
+  account?: Prisma.accountCreateNestedManyWithoutUsersInput
+  categories?: Prisma.categoriesCreateNestedManyWithoutUsersInput
+  money_movements?: Prisma.money_movementsCreateNestedManyWithoutUsersInput
+  weekly_reminder?: Prisma.weekly_reminderCreateNestedOneWithoutUsersInput
+}
+
+export type usersUncheckedCreateWithoutPassword_reset_tokenInput = {
+  id?: string
+  username: string
+  email: string
+  password_hash: string
+  currency: string
+  created_at?: Date | string | null
+  pending_email?: string | null
+  email_change_token_hash?: string | null
+  email_change_expires_at?: string | null
+  account?: Prisma.accountUncheckedCreateNestedManyWithoutUsersInput
+  categories?: Prisma.categoriesUncheckedCreateNestedManyWithoutUsersInput
+  money_movements?: Prisma.money_movementsUncheckedCreateNestedManyWithoutUsersInput
+  weekly_reminder?: Prisma.weekly_reminderUncheckedCreateNestedOneWithoutUsersInput
+}
+
+export type usersCreateOrConnectWithoutPassword_reset_tokenInput = {
+  where: Prisma.usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.usersCreateWithoutPassword_reset_tokenInput, Prisma.usersUncheckedCreateWithoutPassword_reset_tokenInput>
+}
+
+export type usersUpsertWithoutPassword_reset_tokenInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutPassword_reset_tokenInput, Prisma.usersUncheckedUpdateWithoutPassword_reset_tokenInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutPassword_reset_tokenInput, Prisma.usersUncheckedCreateWithoutPassword_reset_tokenInput>
+  where?: Prisma.usersWhereInput
+}
+
+export type usersUpdateToOneWithWhereWithoutPassword_reset_tokenInput = {
+  where?: Prisma.usersWhereInput
+  data: Prisma.XOR<Prisma.usersUpdateWithoutPassword_reset_tokenInput, Prisma.usersUncheckedUpdateWithoutPassword_reset_tokenInput>
+}
+
+export type usersUpdateWithoutPassword_reset_tokenInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pending_email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email_change_token_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email_change_expires_at?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  account?: Prisma.accountUpdateManyWithoutUsersNestedInput
+  categories?: Prisma.categoriesUpdateManyWithoutUsersNestedInput
+  money_movements?: Prisma.money_movementsUpdateManyWithoutUsersNestedInput
+  weekly_reminder?: Prisma.weekly_reminderUpdateOneWithoutUsersNestedInput
+}
+
+export type usersUncheckedUpdateWithoutPassword_reset_tokenInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pending_email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email_change_token_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email_change_expires_at?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  account?: Prisma.accountUncheckedUpdateManyWithoutUsersNestedInput
+  categories?: Prisma.categoriesUncheckedUpdateManyWithoutUsersNestedInput
+  money_movements?: Prisma.money_movementsUncheckedUpdateManyWithoutUsersNestedInput
+  weekly_reminder?: Prisma.weekly_reminderUncheckedUpdateOneWithoutUsersNestedInput
 }
 
 
@@ -795,12 +912,14 @@ export type UsersCountOutputType = {
   account: number
   categories: number
   money_movements: number
+  password_reset_token: number
 }
 
 export type UsersCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   account?: boolean | UsersCountOutputTypeCountAccountArgs
   categories?: boolean | UsersCountOutputTypeCountCategoriesArgs
   money_movements?: boolean | UsersCountOutputTypeCountMoney_movementsArgs
+  password_reset_token?: boolean | UsersCountOutputTypeCountPassword_reset_tokenArgs
 }
 
 /**
@@ -834,6 +953,13 @@ export type UsersCountOutputTypeCountMoney_movementsArgs<ExtArgs extends runtime
   where?: Prisma.money_movementsWhereInput
 }
 
+/**
+ * UsersCountOutputType without action
+ */
+export type UsersCountOutputTypeCountPassword_reset_tokenArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.password_reset_tokenWhereInput
+}
+
 
 export type usersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -848,6 +974,7 @@ export type usersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   account?: boolean | Prisma.users$accountArgs<ExtArgs>
   categories?: boolean | Prisma.users$categoriesArgs<ExtArgs>
   money_movements?: boolean | Prisma.users$money_movementsArgs<ExtArgs>
+  password_reset_token?: boolean | Prisma.users$password_reset_tokenArgs<ExtArgs>
   weekly_reminder?: boolean | Prisma.users$weekly_reminderArgs<ExtArgs>
   _count?: boolean | Prisma.UsersCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["users"]>
@@ -893,6 +1020,7 @@ export type usersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   account?: boolean | Prisma.users$accountArgs<ExtArgs>
   categories?: boolean | Prisma.users$categoriesArgs<ExtArgs>
   money_movements?: boolean | Prisma.users$money_movementsArgs<ExtArgs>
+  password_reset_token?: boolean | Prisma.users$password_reset_tokenArgs<ExtArgs>
   weekly_reminder?: boolean | Prisma.users$weekly_reminderArgs<ExtArgs>
   _count?: boolean | Prisma.UsersCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -905,6 +1033,7 @@ export type $usersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     account: Prisma.$accountPayload<ExtArgs>[]
     categories: Prisma.$categoriesPayload<ExtArgs>[]
     money_movements: Prisma.$money_movementsPayload<ExtArgs>[]
+    password_reset_token: Prisma.$password_reset_tokenPayload<ExtArgs>[]
     weekly_reminder: Prisma.$weekly_reminderPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1314,6 +1443,7 @@ export interface Prisma__usersClient<T, Null = never, ExtArgs extends runtime.Ty
   account<T extends Prisma.users$accountArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$accountArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$accountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   categories<T extends Prisma.users$categoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$categoriesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   money_movements<T extends Prisma.users$money_movementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$money_movementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$money_movementsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  password_reset_token<T extends Prisma.users$password_reset_tokenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$password_reset_tokenArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$password_reset_tokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   weekly_reminder<T extends Prisma.users$weekly_reminderArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$weekly_reminderArgs<ExtArgs>>): Prisma.Prisma__weekly_reminderClient<runtime.Types.Result.GetResult<Prisma.$weekly_reminderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1815,6 +1945,30 @@ export type users$money_movementsArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.Money_movementsScalarFieldEnum | Prisma.Money_movementsScalarFieldEnum[]
+}
+
+/**
+ * users.password_reset_token
+ */
+export type users$password_reset_tokenArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the password_reset_token
+   */
+  select?: Prisma.password_reset_tokenSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the password_reset_token
+   */
+  omit?: Prisma.password_reset_tokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.password_reset_tokenInclude<ExtArgs> | null
+  where?: Prisma.password_reset_tokenWhereInput
+  orderBy?: Prisma.password_reset_tokenOrderByWithRelationInput | Prisma.password_reset_tokenOrderByWithRelationInput[]
+  cursor?: Prisma.password_reset_tokenWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Password_reset_tokenScalarFieldEnum | Prisma.Password_reset_tokenScalarFieldEnum[]
 }
 
 /**

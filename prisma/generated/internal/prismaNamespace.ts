@@ -401,7 +401,8 @@ export const ModelName = {
   money_movements: 'money_movements',
   users: 'users',
   account: 'account',
-  weekly_reminder: 'weekly_reminder'
+  weekly_reminder: 'weekly_reminder',
+  password_reset_token: 'password_reset_token'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -417,7 +418,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "categories" | "money_movements" | "users" | "account" | "weekly_reminder"
+    modelProps: "categories" | "money_movements" | "users" | "account" | "weekly_reminder" | "password_reset_token"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -791,6 +792,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    password_reset_token: {
+      payload: Prisma.$password_reset_tokenPayload<ExtArgs>
+      fields: Prisma.password_reset_tokenFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.password_reset_tokenFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_reset_tokenPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.password_reset_tokenFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_reset_tokenPayload>
+        }
+        findFirst: {
+          args: Prisma.password_reset_tokenFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_reset_tokenPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.password_reset_tokenFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_reset_tokenPayload>
+        }
+        findMany: {
+          args: Prisma.password_reset_tokenFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_reset_tokenPayload>[]
+        }
+        create: {
+          args: Prisma.password_reset_tokenCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_reset_tokenPayload>
+        }
+        createMany: {
+          args: Prisma.password_reset_tokenCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.password_reset_tokenCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_reset_tokenPayload>[]
+        }
+        delete: {
+          args: Prisma.password_reset_tokenDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_reset_tokenPayload>
+        }
+        update: {
+          args: Prisma.password_reset_tokenUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_reset_tokenPayload>
+        }
+        deleteMany: {
+          args: Prisma.password_reset_tokenDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.password_reset_tokenUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.password_reset_tokenUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_reset_tokenPayload>[]
+        }
+        upsert: {
+          args: Prisma.password_reset_tokenUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_reset_tokenPayload>
+        }
+        aggregate: {
+          args: Prisma.Password_reset_tokenAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePassword_reset_token>
+        }
+        groupBy: {
+          args: Prisma.password_reset_tokenGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Password_reset_tokenGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.password_reset_tokenCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Password_reset_tokenCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -890,6 +965,18 @@ export const Weekly_reminderScalarFieldEnum = {
 } as const
 
 export type Weekly_reminderScalarFieldEnum = (typeof Weekly_reminderScalarFieldEnum)[keyof typeof Weekly_reminderScalarFieldEnum]
+
+
+export const Password_reset_tokenScalarFieldEnum = {
+  id: 'id',
+  id_user: 'id_user',
+  token_hash: 'token_hash',
+  expires_at: 'expires_at',
+  used_at: 'used_at',
+  created_at: 'created_at'
+} as const
+
+export type Password_reset_tokenScalarFieldEnum = (typeof Password_reset_tokenScalarFieldEnum)[keyof typeof Password_reset_tokenScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1161,6 +1248,7 @@ export type GlobalOmitConfig = {
   users?: Prisma.usersOmit
   account?: Prisma.accountOmit
   weekly_reminder?: Prisma.weekly_reminderOmit
+  password_reset_token?: Prisma.password_reset_tokenOmit
 }
 
 /* Types for Logging */
