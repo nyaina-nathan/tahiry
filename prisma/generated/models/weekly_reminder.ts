@@ -221,14 +221,14 @@ export type weekly_reminderOrderByWithRelationInput = {
 
 export type weekly_reminderWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  id_user?: string
   AND?: Prisma.weekly_reminderWhereInput | Prisma.weekly_reminderWhereInput[]
   OR?: Prisma.weekly_reminderWhereInput[]
   NOT?: Prisma.weekly_reminderWhereInput | Prisma.weekly_reminderWhereInput[]
-  id_user?: Prisma.UuidFilter<"weekly_reminder"> | string
   day_of_week?: Prisma.IntFilter<"weekly_reminder"> | number
   time?: Prisma.DateTimeFilter<"weekly_reminder"> | Date | string
   users?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
-}, "id">
+}, "id" | "id_user">
 
 export type weekly_reminderOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -300,14 +300,9 @@ export type weekly_reminderUncheckedUpdateManyInput = {
   time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type Weekly_reminderListRelationFilter = {
-  every?: Prisma.weekly_reminderWhereInput
-  some?: Prisma.weekly_reminderWhereInput
-  none?: Prisma.weekly_reminderWhereInput
-}
-
-export type weekly_reminderOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
+export type Weekly_reminderNullableScalarRelationFilter = {
+  is?: Prisma.weekly_reminderWhereInput | null
+  isNot?: Prisma.weekly_reminderWhereInput | null
 }
 
 export type weekly_reminderCountOrderByAggregateInput = {
@@ -339,46 +334,36 @@ export type weekly_reminderSumOrderByAggregateInput = {
   day_of_week?: Prisma.SortOrder
 }
 
-export type weekly_reminderCreateNestedManyWithoutUsersInput = {
-  create?: Prisma.XOR<Prisma.weekly_reminderCreateWithoutUsersInput, Prisma.weekly_reminderUncheckedCreateWithoutUsersInput> | Prisma.weekly_reminderCreateWithoutUsersInput[] | Prisma.weekly_reminderUncheckedCreateWithoutUsersInput[]
-  connectOrCreate?: Prisma.weekly_reminderCreateOrConnectWithoutUsersInput | Prisma.weekly_reminderCreateOrConnectWithoutUsersInput[]
-  createMany?: Prisma.weekly_reminderCreateManyUsersInputEnvelope
-  connect?: Prisma.weekly_reminderWhereUniqueInput | Prisma.weekly_reminderWhereUniqueInput[]
+export type weekly_reminderCreateNestedOneWithoutUsersInput = {
+  create?: Prisma.XOR<Prisma.weekly_reminderCreateWithoutUsersInput, Prisma.weekly_reminderUncheckedCreateWithoutUsersInput>
+  connectOrCreate?: Prisma.weekly_reminderCreateOrConnectWithoutUsersInput
+  connect?: Prisma.weekly_reminderWhereUniqueInput
 }
 
-export type weekly_reminderUncheckedCreateNestedManyWithoutUsersInput = {
-  create?: Prisma.XOR<Prisma.weekly_reminderCreateWithoutUsersInput, Prisma.weekly_reminderUncheckedCreateWithoutUsersInput> | Prisma.weekly_reminderCreateWithoutUsersInput[] | Prisma.weekly_reminderUncheckedCreateWithoutUsersInput[]
-  connectOrCreate?: Prisma.weekly_reminderCreateOrConnectWithoutUsersInput | Prisma.weekly_reminderCreateOrConnectWithoutUsersInput[]
-  createMany?: Prisma.weekly_reminderCreateManyUsersInputEnvelope
-  connect?: Prisma.weekly_reminderWhereUniqueInput | Prisma.weekly_reminderWhereUniqueInput[]
+export type weekly_reminderUncheckedCreateNestedOneWithoutUsersInput = {
+  create?: Prisma.XOR<Prisma.weekly_reminderCreateWithoutUsersInput, Prisma.weekly_reminderUncheckedCreateWithoutUsersInput>
+  connectOrCreate?: Prisma.weekly_reminderCreateOrConnectWithoutUsersInput
+  connect?: Prisma.weekly_reminderWhereUniqueInput
 }
 
-export type weekly_reminderUpdateManyWithoutUsersNestedInput = {
-  create?: Prisma.XOR<Prisma.weekly_reminderCreateWithoutUsersInput, Prisma.weekly_reminderUncheckedCreateWithoutUsersInput> | Prisma.weekly_reminderCreateWithoutUsersInput[] | Prisma.weekly_reminderUncheckedCreateWithoutUsersInput[]
-  connectOrCreate?: Prisma.weekly_reminderCreateOrConnectWithoutUsersInput | Prisma.weekly_reminderCreateOrConnectWithoutUsersInput[]
-  upsert?: Prisma.weekly_reminderUpsertWithWhereUniqueWithoutUsersInput | Prisma.weekly_reminderUpsertWithWhereUniqueWithoutUsersInput[]
-  createMany?: Prisma.weekly_reminderCreateManyUsersInputEnvelope
-  set?: Prisma.weekly_reminderWhereUniqueInput | Prisma.weekly_reminderWhereUniqueInput[]
-  disconnect?: Prisma.weekly_reminderWhereUniqueInput | Prisma.weekly_reminderWhereUniqueInput[]
-  delete?: Prisma.weekly_reminderWhereUniqueInput | Prisma.weekly_reminderWhereUniqueInput[]
-  connect?: Prisma.weekly_reminderWhereUniqueInput | Prisma.weekly_reminderWhereUniqueInput[]
-  update?: Prisma.weekly_reminderUpdateWithWhereUniqueWithoutUsersInput | Prisma.weekly_reminderUpdateWithWhereUniqueWithoutUsersInput[]
-  updateMany?: Prisma.weekly_reminderUpdateManyWithWhereWithoutUsersInput | Prisma.weekly_reminderUpdateManyWithWhereWithoutUsersInput[]
-  deleteMany?: Prisma.weekly_reminderScalarWhereInput | Prisma.weekly_reminderScalarWhereInput[]
+export type weekly_reminderUpdateOneWithoutUsersNestedInput = {
+  create?: Prisma.XOR<Prisma.weekly_reminderCreateWithoutUsersInput, Prisma.weekly_reminderUncheckedCreateWithoutUsersInput>
+  connectOrCreate?: Prisma.weekly_reminderCreateOrConnectWithoutUsersInput
+  upsert?: Prisma.weekly_reminderUpsertWithoutUsersInput
+  disconnect?: Prisma.weekly_reminderWhereInput | boolean
+  delete?: Prisma.weekly_reminderWhereInput | boolean
+  connect?: Prisma.weekly_reminderWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.weekly_reminderUpdateToOneWithWhereWithoutUsersInput, Prisma.weekly_reminderUpdateWithoutUsersInput>, Prisma.weekly_reminderUncheckedUpdateWithoutUsersInput>
 }
 
-export type weekly_reminderUncheckedUpdateManyWithoutUsersNestedInput = {
-  create?: Prisma.XOR<Prisma.weekly_reminderCreateWithoutUsersInput, Prisma.weekly_reminderUncheckedCreateWithoutUsersInput> | Prisma.weekly_reminderCreateWithoutUsersInput[] | Prisma.weekly_reminderUncheckedCreateWithoutUsersInput[]
-  connectOrCreate?: Prisma.weekly_reminderCreateOrConnectWithoutUsersInput | Prisma.weekly_reminderCreateOrConnectWithoutUsersInput[]
-  upsert?: Prisma.weekly_reminderUpsertWithWhereUniqueWithoutUsersInput | Prisma.weekly_reminderUpsertWithWhereUniqueWithoutUsersInput[]
-  createMany?: Prisma.weekly_reminderCreateManyUsersInputEnvelope
-  set?: Prisma.weekly_reminderWhereUniqueInput | Prisma.weekly_reminderWhereUniqueInput[]
-  disconnect?: Prisma.weekly_reminderWhereUniqueInput | Prisma.weekly_reminderWhereUniqueInput[]
-  delete?: Prisma.weekly_reminderWhereUniqueInput | Prisma.weekly_reminderWhereUniqueInput[]
-  connect?: Prisma.weekly_reminderWhereUniqueInput | Prisma.weekly_reminderWhereUniqueInput[]
-  update?: Prisma.weekly_reminderUpdateWithWhereUniqueWithoutUsersInput | Prisma.weekly_reminderUpdateWithWhereUniqueWithoutUsersInput[]
-  updateMany?: Prisma.weekly_reminderUpdateManyWithWhereWithoutUsersInput | Prisma.weekly_reminderUpdateManyWithWhereWithoutUsersInput[]
-  deleteMany?: Prisma.weekly_reminderScalarWhereInput | Prisma.weekly_reminderScalarWhereInput[]
+export type weekly_reminderUncheckedUpdateOneWithoutUsersNestedInput = {
+  create?: Prisma.XOR<Prisma.weekly_reminderCreateWithoutUsersInput, Prisma.weekly_reminderUncheckedCreateWithoutUsersInput>
+  connectOrCreate?: Prisma.weekly_reminderCreateOrConnectWithoutUsersInput
+  upsert?: Prisma.weekly_reminderUpsertWithoutUsersInput
+  disconnect?: Prisma.weekly_reminderWhereInput | boolean
+  delete?: Prisma.weekly_reminderWhereInput | boolean
+  connect?: Prisma.weekly_reminderWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.weekly_reminderUpdateToOneWithWhereWithoutUsersInput, Prisma.weekly_reminderUpdateWithoutUsersInput>, Prisma.weekly_reminderUncheckedUpdateWithoutUsersInput>
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -410,41 +395,15 @@ export type weekly_reminderCreateOrConnectWithoutUsersInput = {
   create: Prisma.XOR<Prisma.weekly_reminderCreateWithoutUsersInput, Prisma.weekly_reminderUncheckedCreateWithoutUsersInput>
 }
 
-export type weekly_reminderCreateManyUsersInputEnvelope = {
-  data: Prisma.weekly_reminderCreateManyUsersInput | Prisma.weekly_reminderCreateManyUsersInput[]
-  skipDuplicates?: boolean
-}
-
-export type weekly_reminderUpsertWithWhereUniqueWithoutUsersInput = {
-  where: Prisma.weekly_reminderWhereUniqueInput
+export type weekly_reminderUpsertWithoutUsersInput = {
   update: Prisma.XOR<Prisma.weekly_reminderUpdateWithoutUsersInput, Prisma.weekly_reminderUncheckedUpdateWithoutUsersInput>
   create: Prisma.XOR<Prisma.weekly_reminderCreateWithoutUsersInput, Prisma.weekly_reminderUncheckedCreateWithoutUsersInput>
+  where?: Prisma.weekly_reminderWhereInput
 }
 
-export type weekly_reminderUpdateWithWhereUniqueWithoutUsersInput = {
-  where: Prisma.weekly_reminderWhereUniqueInput
+export type weekly_reminderUpdateToOneWithWhereWithoutUsersInput = {
+  where?: Prisma.weekly_reminderWhereInput
   data: Prisma.XOR<Prisma.weekly_reminderUpdateWithoutUsersInput, Prisma.weekly_reminderUncheckedUpdateWithoutUsersInput>
-}
-
-export type weekly_reminderUpdateManyWithWhereWithoutUsersInput = {
-  where: Prisma.weekly_reminderScalarWhereInput
-  data: Prisma.XOR<Prisma.weekly_reminderUpdateManyMutationInput, Prisma.weekly_reminderUncheckedUpdateManyWithoutUsersInput>
-}
-
-export type weekly_reminderScalarWhereInput = {
-  AND?: Prisma.weekly_reminderScalarWhereInput | Prisma.weekly_reminderScalarWhereInput[]
-  OR?: Prisma.weekly_reminderScalarWhereInput[]
-  NOT?: Prisma.weekly_reminderScalarWhereInput | Prisma.weekly_reminderScalarWhereInput[]
-  id?: Prisma.UuidFilter<"weekly_reminder"> | string
-  id_user?: Prisma.UuidFilter<"weekly_reminder"> | string
-  day_of_week?: Prisma.IntFilter<"weekly_reminder"> | number
-  time?: Prisma.DateTimeFilter<"weekly_reminder"> | Date | string
-}
-
-export type weekly_reminderCreateManyUsersInput = {
-  id?: string
-  day_of_week: number
-  time: Date | string
 }
 
 export type weekly_reminderUpdateWithoutUsersInput = {
@@ -454,12 +413,6 @@ export type weekly_reminderUpdateWithoutUsersInput = {
 }
 
 export type weekly_reminderUncheckedUpdateWithoutUsersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  day_of_week?: Prisma.IntFieldUpdateOperationsInput | number
-  time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type weekly_reminderUncheckedUpdateManyWithoutUsersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   day_of_week?: Prisma.IntFieldUpdateOperationsInput | number
   time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string

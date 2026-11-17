@@ -4,3 +4,6 @@ create table if not exists weekly_reminder (
     day_of_week smallint not null check (day_of_week between 0 and 6),
     time time not null
 );
+
+alter table weekly_reminder
+add constraint weekly_reminder_one_per_user unique (id_user);
