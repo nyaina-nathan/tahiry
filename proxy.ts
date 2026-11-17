@@ -6,6 +6,7 @@ const CRON_ROUTES = ["/api/cron/weekly-email"];
 const PUBLIC_API_ROUTES = [
   "/api/auth/email-change/confirm",
   "/api/auth/password-reset",
+  "/api/auth/password-reset/change",
 ];
 
 export default async function proxy(req: NextRequest) {

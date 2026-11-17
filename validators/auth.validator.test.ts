@@ -86,3 +86,35 @@ test("rejects password reset payloads without a valid email", () => {
     /Email must be a valid email address/,
   );
 });
+
+test("validates a password reset change payload", () => {
+  assert.deepEqual(
+    authValidator.validatePasswordResetChangePayload({
+      token: "a".repeat(64),
+      newPassword: "a-secure-password",
+    }),
+    {
+      token: "a".repeat(64),
+      newPassword: "a-secure-password",
+    },
+  );
+});
+
+test("rejects malformed reset tokens and passwords outside the allowed length", () => {
+  assert.throws(
+    () =>
+      authValidator.validatePasswordResetChangePayload({
+        token: "not-a-token",
+        newPassword: "a-secure-password",
+      }),
+    /Reset token is invalid/,
+  );
+  assert.throws(
+    () =>
+      authValidator.validatePasswordResetChangePayload({
+        token: "a".repeat(64),
+        newPassword: "short",
+      }),
+    /Password must be between 8 and 72 characters/,
+  );
+});

@@ -22,6 +22,11 @@ export type PasswordResetPayload = {
   email: string;
 };
 
+export type PasswordResetChangePayload = {
+  token: string;
+  newPassword: string;
+};
+
 export type UserPatchPayload = {
   username?: string;
   currency?: string;
@@ -190,6 +195,38 @@ export function validatePasswordResetPayload(
   }
 
   return { email: validateEmail(email) };
+}
+
+export function validatePasswordResetChangePayload(
+  payload: unknown,
+): PasswordResetChangePayload {
+  if (!isRecord(payload)) {
+    throw validationError("Request body must be a JSON object.");
+  }
+
+  const unsupportedFields = Object.keys(payload).filter(
+    (field) => field !== "token" && field !== "newPassword",
+  );
+
+  if (unsupportedFields.length > 0) {
+    throw validationError("Only token and newPassword are allowed.");
+  }
+
+  const token = getString(payload, "token");
+  if (!token || !/^[a-f0-9]{64}$/.test(token)) {
+    throw validationError("Reset token is invalid.");
+  }
+
+  const newPassword = getString(payload, "newPassword");
+  if (
+    newPassword === undefined ||
+    newPassword.length < 8 ||
+    newPassword.length > 72
+  ) {
+    throw validationError("Password must be between 8 and 72 characters.");
+  }
+
+  return { token, newPassword };
 }
 
 export function validateUserPatchPayload(payload: unknown): UserPatchPayload {
