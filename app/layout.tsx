@@ -14,7 +14,7 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Pennywise. 'cause you are broke(or not)",
+  title: "Tahiry. 'cause you are broke(or not)",
   description: "Manage your money my friend",
 };
 

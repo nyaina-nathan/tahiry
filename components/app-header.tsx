@@ -136,9 +136,9 @@ export function AppHeader({ links = [] }: AppHeaderProps) {
           href="/"
           className="flex items-center gap-3 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
         >
-          <img alt="pennywise-logo" className="w-[5ch]" src={"/icon.png"} />
+          <img alt="tahiry-logo" className="w-[5ch]" src={"/icon.png"} />
           <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-ink)]">
-            Pennywise
+            Tahiry
           </span>
         </Link>
         <nav
