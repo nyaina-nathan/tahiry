@@ -63,7 +63,7 @@ test("stores only the token hash for five minutes and emails a confirmation link
   ]]);
   assert.deepEqual(calls.sendResetEmail, [[
     "ada@example.com",
-    `https://app.example.com/api/auth/password-reset/confirm?token=${TOKEN}`,
+    `https://app.example.com/api/auth/password-change/confirm?token=${TOKEN}`,
   ]]);
 });
 

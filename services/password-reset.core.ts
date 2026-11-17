@@ -40,7 +40,7 @@ export async function requestPasswordReset(
     dependencies.now() + TOKEN_TTL_MS,
   ).toISOString();
   const confirmationUrl = new URL(
-    "/api/auth/password-reset/confirm",
+    "/api/auth/password-change/confirm",
     dependencies.appUrl,
   );
   confirmationUrl.searchParams.set("token", token);

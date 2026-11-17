@@ -96,11 +96,11 @@ paths:
         '400':
           $ref: '#/components/responses/BadRequest'
 
-  /api/auth/password-reset/confirm:
+  /api/auth/password-change/confirm:
     get:
       tags: [Auth]
       summary: Validate a password reset token
-      operationId: confirmPasswordReset
+      operationId: confirmPasswordChange
       description: Public endpoint. Validates that the token matches a stored hash, has not expired, and has not been used. A valid token is not consumed here so the password-change page can submit it with the new password.
       parameters:
         - name: token
@@ -111,19 +111,17 @@ paths:
             type: string
       responses:
         '303':
-          description: Token is valid. Redirects to the password-change page with the token so it can be submitted with the new password.
+          description: Redirects to `/password-change?token={token}` if valid, or to `/login?isPasswordResetFail=true` if the token is missing, invalid, expired, or already used.
           headers:
             Location:
-              description: "/password-change?token={token}"
+              description: Password-change page URL with the token, or the login page with the failure flag.
               schema:
                 type: string
-                example: /password-change?token=opaque-reset-token
-        '400':
-          description: Token is missing, invalid, expired, or has already been used.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+                examples:
+                  valid:
+                    value: /password-change?token=opaque-reset-token
+                  invalid:
+                    value: /login?isPasswordResetFail=true
 
   /api/auth/password-reset/change:
     post:
