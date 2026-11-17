@@ -9,6 +9,10 @@ import {
   fetchEmailReminder,
   updateEmailReminder,
 } from "@/features/settings/api/email-reminders-api";
+import {
+  localReminderToUtc,
+  utcReminderToLocal,
+} from "@/features/settings/utils/reminder-time";
 
 const DEFAULT_TIME = "09:00";
 
@@ -18,6 +22,24 @@ function currentMondayBasedDay(): number {
 
 function reminderTimeValue(time: string): string {
   return time.slice(0, 5);
+}
+
+function currentUtcOffsetMinutes(): number {
+  return -new Date().getTimezoneOffset();
+}
+
+function toLocalReminder(reminder: EmailReminder): EmailReminder {
+  const local = utcReminderToLocal(
+    reminder.day_of_week,
+    reminder.time,
+    currentUtcOffsetMinutes(),
+  );
+
+  return {
+    ...reminder,
+    day_of_week: local.dayOfWeek,
+    time: local.time,
+  };
 }
 
 export function useEmailReminder() {
@@ -36,11 +58,14 @@ export function useEmailReminder() {
 
     try {
       const loadedReminder = await fetchEmailReminder();
-      setReminder(loadedReminder);
 
       if (loadedReminder) {
-        setDayOfWeek(loadedReminder.day_of_week);
-        setTime(reminderTimeValue(loadedReminder.time));
+        const localReminder = toLocalReminder(loadedReminder);
+        setReminder(localReminder);
+        setDayOfWeek(localReminder.day_of_week);
+        setTime(reminderTimeValue(localReminder.time));
+      } else {
+        setReminder(null);
       }
     } catch (loadError) {
       setError(
@@ -73,14 +98,20 @@ export function useEmailReminder() {
     setSuccess("");
 
     try {
-      const payload = { day_of_week: dayOfWeek, time };
+      const utc = localReminderToUtc(
+        dayOfWeek,
+        time,
+        currentUtcOffsetMinutes(),
+      );
+      const payload = { day_of_week: utc.dayOfWeek, time: utc.time };
       const savedReminder = reminder
         ? await updateEmailReminder(payload)
         : await createEmailReminder(payload);
+      const localReminder = toLocalReminder(savedReminder);
 
-      setReminder(savedReminder);
-      setDayOfWeek(savedReminder.day_of_week);
-      setTime(reminderTimeValue(savedReminder.time));
+      setReminder(localReminder);
+      setDayOfWeek(localReminder.day_of_week);
+      setTime(reminderTimeValue(localReminder.time));
       setSuccess("Your weekly reminder has been saved.");
       return true;
     } catch (saveError) {
