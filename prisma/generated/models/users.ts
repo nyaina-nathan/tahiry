@@ -31,6 +31,9 @@ export type UsersMinAggregateOutputType = {
   password_hash: string | null
   currency: string | null
   created_at: Date | null
+  pending_email: string | null
+  email_change_token_hash: string | null
+  email_change_expires_at: string | null
 }
 
 export type UsersMaxAggregateOutputType = {
@@ -40,6 +43,9 @@ export type UsersMaxAggregateOutputType = {
   password_hash: string | null
   currency: string | null
   created_at: Date | null
+  pending_email: string | null
+  email_change_token_hash: string | null
+  email_change_expires_at: string | null
 }
 
 export type UsersCountAggregateOutputType = {
@@ -49,6 +55,9 @@ export type UsersCountAggregateOutputType = {
   password_hash: number
   currency: number
   created_at: number
+  pending_email: number
+  email_change_token_hash: number
+  email_change_expires_at: number
   _all: number
 }
 
@@ -60,6 +69,9 @@ export type UsersMinAggregateInputType = {
   password_hash?: true
   currency?: true
   created_at?: true
+  pending_email?: true
+  email_change_token_hash?: true
+  email_change_expires_at?: true
 }
 
 export type UsersMaxAggregateInputType = {
@@ -69,6 +81,9 @@ export type UsersMaxAggregateInputType = {
   password_hash?: true
   currency?: true
   created_at?: true
+  pending_email?: true
+  email_change_token_hash?: true
+  email_change_expires_at?: true
 }
 
 export type UsersCountAggregateInputType = {
@@ -78,6 +93,9 @@ export type UsersCountAggregateInputType = {
   password_hash?: true
   currency?: true
   created_at?: true
+  pending_email?: true
+  email_change_token_hash?: true
+  email_change_expires_at?: true
   _all?: true
 }
 
@@ -160,6 +178,9 @@ export type UsersGroupByOutputType = {
   password_hash: string
   currency: string
   created_at: Date | null
+  pending_email: string | null
+  email_change_token_hash: string | null
+  email_change_expires_at: string | null
   _count: UsersCountAggregateOutputType | null
   _min: UsersMinAggregateOutputType | null
   _max: UsersMaxAggregateOutputType | null
@@ -190,6 +211,9 @@ export type usersWhereInput = {
   password_hash?: Prisma.StringFilter<"users"> | string
   currency?: Prisma.StringFilter<"users"> | string
   created_at?: Prisma.DateTimeNullableFilter<"users"> | Date | string | null
+  pending_email?: Prisma.StringNullableFilter<"users"> | string | null
+  email_change_token_hash?: Prisma.StringNullableFilter<"users"> | string | null
+  email_change_expires_at?: Prisma.StringNullableFilter<"users"> | string | null
   account?: Prisma.AccountListRelationFilter
   categories?: Prisma.CategoriesListRelationFilter
   money_movements?: Prisma.Money_movementsListRelationFilter
@@ -203,6 +227,9 @@ export type usersOrderByWithRelationInput = {
   password_hash?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  pending_email?: Prisma.SortOrderInput | Prisma.SortOrder
+  email_change_token_hash?: Prisma.SortOrderInput | Prisma.SortOrder
+  email_change_expires_at?: Prisma.SortOrderInput | Prisma.SortOrder
   account?: Prisma.accountOrderByRelationAggregateInput
   categories?: Prisma.categoriesOrderByRelationAggregateInput
   money_movements?: Prisma.money_movementsOrderByRelationAggregateInput
@@ -219,6 +246,9 @@ export type usersWhereUniqueInput = Prisma.AtLeast<{
   password_hash?: Prisma.StringFilter<"users"> | string
   currency?: Prisma.StringFilter<"users"> | string
   created_at?: Prisma.DateTimeNullableFilter<"users"> | Date | string | null
+  pending_email?: Prisma.StringNullableFilter<"users"> | string | null
+  email_change_token_hash?: Prisma.StringNullableFilter<"users"> | string | null
+  email_change_expires_at?: Prisma.StringNullableFilter<"users"> | string | null
   account?: Prisma.AccountListRelationFilter
   categories?: Prisma.CategoriesListRelationFilter
   money_movements?: Prisma.Money_movementsListRelationFilter
@@ -232,6 +262,9 @@ export type usersOrderByWithAggregationInput = {
   password_hash?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  pending_email?: Prisma.SortOrderInput | Prisma.SortOrder
+  email_change_token_hash?: Prisma.SortOrderInput | Prisma.SortOrder
+  email_change_expires_at?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.usersCountOrderByAggregateInput
   _max?: Prisma.usersMaxOrderByAggregateInput
   _min?: Prisma.usersMinOrderByAggregateInput
@@ -247,6 +280,9 @@ export type usersScalarWhereWithAggregatesInput = {
   password_hash?: Prisma.StringWithAggregatesFilter<"users"> | string
   currency?: Prisma.StringWithAggregatesFilter<"users"> | string
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"users"> | Date | string | null
+  pending_email?: Prisma.StringNullableWithAggregatesFilter<"users"> | string | null
+  email_change_token_hash?: Prisma.StringNullableWithAggregatesFilter<"users"> | string | null
+  email_change_expires_at?: Prisma.StringNullableWithAggregatesFilter<"users"> | string | null
 }
 
 export type usersCreateInput = {
@@ -256,6 +292,9 @@ export type usersCreateInput = {
   password_hash: string
   currency: string
   created_at?: Date | string | null
+  pending_email?: string | null
+  email_change_token_hash?: string | null
+  email_change_expires_at?: string | null
   account?: Prisma.accountCreateNestedManyWithoutUsersInput
   categories?: Prisma.categoriesCreateNestedManyWithoutUsersInput
   money_movements?: Prisma.money_movementsCreateNestedManyWithoutUsersInput
@@ -269,6 +308,9 @@ export type usersUncheckedCreateInput = {
   password_hash: string
   currency: string
   created_at?: Date | string | null
+  pending_email?: string | null
+  email_change_token_hash?: string | null
+  email_change_expires_at?: string | null
   account?: Prisma.accountUncheckedCreateNestedManyWithoutUsersInput
   categories?: Prisma.categoriesUncheckedCreateNestedManyWithoutUsersInput
   money_movements?: Prisma.money_movementsUncheckedCreateNestedManyWithoutUsersInput
@@ -282,6 +324,9 @@ export type usersUpdateInput = {
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pending_email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email_change_token_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email_change_expires_at?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   account?: Prisma.accountUpdateManyWithoutUsersNestedInput
   categories?: Prisma.categoriesUpdateManyWithoutUsersNestedInput
   money_movements?: Prisma.money_movementsUpdateManyWithoutUsersNestedInput
@@ -295,6 +340,9 @@ export type usersUncheckedUpdateInput = {
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pending_email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email_change_token_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email_change_expires_at?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   account?: Prisma.accountUncheckedUpdateManyWithoutUsersNestedInput
   categories?: Prisma.categoriesUncheckedUpdateManyWithoutUsersNestedInput
   money_movements?: Prisma.money_movementsUncheckedUpdateManyWithoutUsersNestedInput
@@ -308,6 +356,9 @@ export type usersCreateManyInput = {
   password_hash: string
   currency: string
   created_at?: Date | string | null
+  pending_email?: string | null
+  email_change_token_hash?: string | null
+  email_change_expires_at?: string | null
 }
 
 export type usersUpdateManyMutationInput = {
@@ -317,6 +368,9 @@ export type usersUpdateManyMutationInput = {
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pending_email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email_change_token_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email_change_expires_at?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type usersUncheckedUpdateManyInput = {
@@ -326,6 +380,9 @@ export type usersUncheckedUpdateManyInput = {
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pending_email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email_change_token_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email_change_expires_at?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UsersScalarRelationFilter = {
@@ -340,6 +397,9 @@ export type usersCountOrderByAggregateInput = {
   password_hash?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
+  pending_email?: Prisma.SortOrder
+  email_change_token_hash?: Prisma.SortOrder
+  email_change_expires_at?: Prisma.SortOrder
 }
 
 export type usersMaxOrderByAggregateInput = {
@@ -349,6 +409,9 @@ export type usersMaxOrderByAggregateInput = {
   password_hash?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
+  pending_email?: Prisma.SortOrder
+  email_change_token_hash?: Prisma.SortOrder
+  email_change_expires_at?: Prisma.SortOrder
 }
 
 export type usersMinOrderByAggregateInput = {
@@ -358,6 +421,9 @@ export type usersMinOrderByAggregateInput = {
   password_hash?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
+  pending_email?: Prisma.SortOrder
+  email_change_token_hash?: Prisma.SortOrder
+  email_change_expires_at?: Prisma.SortOrder
 }
 
 export type usersCreateNestedOneWithoutCategoriesInput = {
@@ -423,6 +489,9 @@ export type usersCreateWithoutCategoriesInput = {
   password_hash: string
   currency: string
   created_at?: Date | string | null
+  pending_email?: string | null
+  email_change_token_hash?: string | null
+  email_change_expires_at?: string | null
   account?: Prisma.accountCreateNestedManyWithoutUsersInput
   money_movements?: Prisma.money_movementsCreateNestedManyWithoutUsersInput
   weekly_reminder?: Prisma.weekly_reminderCreateNestedOneWithoutUsersInput
@@ -435,6 +504,9 @@ export type usersUncheckedCreateWithoutCategoriesInput = {
   password_hash: string
   currency: string
   created_at?: Date | string | null
+  pending_email?: string | null
+  email_change_token_hash?: string | null
+  email_change_expires_at?: string | null
   account?: Prisma.accountUncheckedCreateNestedManyWithoutUsersInput
   money_movements?: Prisma.money_movementsUncheckedCreateNestedManyWithoutUsersInput
   weekly_reminder?: Prisma.weekly_reminderUncheckedCreateNestedOneWithoutUsersInput
@@ -463,6 +535,9 @@ export type usersUpdateWithoutCategoriesInput = {
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pending_email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email_change_token_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email_change_expires_at?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   account?: Prisma.accountUpdateManyWithoutUsersNestedInput
   money_movements?: Prisma.money_movementsUpdateManyWithoutUsersNestedInput
   weekly_reminder?: Prisma.weekly_reminderUpdateOneWithoutUsersNestedInput
@@ -475,6 +550,9 @@ export type usersUncheckedUpdateWithoutCategoriesInput = {
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pending_email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email_change_token_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email_change_expires_at?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   account?: Prisma.accountUncheckedUpdateManyWithoutUsersNestedInput
   money_movements?: Prisma.money_movementsUncheckedUpdateManyWithoutUsersNestedInput
   weekly_reminder?: Prisma.weekly_reminderUncheckedUpdateOneWithoutUsersNestedInput
@@ -487,6 +565,9 @@ export type usersCreateWithoutMoney_movementsInput = {
   password_hash: string
   currency: string
   created_at?: Date | string | null
+  pending_email?: string | null
+  email_change_token_hash?: string | null
+  email_change_expires_at?: string | null
   account?: Prisma.accountCreateNestedManyWithoutUsersInput
   categories?: Prisma.categoriesCreateNestedManyWithoutUsersInput
   weekly_reminder?: Prisma.weekly_reminderCreateNestedOneWithoutUsersInput
@@ -499,6 +580,9 @@ export type usersUncheckedCreateWithoutMoney_movementsInput = {
   password_hash: string
   currency: string
   created_at?: Date | string | null
+  pending_email?: string | null
+  email_change_token_hash?: string | null
+  email_change_expires_at?: string | null
   account?: Prisma.accountUncheckedCreateNestedManyWithoutUsersInput
   categories?: Prisma.categoriesUncheckedCreateNestedManyWithoutUsersInput
   weekly_reminder?: Prisma.weekly_reminderUncheckedCreateNestedOneWithoutUsersInput
@@ -527,6 +611,9 @@ export type usersUpdateWithoutMoney_movementsInput = {
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pending_email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email_change_token_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email_change_expires_at?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   account?: Prisma.accountUpdateManyWithoutUsersNestedInput
   categories?: Prisma.categoriesUpdateManyWithoutUsersNestedInput
   weekly_reminder?: Prisma.weekly_reminderUpdateOneWithoutUsersNestedInput
@@ -539,6 +626,9 @@ export type usersUncheckedUpdateWithoutMoney_movementsInput = {
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pending_email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email_change_token_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email_change_expires_at?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   account?: Prisma.accountUncheckedUpdateManyWithoutUsersNestedInput
   categories?: Prisma.categoriesUncheckedUpdateManyWithoutUsersNestedInput
   weekly_reminder?: Prisma.weekly_reminderUncheckedUpdateOneWithoutUsersNestedInput
@@ -551,6 +641,9 @@ export type usersCreateWithoutAccountInput = {
   password_hash: string
   currency: string
   created_at?: Date | string | null
+  pending_email?: string | null
+  email_change_token_hash?: string | null
+  email_change_expires_at?: string | null
   categories?: Prisma.categoriesCreateNestedManyWithoutUsersInput
   money_movements?: Prisma.money_movementsCreateNestedManyWithoutUsersInput
   weekly_reminder?: Prisma.weekly_reminderCreateNestedOneWithoutUsersInput
@@ -563,6 +656,9 @@ export type usersUncheckedCreateWithoutAccountInput = {
   password_hash: string
   currency: string
   created_at?: Date | string | null
+  pending_email?: string | null
+  email_change_token_hash?: string | null
+  email_change_expires_at?: string | null
   categories?: Prisma.categoriesUncheckedCreateNestedManyWithoutUsersInput
   money_movements?: Prisma.money_movementsUncheckedCreateNestedManyWithoutUsersInput
   weekly_reminder?: Prisma.weekly_reminderUncheckedCreateNestedOneWithoutUsersInput
@@ -591,6 +687,9 @@ export type usersUpdateWithoutAccountInput = {
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pending_email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email_change_token_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email_change_expires_at?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categories?: Prisma.categoriesUpdateManyWithoutUsersNestedInput
   money_movements?: Prisma.money_movementsUpdateManyWithoutUsersNestedInput
   weekly_reminder?: Prisma.weekly_reminderUpdateOneWithoutUsersNestedInput
@@ -603,6 +702,9 @@ export type usersUncheckedUpdateWithoutAccountInput = {
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pending_email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email_change_token_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email_change_expires_at?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categories?: Prisma.categoriesUncheckedUpdateManyWithoutUsersNestedInput
   money_movements?: Prisma.money_movementsUncheckedUpdateManyWithoutUsersNestedInput
   weekly_reminder?: Prisma.weekly_reminderUncheckedUpdateOneWithoutUsersNestedInput
@@ -615,6 +717,9 @@ export type usersCreateWithoutWeekly_reminderInput = {
   password_hash: string
   currency: string
   created_at?: Date | string | null
+  pending_email?: string | null
+  email_change_token_hash?: string | null
+  email_change_expires_at?: string | null
   account?: Prisma.accountCreateNestedManyWithoutUsersInput
   categories?: Prisma.categoriesCreateNestedManyWithoutUsersInput
   money_movements?: Prisma.money_movementsCreateNestedManyWithoutUsersInput
@@ -627,6 +732,9 @@ export type usersUncheckedCreateWithoutWeekly_reminderInput = {
   password_hash: string
   currency: string
   created_at?: Date | string | null
+  pending_email?: string | null
+  email_change_token_hash?: string | null
+  email_change_expires_at?: string | null
   account?: Prisma.accountUncheckedCreateNestedManyWithoutUsersInput
   categories?: Prisma.categoriesUncheckedCreateNestedManyWithoutUsersInput
   money_movements?: Prisma.money_movementsUncheckedCreateNestedManyWithoutUsersInput
@@ -655,6 +763,9 @@ export type usersUpdateWithoutWeekly_reminderInput = {
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pending_email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email_change_token_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email_change_expires_at?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   account?: Prisma.accountUpdateManyWithoutUsersNestedInput
   categories?: Prisma.categoriesUpdateManyWithoutUsersNestedInput
   money_movements?: Prisma.money_movementsUpdateManyWithoutUsersNestedInput
@@ -667,6 +778,9 @@ export type usersUncheckedUpdateWithoutWeekly_reminderInput = {
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pending_email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email_change_token_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email_change_expires_at?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   account?: Prisma.accountUncheckedUpdateManyWithoutUsersNestedInput
   categories?: Prisma.categoriesUncheckedUpdateManyWithoutUsersNestedInput
   money_movements?: Prisma.money_movementsUncheckedUpdateManyWithoutUsersNestedInput
@@ -728,6 +842,9 @@ export type usersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   password_hash?: boolean
   currency?: boolean
   created_at?: boolean
+  pending_email?: boolean
+  email_change_token_hash?: boolean
+  email_change_expires_at?: boolean
   account?: boolean | Prisma.users$accountArgs<ExtArgs>
   categories?: boolean | Prisma.users$categoriesArgs<ExtArgs>
   money_movements?: boolean | Prisma.users$money_movementsArgs<ExtArgs>
@@ -742,6 +859,9 @@ export type usersSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   password_hash?: boolean
   currency?: boolean
   created_at?: boolean
+  pending_email?: boolean
+  email_change_token_hash?: boolean
+  email_change_expires_at?: boolean
 }, ExtArgs["result"]["users"]>
 
 export type usersSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -751,6 +871,9 @@ export type usersSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   password_hash?: boolean
   currency?: boolean
   created_at?: boolean
+  pending_email?: boolean
+  email_change_token_hash?: boolean
+  email_change_expires_at?: boolean
 }, ExtArgs["result"]["users"]>
 
 export type usersSelectScalar = {
@@ -760,9 +883,12 @@ export type usersSelectScalar = {
   password_hash?: boolean
   currency?: boolean
   created_at?: boolean
+  pending_email?: boolean
+  email_change_token_hash?: boolean
+  email_change_expires_at?: boolean
 }
 
-export type usersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "email" | "password_hash" | "currency" | "created_at", ExtArgs["result"]["users"]>
+export type usersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "email" | "password_hash" | "currency" | "created_at" | "pending_email" | "email_change_token_hash" | "email_change_expires_at", ExtArgs["result"]["users"]>
 export type usersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   account?: boolean | Prisma.users$accountArgs<ExtArgs>
   categories?: boolean | Prisma.users$categoriesArgs<ExtArgs>
@@ -788,6 +914,9 @@ export type $usersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     password_hash: string
     currency: string
     created_at: Date | null
+    pending_email: string | null
+    email_change_token_hash: string | null
+    email_change_expires_at: string | null
   }, ExtArgs["result"]["users"]>
   composites: {}
 }
@@ -1221,6 +1350,9 @@ export interface usersFieldRefs {
   readonly password_hash: Prisma.FieldRef<"users", 'String'>
   readonly currency: Prisma.FieldRef<"users", 'String'>
   readonly created_at: Prisma.FieldRef<"users", 'DateTime'>
+  readonly pending_email: Prisma.FieldRef<"users", 'String'>
+  readonly email_change_token_hash: Prisma.FieldRef<"users", 'String'>
+  readonly email_change_expires_at: Prisma.FieldRef<"users", 'String'>
 }
     
 

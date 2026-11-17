@@ -37,16 +37,19 @@ model money_movements {
 }
 
 model users {
-  id              String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  username        String            @db.VarChar(255)
-  email           String            @unique @db.VarChar(255)
-  password_hash   String            @db.VarChar(60)
-  currency        String            @db.VarChar(20)
-  created_at      DateTime?         @default(now()) @db.Timestamptz(6)
-  account         account[]
-  categories      categories[]
-  money_movements money_movements[]
-  weekly_reminder weekly_reminder?
+  id                      String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  username                String            @db.VarChar(255)
+  email                   String            @unique @db.VarChar(255)
+  password_hash           String            @db.VarChar(60)
+  currency                String            @db.VarChar(20)
+  created_at              DateTime?         @default(now()) @db.Timestamptz(6)
+  pending_email           String?           @db.VarChar(255)
+  email_change_token_hash String?           @db.VarChar(255)
+  email_change_expires_at String?           @db.VarChar(255)
+  account                 account[]
+  categories              categories[]
+  money_movements         money_movements[]
+  weekly_reminder         weekly_reminder?
 }
 
 model account {

@@ -107,7 +107,10 @@ export const UsersScalarFieldEnum = {
   email: 'email',
   password_hash: 'password_hash',
   currency: 'currency',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  pending_email: 'pending_email',
+  email_change_token_hash: 'email_change_token_hash',
+  email_change_expires_at: 'email_change_expires_at'
 } as const
 
 export type UsersScalarFieldEnum = (typeof UsersScalarFieldEnum)[keyof typeof UsersScalarFieldEnum]
