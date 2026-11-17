@@ -1,7 +1,11 @@
 import bcrypt from "bcrypt";
 import { prisma } from "@/libs/db/prisma";
 import { AppError, duplicateEmailError, invalidCredentialsError, isUniqueConstraintError } from "@/libs/errors/app-error";
-import type { LoginPayload, RegisterPayload } from "@/validators/auth.validator";
+import type {
+  LoginPayload,
+  RegisterPayload,
+  UserPatchPayload,
+} from "@/validators/auth.validator";
 import { createSessionToken } from "./jwt.service";
 import { AuthResult, publicUserSelect } from "@/types/auth.types";
 
@@ -100,4 +104,38 @@ export async function getCurrentUser(userId: string | null) {
   }
 
   return user;
+}
+
+export async function updateCurrentUser(
+  userId: string | null,
+  payload: UserPatchPayload,
+) {
+  if (!userId || !UUID_PATTERN.test(userId)) {
+    throw new AppError(
+      "Unauthorized",
+      "Authentication is missing or invalid.",
+      401,
+      "authentication",
+    );
+  }
+
+  const user = await prisma.users.findUnique({
+    where: { id: userId },
+    select: { id: true },
+  });
+
+  if (!user) {
+    throw new AppError(
+      "Unauthorized",
+      "Authentication is missing or invalid.",
+      401,
+      "authentication",
+    );
+  }
+
+  return prisma.users.update({
+    where: { id: userId },
+    data: payload,
+    select: publicUserSelect,
+  });
 }

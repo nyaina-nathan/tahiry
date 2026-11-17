@@ -110,6 +110,30 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 
+    patch:
+      tags: [Auth]
+      summary: Update the authenticated user
+      operationId: updateCurrentUser
+      security:
+        - SessionCookie: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPatch'
+      responses:
+        '200':
+          description: Authenticated user updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
   /api/accounts:
     get:
       tags: [Accounts]
@@ -756,6 +780,20 @@ components:
         password:
           type: string
           format: password
+
+    UserPatch:
+      type: object
+      additionalProperties: false
+      minProperties: 1
+      properties:
+        username:
+          type: string
+          minLength: 1
+          maxLength: 255
+        currency:
+          type: string
+          minLength: 1
+          maxLength: 20
 
     ExportInput:
       type: object

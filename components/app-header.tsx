@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useState, useSyncExternalStore } from "react";
+import type { ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
+import { MoonIcon, NavIcon, SignOutIcon, SunIcon } from "@/components/app-header-icons";
 
 export type AppHeaderLink = {
   href: string;
@@ -15,7 +17,6 @@ export const PRIMARY_NAV_LINKS: AppHeaderLink[] = [
   { href: "/incomes", label: "Incomes" },
   { href: "/categories", label: "Categories" },
   { href: "/accounts", label: "Accounts" },
-  { href: "/settings", label: "Settings" },
 ];
 
 type AppHeaderProps = {
@@ -39,9 +40,24 @@ function linkClassNameFor(href: string, pathname: string) {
   }`;
 }
 
+const iconButtonClassName =
+  "group relative flex h-10 w-10 shrink-0 items-center justify-center border border-transparent transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)]";
+
+const labelChipClassName =
+  "pointer-events-none absolute left-1/2 top-full z-10 mt-1.5 -translate-x-1/2 translate-y-1 whitespace-nowrap border border-[var(--color-line)] bg-[var(--color-surface)] px-2 py-1 font-mono font-bold uppercase opacity-0 transition-[opacity,transform] duration-[90ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0 group-hover:opacity-100 group-hover:delay-[90ms] group-hover:duration-[140ms] group-focus-visible:translate-y-0 group-focus-visible:opacity-100 motion-reduce:translate-y-0 motion-reduce:transition-none";
+
+function HoverLabel({ children }: { children: ReactNode }) {
+  return (
+    <span aria-hidden="true" className={labelChipClassName}>
+      {children}
+    </span>
+  );
+}
+
 const SIGN_OUT_ERROR = "You could not be signed out. Please try again.";
 
 const THEME_EVENT = "themechange";
+const PROFILE_EVENT = "profilechange";
 
 function getThemeSnapshot() {
   return document.documentElement.classList.contains("dark");
@@ -73,11 +89,44 @@ export function AppHeader({ links = [] }: AppHeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [logoutError, setLogoutError] = useState("");
+  const [username, setUsername] = useState("");
   const isDark = useSyncExternalStore(
     subscribeToTheme,
     getThemeSnapshot,
     getServerThemeSnapshot,
   );
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadProfile() {
+      try {
+        const response = await fetch("/api/auth/me");
+        if (!response.ok) {
+          return;
+        }
+
+        const data = (await response.json()) as { username?: string };
+        if (!cancelled && data.username) {
+          setUsername(data.username);
+        }
+      } catch {
+        // The header remains usable if the profile request fails.
+      }
+    }
+
+    function handleProfileChange() {
+      void loadProfile();
+    }
+
+    void loadProfile();
+    window.addEventListener(PROFILE_EVENT, handleProfileChange);
+
+    return () => {
+      cancelled = true;
+      window.removeEventListener(PROFILE_EVENT, handleProfileChange);
+    };
+  }, []);
 
   function handleToggleTheme() {
     const next = !getThemeSnapshot();
@@ -108,6 +157,34 @@ export function AppHeader({ links = [] }: AppHeaderProps) {
     };
   }, [isMenuOpen]);
 
+  const profileInitial = username.trim().charAt(0).toUpperCase() || "?";
+
+  function renderProfileCard(onNavigate?: () => void) {
+    return (
+      <div className="flex items-center gap-2 border border-[var(--color-line)] bg-[var(--color-canvas)] p-2">
+        <div className="flex items-center gap-2 px-1">
+          <div
+            aria-hidden="true"
+            className="flex h-8 w-8 shrink-0 items-center justify-center bg-[var(--color-strong)] font-display text-lg text-white"
+          >
+            {profileInitial}
+          </div>
+          <span className="max-w-28 truncate font-mono text-[10px] font-bold tracking-[0.04em] text-[var(--color-ink)]">
+            {username || "Profile"}
+          </span>
+        </div>
+        <Link
+          href="/settings"
+          onClick={onNavigate}
+          className="flex min-h-9 items-center justify-center border border-[var(--color-line)] px-3 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-muted)] transition-colors hover:border-[var(--color-ink)] hover:text-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)]"
+          aria-current={isActiveLink("/settings", pathname) ? "page" : undefined}
+        >
+          Profile
+        </Link>
+      </div>
+    );
+  }
+
   async function handleLogout() {
     if (isLoggingOut) {
       return;
@@ -135,74 +212,74 @@ export function AppHeader({ links = [] }: AppHeaderProps) {
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-5 px-4 py-4 sm:px-8 sm:py-5 lg:px-12">
         <Link
           href="/"
-          className="flex items-center gap-3 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
+          aria-label="Tahiry"
+          className="group relative flex items-center focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
         >
-          <img alt="tahiry-logo" className="w-[5ch]" src={"/icon.png"} />
-          <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-ink)]">
-            Tahiry
-          </span>
+          <img alt="" className="w-[5ch]" src={"/icon.png"} />
+          <HoverLabel>
+            <span className="text-xs tracking-[0.2em]">Tahiry</span>
+          </HoverLabel>
         </Link>
         <nav
           aria-label="Primary navigation"
-          className="hidden items-center gap-4 sm:flex sm:gap-6"
+          className="hidden items-center gap-1 md:flex"
         >
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              aria-current={isActiveLink(link.href, pathname) ? "page" : undefined}
-              className={linkClassNameFor(link.href, pathname)}
-            >
-              {link.label}
-            </Link>
-          ))}
+          {links.map((link) => {
+            const isActive = isActiveLink(link.href, pathname);
+
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                aria-label={link.label}
+                aria-current={isActive ? "page" : undefined}
+                className={`${iconButtonClassName} hover:border-[var(--color-line)] ${
+                  isActive
+                    ? "text-[var(--color-ink)]"
+                    : "text-[var(--color-muted)] hover:text-[var(--color-ink)]"
+                }`}
+              >
+                <NavIcon href={link.href} />
+                {isActive && (
+                  <span
+                    aria-hidden="true"
+                    className="absolute bottom-1 left-1/2 h-[2px] w-4 -translate-x-1/2 bg-[var(--color-ink)]"
+                  />
+                )}
+                <HoverLabel>
+                  <span className="text-[10px] tracking-[0.14em]">{link.label}</span>
+                </HoverLabel>
+              </Link>
+            );
+          })}
           <button
             type="button"
             onClick={() => void handleLogout()}
             disabled={isLoggingOut}
-            className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-muted)] transition-colors hover:text-[var(--color-negative)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-negative)] disabled:opacity-60 cursor-pointer"
+            aria-label={isLoggingOut ? "Signing out" : "Sign out"}
+            className={`${iconButtonClassName} cursor-pointer text-[var(--color-muted)] hover:border-[var(--color-line)] hover:text-[var(--color-negative)] focus-visible:outline-[var(--color-negative)] disabled:opacity-60`}
           >
-            {isLoggingOut ? "Signing out..." : "Sign out"}
+            <SignOutIcon />
+            <HoverLabel>
+              <span className="text-[10px] tracking-[0.14em]">
+                {isLoggingOut ? "Signing out…" : "Sign out"}
+              </span>
+            </HoverLabel>
           </button>
           <button
             type="button"
             onClick={handleToggleTheme}
             aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
-            className="flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-muted)] transition-colors hover:text-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)] cursor-pointer"
+            className={`${iconButtonClassName} cursor-pointer text-[var(--color-muted)] hover:border-[var(--color-line)] hover:text-[var(--color-ink)]`}
           >
-            {isDark ? (
-              <svg
-                aria-hidden="true"
-                viewBox="0 0 24 24"
-                className="h-4 w-4"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
-                />
-              </svg>
-            ) : (
-              <svg
-                aria-hidden="true"
-                viewBox="0 0 24 24"
-                className="h-4 w-4"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"
-                />
-              </svg>
-            )}
-            <span>{isDark ? "Light" : "Dark"}</span>
+            {isDark ? <SunIcon /> : <MoonIcon />}
+            <HoverLabel>
+              <span className="text-[10px] tracking-[0.14em]">
+                {isDark ? "Light" : "Dark"}
+              </span>
+            </HoverLabel>
           </button>
+          <div className="ml-2">{renderProfileCard()}</div>
         </nav>
         <button
           type="button"
@@ -210,7 +287,7 @@ export function AppHeader({ links = [] }: AppHeaderProps) {
           aria-expanded={isMenuOpen}
           aria-controls="mobile-navigation"
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          className="flex h-10 w-10 flex-col items-center justify-center gap-[5px] border border-[var(--color-line)] transition-colors hover:border-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)] sm:hidden"
+          className="flex h-10 w-10 flex-col items-center justify-center gap-[5px] border border-[var(--color-line)] transition-colors hover:border-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)] md:hidden"
         >
           <span
             aria-hidden="true"
@@ -230,7 +307,7 @@ export function AppHeader({ links = [] }: AppHeaderProps) {
         <nav
           id="mobile-navigation"
           aria-label="Mobile navigation"
-          className="border-t border-[var(--color-line)] bg-[var(--color-surface)] px-4 py-4 sm:hidden"
+          className="border-t border-[var(--color-line)] bg-[var(--color-surface)] px-4 py-4 md:hidden"
         >
           <div className="flex flex-col gap-1">
             {links.map((link) => (
@@ -239,11 +316,13 @@ export function AppHeader({ links = [] }: AppHeaderProps) {
                 href={link.href}
                 onClick={() => setIsMenuOpen(false)}
                 aria-current={isActiveLink(link.href, pathname) ? "page" : undefined}
-                className={`${linkClassNameFor(link.href, pathname)} min-h-11 flex items-center border-b border-[var(--color-line)] pb-3`}
+                className={`${linkClassNameFor(link.href, pathname)} min-h-11 flex items-center gap-3 border-b border-[var(--color-line)] pb-3`}
               >
+                <NavIcon href={link.href} />
                 {link.label}
               </Link>
             ))}
+            {renderProfileCard(() => setIsMenuOpen(false))}
             <button
               type="button"
               onClick={() => {
@@ -251,9 +330,10 @@ export function AppHeader({ links = [] }: AppHeaderProps) {
                 void handleLogout();
               }}
               disabled={isLoggingOut}
-              className="min-h-11 flex items-center pt-3 text-left font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-muted)] transition-colors hover:text-[var(--color-negative)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-negative)] disabled:opacity-60"
+              className="min-h-11 flex items-center gap-3 pt-3 text-left font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-muted)] transition-colors hover:text-[var(--color-negative)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-negative)] disabled:opacity-60"
             >
-              {isLoggingOut ? "Signing out..." : "Sign out"}
+              <SignOutIcon />
+              {isLoggingOut ? "Signing out…" : "Sign out"}
             </button>
             <button
               type="button"
@@ -262,39 +342,9 @@ export function AppHeader({ links = [] }: AppHeaderProps) {
                 handleToggleTheme();
               }}
               aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
-              className="min-h-11 flex items-center gap-2 pt-3 text-left font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-muted)] transition-colors hover:text-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
+              className="min-h-11 flex items-center gap-3 pt-3 text-left font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-muted)] transition-colors hover:text-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
             >
-              {isDark ? (
-                <svg
-                  aria-hidden="true"
-                  viewBox="0 0 24 24"
-                  className="h-4 w-4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  aria-hidden="true"
-                  viewBox="0 0 24 24"
-                  className="h-4 w-4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"
-                  />
-                </svg>
-              )}
+              {isDark ? <SunIcon /> : <MoonIcon />}
               <span>{isDark ? "Light" : "Dark"}</span>
             </button>
           </div>

@@ -1,4 +1,5 @@
-import { AppError } from "@/libs/errors/app-error";
+// @ts-expect-error Node's native TypeScript runner requires the extension.
+import { AppError } from "../libs/errors/app-error.ts";
 
 export type RegisterPayload = {
   username: string;
@@ -10,6 +11,11 @@ export type RegisterPayload = {
 export type LoginPayload = {
   email: string;
   password: string;
+};
+
+export type UserPatchPayload = {
+  username?: string;
+  currency?: string;
 };
 
 function validationError(message: string): AppError {
@@ -113,5 +119,39 @@ export function validateLoginPayload(payload: unknown): LoginPayload {
   return {
     email: validateEmail(email),
     password,
+  };
+}
+
+export function validateUserPatchPayload(payload: unknown): UserPatchPayload {
+  if (!isRecord(payload)) {
+    throw validationError("Request body must be a JSON object.");
+  }
+
+  const unsupportedFields = Object.keys(payload).filter(
+    (field) => field !== "username" && field !== "currency",
+  );
+
+  if (unsupportedFields.length > 0) {
+    throw validationError("Only username and currency may be updated.");
+  }
+
+  if (!Object.hasOwn(payload, "username") && !Object.hasOwn(payload, "currency")) {
+    throw validationError("At least one of username or currency is required.");
+  }
+
+  const username = getString(payload, "username")?.trim();
+  const currency = getString(payload, "currency")?.trim();
+
+  if (Object.hasOwn(payload, "username") && (!username || username.length > 255)) {
+    throw validationError("Username must be between 1 and 255 characters.");
+  }
+
+  if (Object.hasOwn(payload, "currency") && (!currency || currency.length > 20)) {
+    throw validationError("Currency must be between 1 and 20 characters.");
+  }
+
+  return {
+    ...(username === undefined ? {} : { username }),
+    ...(currency === undefined ? {} : { currency }),
   };
 }
