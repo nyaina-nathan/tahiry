@@ -78,6 +78,53 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 
+  /api/auth/password-reset:
+    post:
+      tags: [Auth]
+      summary: Request a password reset
+      operationId: requestPasswordReset
+      description: Public endpoint. If the email belongs to a registered user, generates a random single-use token, stores only its hash in `password_reset_token` with a five-minute expiration, and emails a link to the confirmation endpoint. The response is the same whether or not the email is registered to prevent account enumeration.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordResetRequest'
+      responses:
+        '202':
+          description: Password reset request accepted. This response is returned whether or not the email is registered.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /api/auth/password-reset/confirm:
+    get:
+      tags: [Auth]
+      summary: Validate a password reset token
+      operationId: confirmPasswordReset
+      description: Public endpoint. Validates that the token matches a stored hash, has not expired, and has not been used. A valid token is not consumed here so the password-change page can submit it with the new password.
+      parameters:
+        - name: token
+          in: query
+          required: true
+          description: Single-use password reset token received by email.
+          schema:
+            type: string
+      responses:
+        '303':
+          description: Token is valid. Redirects to the password-change page with the token so it can be submitted with the new password.
+          headers:
+            Location:
+              description: "/password-change?token={token}"
+              schema:
+                type: string
+                example: /password-change?token=opaque-reset-token
+        '400':
+          description: Token is missing, invalid, expired, or has already been used.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
   /api/auth/email-change:
     post:
       tags: [Auth]
@@ -831,6 +878,16 @@ components:
         password:
           type: string
           format: password
+
+    PasswordResetRequest:
+      type: object
+      additionalProperties: false
+      required: [email]
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 255
 
     EmailChangeRequest:
       type: object
