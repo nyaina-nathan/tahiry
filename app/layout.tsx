@@ -1,3 +1,4 @@
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import type { Metadata } from "next";
 import { JetBrains_Mono, Limelight } from "next/font/google";
 import "./globals.css";
@@ -39,6 +40,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         {children}
       </body>
+
+      <SpeedInsights />
     </html>
   );
 }
