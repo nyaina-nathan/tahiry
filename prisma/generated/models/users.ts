@@ -193,6 +193,7 @@ export type usersWhereInput = {
   account?: Prisma.AccountListRelationFilter
   categories?: Prisma.CategoriesListRelationFilter
   money_movements?: Prisma.Money_movementsListRelationFilter
+  weekly_reminder?: Prisma.Weekly_reminderListRelationFilter
 }
 
 export type usersOrderByWithRelationInput = {
@@ -205,6 +206,7 @@ export type usersOrderByWithRelationInput = {
   account?: Prisma.accountOrderByRelationAggregateInput
   categories?: Prisma.categoriesOrderByRelationAggregateInput
   money_movements?: Prisma.money_movementsOrderByRelationAggregateInput
+  weekly_reminder?: Prisma.weekly_reminderOrderByRelationAggregateInput
 }
 
 export type usersWhereUniqueInput = Prisma.AtLeast<{
@@ -220,6 +222,7 @@ export type usersWhereUniqueInput = Prisma.AtLeast<{
   account?: Prisma.AccountListRelationFilter
   categories?: Prisma.CategoriesListRelationFilter
   money_movements?: Prisma.Money_movementsListRelationFilter
+  weekly_reminder?: Prisma.Weekly_reminderListRelationFilter
 }, "id" | "email">
 
 export type usersOrderByWithAggregationInput = {
@@ -256,6 +259,7 @@ export type usersCreateInput = {
   account?: Prisma.accountCreateNestedManyWithoutUsersInput
   categories?: Prisma.categoriesCreateNestedManyWithoutUsersInput
   money_movements?: Prisma.money_movementsCreateNestedManyWithoutUsersInput
+  weekly_reminder?: Prisma.weekly_reminderCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateInput = {
@@ -268,6 +272,7 @@ export type usersUncheckedCreateInput = {
   account?: Prisma.accountUncheckedCreateNestedManyWithoutUsersInput
   categories?: Prisma.categoriesUncheckedCreateNestedManyWithoutUsersInput
   money_movements?: Prisma.money_movementsUncheckedCreateNestedManyWithoutUsersInput
+  weekly_reminder?: Prisma.weekly_reminderUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersUpdateInput = {
@@ -280,6 +285,7 @@ export type usersUpdateInput = {
   account?: Prisma.accountUpdateManyWithoutUsersNestedInput
   categories?: Prisma.categoriesUpdateManyWithoutUsersNestedInput
   money_movements?: Prisma.money_movementsUpdateManyWithoutUsersNestedInput
+  weekly_reminder?: Prisma.weekly_reminderUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateInput = {
@@ -292,6 +298,7 @@ export type usersUncheckedUpdateInput = {
   account?: Prisma.accountUncheckedUpdateManyWithoutUsersNestedInput
   categories?: Prisma.categoriesUncheckedUpdateManyWithoutUsersNestedInput
   money_movements?: Prisma.money_movementsUncheckedUpdateManyWithoutUsersNestedInput
+  weekly_reminder?: Prisma.weekly_reminderUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type usersCreateManyInput = {
@@ -395,6 +402,20 @@ export type usersUpdateOneRequiredWithoutAccountNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutAccountInput, Prisma.usersUpdateWithoutAccountInput>, Prisma.usersUncheckedUpdateWithoutAccountInput>
 }
 
+export type usersCreateNestedOneWithoutWeekly_reminderInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutWeekly_reminderInput, Prisma.usersUncheckedCreateWithoutWeekly_reminderInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutWeekly_reminderInput
+  connect?: Prisma.usersWhereUniqueInput
+}
+
+export type usersUpdateOneRequiredWithoutWeekly_reminderNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutWeekly_reminderInput, Prisma.usersUncheckedCreateWithoutWeekly_reminderInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutWeekly_reminderInput
+  upsert?: Prisma.usersUpsertWithoutWeekly_reminderInput
+  connect?: Prisma.usersWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutWeekly_reminderInput, Prisma.usersUpdateWithoutWeekly_reminderInput>, Prisma.usersUncheckedUpdateWithoutWeekly_reminderInput>
+}
+
 export type usersCreateWithoutCategoriesInput = {
   id?: string
   username: string
@@ -404,6 +425,7 @@ export type usersCreateWithoutCategoriesInput = {
   created_at?: Date | string | null
   account?: Prisma.accountCreateNestedManyWithoutUsersInput
   money_movements?: Prisma.money_movementsCreateNestedManyWithoutUsersInput
+  weekly_reminder?: Prisma.weekly_reminderCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutCategoriesInput = {
@@ -415,6 +437,7 @@ export type usersUncheckedCreateWithoutCategoriesInput = {
   created_at?: Date | string | null
   account?: Prisma.accountUncheckedCreateNestedManyWithoutUsersInput
   money_movements?: Prisma.money_movementsUncheckedCreateNestedManyWithoutUsersInput
+  weekly_reminder?: Prisma.weekly_reminderUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutCategoriesInput = {
@@ -442,6 +465,7 @@ export type usersUpdateWithoutCategoriesInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   account?: Prisma.accountUpdateManyWithoutUsersNestedInput
   money_movements?: Prisma.money_movementsUpdateManyWithoutUsersNestedInput
+  weekly_reminder?: Prisma.weekly_reminderUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutCategoriesInput = {
@@ -453,6 +477,7 @@ export type usersUncheckedUpdateWithoutCategoriesInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   account?: Prisma.accountUncheckedUpdateManyWithoutUsersNestedInput
   money_movements?: Prisma.money_movementsUncheckedUpdateManyWithoutUsersNestedInput
+  weekly_reminder?: Prisma.weekly_reminderUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type usersCreateWithoutMoney_movementsInput = {
@@ -464,6 +489,7 @@ export type usersCreateWithoutMoney_movementsInput = {
   created_at?: Date | string | null
   account?: Prisma.accountCreateNestedManyWithoutUsersInput
   categories?: Prisma.categoriesCreateNestedManyWithoutUsersInput
+  weekly_reminder?: Prisma.weekly_reminderCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutMoney_movementsInput = {
@@ -475,6 +501,7 @@ export type usersUncheckedCreateWithoutMoney_movementsInput = {
   created_at?: Date | string | null
   account?: Prisma.accountUncheckedCreateNestedManyWithoutUsersInput
   categories?: Prisma.categoriesUncheckedCreateNestedManyWithoutUsersInput
+  weekly_reminder?: Prisma.weekly_reminderUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutMoney_movementsInput = {
@@ -502,6 +529,7 @@ export type usersUpdateWithoutMoney_movementsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   account?: Prisma.accountUpdateManyWithoutUsersNestedInput
   categories?: Prisma.categoriesUpdateManyWithoutUsersNestedInput
+  weekly_reminder?: Prisma.weekly_reminderUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutMoney_movementsInput = {
@@ -513,6 +541,7 @@ export type usersUncheckedUpdateWithoutMoney_movementsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   account?: Prisma.accountUncheckedUpdateManyWithoutUsersNestedInput
   categories?: Prisma.categoriesUncheckedUpdateManyWithoutUsersNestedInput
+  weekly_reminder?: Prisma.weekly_reminderUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type usersCreateWithoutAccountInput = {
@@ -524,6 +553,7 @@ export type usersCreateWithoutAccountInput = {
   created_at?: Date | string | null
   categories?: Prisma.categoriesCreateNestedManyWithoutUsersInput
   money_movements?: Prisma.money_movementsCreateNestedManyWithoutUsersInput
+  weekly_reminder?: Prisma.weekly_reminderCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutAccountInput = {
@@ -535,6 +565,7 @@ export type usersUncheckedCreateWithoutAccountInput = {
   created_at?: Date | string | null
   categories?: Prisma.categoriesUncheckedCreateNestedManyWithoutUsersInput
   money_movements?: Prisma.money_movementsUncheckedCreateNestedManyWithoutUsersInput
+  weekly_reminder?: Prisma.weekly_reminderUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutAccountInput = {
@@ -562,6 +593,7 @@ export type usersUpdateWithoutAccountInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   categories?: Prisma.categoriesUpdateManyWithoutUsersNestedInput
   money_movements?: Prisma.money_movementsUpdateManyWithoutUsersNestedInput
+  weekly_reminder?: Prisma.weekly_reminderUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutAccountInput = {
@@ -571,6 +603,71 @@ export type usersUncheckedUpdateWithoutAccountInput = {
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  categories?: Prisma.categoriesUncheckedUpdateManyWithoutUsersNestedInput
+  money_movements?: Prisma.money_movementsUncheckedUpdateManyWithoutUsersNestedInput
+  weekly_reminder?: Prisma.weekly_reminderUncheckedUpdateManyWithoutUsersNestedInput
+}
+
+export type usersCreateWithoutWeekly_reminderInput = {
+  id?: string
+  username: string
+  email: string
+  password_hash: string
+  currency: string
+  created_at?: Date | string | null
+  account?: Prisma.accountCreateNestedManyWithoutUsersInput
+  categories?: Prisma.categoriesCreateNestedManyWithoutUsersInput
+  money_movements?: Prisma.money_movementsCreateNestedManyWithoutUsersInput
+}
+
+export type usersUncheckedCreateWithoutWeekly_reminderInput = {
+  id?: string
+  username: string
+  email: string
+  password_hash: string
+  currency: string
+  created_at?: Date | string | null
+  account?: Prisma.accountUncheckedCreateNestedManyWithoutUsersInput
+  categories?: Prisma.categoriesUncheckedCreateNestedManyWithoutUsersInput
+  money_movements?: Prisma.money_movementsUncheckedCreateNestedManyWithoutUsersInput
+}
+
+export type usersCreateOrConnectWithoutWeekly_reminderInput = {
+  where: Prisma.usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.usersCreateWithoutWeekly_reminderInput, Prisma.usersUncheckedCreateWithoutWeekly_reminderInput>
+}
+
+export type usersUpsertWithoutWeekly_reminderInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutWeekly_reminderInput, Prisma.usersUncheckedUpdateWithoutWeekly_reminderInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutWeekly_reminderInput, Prisma.usersUncheckedCreateWithoutWeekly_reminderInput>
+  where?: Prisma.usersWhereInput
+}
+
+export type usersUpdateToOneWithWhereWithoutWeekly_reminderInput = {
+  where?: Prisma.usersWhereInput
+  data: Prisma.XOR<Prisma.usersUpdateWithoutWeekly_reminderInput, Prisma.usersUncheckedUpdateWithoutWeekly_reminderInput>
+}
+
+export type usersUpdateWithoutWeekly_reminderInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  account?: Prisma.accountUpdateManyWithoutUsersNestedInput
+  categories?: Prisma.categoriesUpdateManyWithoutUsersNestedInput
+  money_movements?: Prisma.money_movementsUpdateManyWithoutUsersNestedInput
+}
+
+export type usersUncheckedUpdateWithoutWeekly_reminderInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  account?: Prisma.accountUncheckedUpdateManyWithoutUsersNestedInput
   categories?: Prisma.categoriesUncheckedUpdateManyWithoutUsersNestedInput
   money_movements?: Prisma.money_movementsUncheckedUpdateManyWithoutUsersNestedInput
 }
@@ -584,12 +681,14 @@ export type UsersCountOutputType = {
   account: number
   categories: number
   money_movements: number
+  weekly_reminder: number
 }
 
 export type UsersCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   account?: boolean | UsersCountOutputTypeCountAccountArgs
   categories?: boolean | UsersCountOutputTypeCountCategoriesArgs
   money_movements?: boolean | UsersCountOutputTypeCountMoney_movementsArgs
+  weekly_reminder?: boolean | UsersCountOutputTypeCountWeekly_reminderArgs
 }
 
 /**
@@ -623,6 +722,13 @@ export type UsersCountOutputTypeCountMoney_movementsArgs<ExtArgs extends runtime
   where?: Prisma.money_movementsWhereInput
 }
 
+/**
+ * UsersCountOutputType without action
+ */
+export type UsersCountOutputTypeCountWeekly_reminderArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.weekly_reminderWhereInput
+}
+
 
 export type usersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -634,6 +740,7 @@ export type usersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   account?: boolean | Prisma.users$accountArgs<ExtArgs>
   categories?: boolean | Prisma.users$categoriesArgs<ExtArgs>
   money_movements?: boolean | Prisma.users$money_movementsArgs<ExtArgs>
+  weekly_reminder?: boolean | Prisma.users$weekly_reminderArgs<ExtArgs>
   _count?: boolean | Prisma.UsersCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["users"]>
 
@@ -669,6 +776,7 @@ export type usersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   account?: boolean | Prisma.users$accountArgs<ExtArgs>
   categories?: boolean | Prisma.users$categoriesArgs<ExtArgs>
   money_movements?: boolean | Prisma.users$money_movementsArgs<ExtArgs>
+  weekly_reminder?: boolean | Prisma.users$weekly_reminderArgs<ExtArgs>
   _count?: boolean | Prisma.UsersCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type usersIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -680,6 +788,7 @@ export type $usersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     account: Prisma.$accountPayload<ExtArgs>[]
     categories: Prisma.$categoriesPayload<ExtArgs>[]
     money_movements: Prisma.$money_movementsPayload<ExtArgs>[]
+    weekly_reminder: Prisma.$weekly_reminderPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1085,6 +1194,7 @@ export interface Prisma__usersClient<T, Null = never, ExtArgs extends runtime.Ty
   account<T extends Prisma.users$accountArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$accountArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$accountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   categories<T extends Prisma.users$categoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$categoriesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   money_movements<T extends Prisma.users$money_movementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$money_movementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$money_movementsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  weekly_reminder<T extends Prisma.users$weekly_reminderArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$weekly_reminderArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$weekly_reminderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1582,6 +1692,30 @@ export type users$money_movementsArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.Money_movementsScalarFieldEnum | Prisma.Money_movementsScalarFieldEnum[]
+}
+
+/**
+ * users.weekly_reminder
+ */
+export type users$weekly_reminderArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the weekly_reminder
+   */
+  select?: Prisma.weekly_reminderSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the weekly_reminder
+   */
+  omit?: Prisma.weekly_reminderOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.weekly_reminderInclude<ExtArgs> | null
+  where?: Prisma.weekly_reminderWhereInput
+  orderBy?: Prisma.weekly_reminderOrderByWithRelationInput | Prisma.weekly_reminderOrderByWithRelationInput[]
+  cursor?: Prisma.weekly_reminderWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Weekly_reminderScalarFieldEnum | Prisma.Weekly_reminderScalarFieldEnum[]
 }
 
 /**

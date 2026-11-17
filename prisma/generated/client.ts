@@ -61,3 +61,8 @@ export type users = Prisma.usersModel
  * 
  */
 export type account = Prisma.accountModel
+/**
+ * Model weekly_reminder
+ * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+ */
+export type weekly_reminder = Prisma.weekly_reminderModel
