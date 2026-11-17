@@ -3,7 +3,10 @@ import { verifyToken } from "./services/jwt.service";
 
 const AUTH_ROUTES = ["/login", "/api/auth/login", "/api/auth/register", "/api/auth/validate-register"];
 const CRON_ROUTES = ["/api/cron/weekly-email"];
-const PUBLIC_API_ROUTES = ["/api/auth/email-change/confirm"];
+const PUBLIC_API_ROUTES = [
+  "/api/auth/email-change/confirm",
+  "/api/auth/password-reset",
+];
 
 export default async function proxy(req: NextRequest) {
   const path = req.nextUrl.pathname;

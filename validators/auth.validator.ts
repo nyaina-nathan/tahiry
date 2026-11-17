@@ -18,6 +18,10 @@ export type EmailChangePayload = {
   currentPassword: string;
 };
 
+export type PasswordResetPayload = {
+  email: string;
+};
+
 export type UserPatchPayload = {
   username?: string;
   currency?: string;
@@ -163,6 +167,29 @@ export function validateEmailChangePayload(
     newEmail: validateEmail(newEmail),
     currentPassword,
   };
+}
+
+export function validatePasswordResetPayload(
+  payload: unknown,
+): PasswordResetPayload {
+  if (!isRecord(payload)) {
+    throw validationError("Request body must be a JSON object.");
+  }
+
+  const unsupportedFields = Object.keys(payload).filter(
+    (field) => field !== "email",
+  );
+
+  if (unsupportedFields.length > 0) {
+    throw validationError("Only email is allowed.");
+  }
+
+  const email = getString(payload, "email")?.trim();
+  if (!email) {
+    throw validationError("Email is required.");
+  }
+
+  return { email: validateEmail(email) };
 }
 
 export function validateUserPatchPayload(payload: unknown): UserPatchPayload {
