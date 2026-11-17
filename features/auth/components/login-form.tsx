@@ -10,6 +10,7 @@ import { AuthModeTabs } from "@/features/auth/components/auth-mode-tabs";
 import { AuthSubmitButton } from "@/features/auth/components/auth-submit-button";
 import { LoginFormFields } from "@/features/auth/components/login-form-fields";
 import type { AuthMode, AuthPayload } from "@/features/auth/types";
+import { requestPasswordReset } from "@/features/auth/api/request-password-reset";
 import {
   getPasswordResetFailure,
   removePasswordResetFailureFromUrl,
@@ -21,8 +22,10 @@ export function LoginForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isPasswordResetFail, setIsPasswordResetFail] = useState(false);
+  const [isPasswordResetSent, setIsPasswordResetSent] = useState(false);
 
   const isRegistering = mode === "register";
+  const isPasswordResetting = mode === "password-reset";
 
   useEffect(() => {
     if (!getPasswordResetFailure(window.location.search)) {
@@ -48,6 +51,7 @@ export function LoginForm() {
   function switchMode(nextMode: AuthMode) {
     setMode(nextMode);
     setErrorMessage("");
+    setIsPasswordResetSent(false);
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -56,19 +60,27 @@ export function LoginForm() {
     setIsSubmitting(true);
 
     const formData = new FormData(event.currentTarget);
-    const payload: AuthPayload = isRegistering
-      ? {
-          username: String(formData.get("username") ?? "").trim(),
-          email: String(formData.get("email") ?? "").trim(),
-          password: String(formData.get("password") ?? ""),
-          currency: String(formData.get("currency") ?? "MGA").trim(),
-        }
-      : {
-          email: String(formData.get("email") ?? "").trim(),
-          password: String(formData.get("password") ?? ""),
-        };
 
     try {
+      if (isPasswordResetting) {
+        const email = String(formData.get("email") ?? "").trim();
+        await requestPasswordReset(email);
+        setIsPasswordResetSent(true);
+        return;
+      }
+
+      const payload: AuthPayload = isRegistering
+        ? {
+            username: String(formData.get("username") ?? "").trim(),
+            email: String(formData.get("email") ?? "").trim(),
+            password: String(formData.get("password") ?? ""),
+            currency: String(formData.get("currency") ?? "MGA").trim(),
+          }
+        : {
+            email: String(formData.get("email") ?? "").trim(),
+            password: String(formData.get("password") ?? ""),
+          };
+
       await authenticate(mode, payload);
       router.replace("/");
       router.refresh();
@@ -111,15 +123,58 @@ export function LoginForm() {
         </div>
       )}
       <AuthHeading mode={mode} />
-      <AuthModeTabs mode={mode} onModeChange={switchMode} />
-      <form className="space-y-5" onSubmit={handleSubmit}>
-        <LoginFormFields isRegistering={isRegistering} />
-        <AuthError message={errorMessage} />
-        <AuthSubmitButton
-          isSubmitting={isSubmitting}
-          isRegistering={isRegistering}
-        />
-      </form>
+      {!isPasswordResetting && (
+        <AuthModeTabs mode={mode} onModeChange={switchMode} />
+      )}
+      {isPasswordResetSent ? (
+        <div className="space-y-5">
+          <p
+            role="status"
+            className="border-l-4 border-[var(--color-accent)] bg-[var(--color-surface)] px-4 py-3 text-sm leading-6 text-[var(--color-ink)]"
+          >
+            If an account exists for that email, we’ll send password reset
+            instructions shortly.
+          </p>
+          <button
+            type="button"
+            onClick={() => switchMode("login")}
+            className="min-h-11 font-mono text-xs font-bold uppercase tracking-[0.12em] text-[var(--color-accent)] underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
+          >
+            Back to sign in
+          </button>
+        </div>
+      ) : (
+        <form className="space-y-5" onSubmit={handleSubmit}>
+          <LoginFormFields mode={mode} />
+          {!isRegistering && !isPasswordResetting && (
+            <div className="text-right">
+              <button
+                type="button"
+                onClick={() => switchMode("password-reset")}
+                className="min-h-8 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-accent)] underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)]"
+              >
+                Forgot password?
+              </button>
+            </div>
+          )}
+          <AuthError message={errorMessage} />
+          <AuthSubmitButton
+            isSubmitting={isSubmitting}
+            mode={mode}
+          />
+          {isPasswordResetting && (
+            <div className="text-center">
+              <button
+                type="button"
+                onClick={() => switchMode("login")}
+                className="min-h-8 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-muted)] underline underline-offset-4 hover:text-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)]"
+              >
+                Back to sign in
+              </button>
+            </div>
+          )}
+        </form>
+      )}
     </>
   );
 }
