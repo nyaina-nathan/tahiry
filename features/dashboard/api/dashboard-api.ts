@@ -87,13 +87,18 @@ function buildCashflowDates(days: number): string[] {
   );
 }
 
-async function fetchCashflowMovements(from: string, to: string) {
+async function fetchCashflowMovements(
+  from: string,
+  to: string,
+  movementType: "INCOME" | "EXPENSE",
+) {
   const movements: MoneyMovement[] = [];
 
   for (let page = 1; page <= CASHFLOW_MAX_PAGES; page += 1) {
     const query = new URLSearchParams({
       logged_for_from: from,
       logged_for_to: to,
+      movement_type: movementType,
       page: page.toString(),
       page_size: CASHFLOW_PAGE_SIZE.toString(),
     });
@@ -114,10 +119,11 @@ async function fetchCashflowMovements(from: string, to: string) {
 
 export async function fetchCashflowWindow(): Promise<CashflowPoint[]> {
   const dates = buildCashflowDates(CASHFLOW_DAYS);
-  const movements = await fetchCashflowMovements(
-    dates[0],
-    dates[dates.length - 1],
-  );
+  const [incomeMovements, expenseMovements] = await Promise.all([
+    fetchCashflowMovements(dates[0], dates[dates.length - 1], "INCOME"),
+    fetchCashflowMovements(dates[0], dates[dates.length - 1], "EXPENSE"),
+  ]);
+  const movements = [...incomeMovements, ...expenseMovements];
   const points = new Map<string, CashflowPoint>(
     dates.map((date) => [date, { date, income: 0, expense: 0 }]),
   );
@@ -134,7 +140,7 @@ export async function fetchCashflowWindow(): Promise<CashflowPoint[]> {
 
     if (movement.movement_type === "INCOME") {
       point.income += amount;
-    } else {
+    } else if (movement.movement_type === "EXPENSE") {
       point.expense += amount;
     }
   }
