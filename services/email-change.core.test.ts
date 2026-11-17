@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import test from "node:test";
 // @ts-expect-error Node's native TypeScript runner requires the extension.
-import { requestEmailChange } from "./email-change.core.ts";
+import { confirmEmailChange, requestEmailChange } from "./email-change.core.ts";
 
 const USER_ID = "123e4567-e89b-42d3-a456-426614174000";
 const TOKEN = "a".repeat(64);
@@ -104,4 +104,97 @@ test("rejects an email already owned by another account", async () => {
 
   assert.equal(calls.savePendingChange.length, 0);
   assert.equal(calls.sendConfirmationEmail.length, 0);
+});
+
+test("confirms a valid token and notifies the previous email address", async () => {
+  const calls: unknown[][] = [];
+  const dependencies = {
+    now: () => Date.parse("2026-11-17T12:05:00.000Z"),
+    applyChange: async (...args: unknown[]) => {
+      calls.push(["applyChange", ...args]);
+      return {
+        status: "confirmed" as const,
+        previousEmail: "old@example.com",
+        newEmail: "new@example.com",
+      };
+    },
+    sendChangedNotice: async (...args: unknown[]) => {
+      calls.push(["sendChangedNotice", ...args]);
+    },
+  };
+
+  await confirmEmailChange(TOKEN, dependencies);
+
+  assert.deepEqual(calls, [
+    [
+      "applyChange",
+      createHash("sha256").update(TOKEN).digest("hex"),
+      "2026-11-17T12:05:00.000Z",
+    ],
+    ["sendChangedNotice", "old@example.com", "new@example.com"],
+  ]);
+});
+
+test("rejects an expired token after clearing its pending change", async () => {
+  const calls: unknown[][] = [];
+  const dependencies = {
+    now: () => Date.parse("2026-11-17T12:11:00.000Z"),
+    applyChange: async (...args: unknown[]) => {
+      calls.push(["applyChange", ...args]);
+      return { status: "expired" as const };
+    },
+    sendChangedNotice: async (...args: unknown[]) => {
+      calls.push(["sendChangedNotice", ...args]);
+    },
+  };
+
+  await assert.rejects(confirmEmailChange(TOKEN, dependencies), {
+    status: 400,
+  });
+
+  assert.deepEqual(calls, [[
+    "applyChange",
+    createHash("sha256").update(TOKEN).digest("hex"),
+    "2026-11-17T12:11:00.000Z",
+  ]]);
+});
+
+test("rejects malformed confirmation tokens without querying the store", async () => {
+  let applyCalls = 0;
+  const dependencies = {
+    now: () => Date.parse("2026-11-17T12:05:00.000Z"),
+    applyChange: async () => {
+      applyCalls += 1;
+      return { status: "invalid" as const };
+    },
+    sendChangedNotice: async () => {},
+  };
+
+  await assert.rejects(confirmEmailChange("not-a-token", dependencies), {
+    status: 400,
+  });
+  assert.equal(applyCalls, 0);
+});
+
+test("keeps a confirmed change successful if the old-address notice fails", async () => {
+  const originalConsoleError = console.error;
+  console.error = () => {};
+
+  try {
+    await assert.doesNotReject(
+      confirmEmailChange(TOKEN, {
+        now: () => Date.parse("2026-11-17T12:05:00.000Z"),
+        applyChange: async () => ({
+          status: "confirmed" as const,
+          previousEmail: "old@example.com",
+          newEmail: "new@example.com",
+        }),
+        sendChangedNotice: async () => {
+          throw new Error("Email provider unavailable");
+        },
+      }),
+    );
+  } finally {
+    console.error = originalConsoleError;
+  }
 });

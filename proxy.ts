@@ -3,11 +3,16 @@ import { verifyToken } from "./services/jwt.service";
 
 const AUTH_ROUTES = ["/login", "/api/auth/login", "/api/auth/register", "/api/auth/validate-register"];
 const CRON_ROUTES = ["/api/cron/weekly-email"];
+const PUBLIC_API_ROUTES = ["/api/auth/email-change/confirm"];
 
 export default async function proxy(req: NextRequest) {
   const path = req.nextUrl.pathname;
 
   if (CRON_ROUTES.includes(path)) {
+    return NextResponse.next();
+  }
+
+  if (PUBLIC_API_ROUTES.includes(path)) {
     return NextResponse.next();
   }
 

@@ -1,15 +1,30 @@
 import bcrypt from "bcrypt";
 import { Resend } from "resend";
 import { prisma } from "@/libs/db/prisma";
+import {
+  duplicateEmailError,
+  isUniqueConstraintError,
+} from "@/libs/errors/app-error";
 import type { EmailChangePayload } from "@/validators/auth.validator";
 import {
+  confirmEmailChange as confirmEmailChangeCore,
   createEmailChangeToken,
   requestEmailChange as createEmailChangeRequest,
+  type EmailChangeConfirmationDependencies,
   type EmailChangeDependencies,
 } from "./email-change.core";
-import { buildEmailChangeEmail } from "./email-change-email";
+import {
+  buildEmailChangeEmail,
+  buildEmailChangedNotice,
+} from "./email-change-email";
 
 const EMAIL_CHANGE_SUBJECT = "Confirm your new email address";
+const EMAIL_CHANGED_SUBJECT = "Your account email address was changed";
+const clearEmailChangeFields = {
+  pending_email: null,
+  email_change_token_hash: null,
+  email_change_expires_at: null,
+};
 
 function getAppUrl(): string {
   const configuredUrl =
@@ -107,9 +122,110 @@ function createDependencies(): EmailChangeDependencies {
   };
 }
 
+function createConfirmationDependencies(): EmailChangeConfirmationDependencies {
+  return {
+    now: Date.now,
+    applyChange: async (tokenHash, now) => {
+      try {
+        return await prisma.$transaction(async (transaction) => {
+          const user = await transaction.users.findFirst({
+            where: { email_change_token_hash: tokenHash },
+            select: {
+              id: true,
+              email: true,
+              pending_email: true,
+              email_change_expires_at: true,
+            },
+          });
+
+          if (!user) {
+            return { status: "invalid" } as const;
+          }
+
+          const expiration = user.email_change_expires_at
+            ? Date.parse(user.email_change_expires_at)
+            : Number.NaN;
+          const nowTimestamp = Date.parse(now);
+
+          if (
+            !user.pending_email ||
+            !Number.isFinite(expiration) ||
+            expiration <= nowTimestamp
+          ) {
+            await transaction.users.updateMany({
+              where: {
+                id: user.id,
+                email_change_token_hash: tokenHash,
+              },
+              data: clearEmailChangeFields,
+            });
+
+            return { status: "expired" } as const;
+          }
+
+          const result = await transaction.users.updateMany({
+            where: {
+              id: user.id,
+              email_change_token_hash: tokenHash,
+              pending_email: user.pending_email,
+              email_change_expires_at: { gt: now },
+            },
+            data: {
+              email: user.pending_email,
+              ...clearEmailChangeFields,
+            },
+          });
+
+          if (result.count !== 1) {
+            return { status: "invalid" } as const;
+          }
+
+          return {
+            status: "confirmed",
+            previousEmail: user.email,
+            newEmail: user.pending_email,
+          } as const;
+        });
+      } catch (error) {
+        if (isUniqueConstraintError(error)) {
+          throw duplicateEmailError();
+        }
+
+        throw error;
+      }
+    },
+    sendChangedNotice: async (previousEmail, newEmail) => {
+      const apiKey = process.env.RESEND_API_KEY;
+      const from = process.env.EMAIL_FROM;
+
+      if (!apiKey || !from) {
+        throw new Error("RESEND_API_KEY and EMAIL_FROM must be configured.");
+      }
+
+      const resend = new Resend(apiKey);
+      const email = buildEmailChangedNotice(newEmail);
+      const result = await resend.emails.send({
+        from,
+        to: previousEmail,
+        subject: EMAIL_CHANGED_SUBJECT,
+        html: email.html,
+        text: email.text,
+      });
+
+      if (result.error) {
+        throw new Error(result.error.message);
+      }
+    },
+  };
+}
+
 export async function requestEmailChange(
   userId: string | null,
   payload: EmailChangePayload,
 ): Promise<void> {
   await createEmailChangeRequest(userId, payload, createDependencies());
+}
+
+export async function confirmEmailChange(token: string | null): Promise<void> {
+  await confirmEmailChangeCore(token, createConfirmationDependencies());
 }

@@ -112,7 +112,7 @@ paths:
       tags: [Auth]
       summary: Confirm an email address change
       operationId: confirmEmailChange
-      description: Public, single-use confirmation endpoint. Accepts the token emailed to the new address, verifies its hash and 10-minute expiration, updates the user's email, clears the pending email-change fields, and sends a notification to the old email address.
+      description: Public, single-use confirmation endpoint. Accepts the token emailed to the new address, verifies its hash and 10-minute expiration, updates the user's email, clears the pending email-change fields, and sends a notification to the old email address. If a matching token has expired, its pending email-change fields are cleared before the error response is returned.
       parameters:
         - name: token
           in: query
@@ -122,13 +122,20 @@ paths:
             type: string
       responses:
         '200':
-          description: Email address changed successfully and the old address was notified.
+          description: Email address changed successfully; a notification to the old address was attempted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailChangeConfirmation'
         '400':
           description: The token is invalid, expired, or has already been used.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        '409':
+          description: The pending email address was registered to another account before confirmation.
+          $ref: '#/components/responses/Conflict'
 
   /api/auth/logout:
     post:
@@ -847,6 +854,13 @@ components:
           format: password
           minLength: 8
           maxLength: 72
+
+    EmailChangeConfirmation:
+      type: object
+      required: [message]
+      properties:
+        message:
+          type: string
 
     UserPatch:
       type: object

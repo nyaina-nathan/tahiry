@@ -31,3 +31,23 @@ export function buildEmailChangeEmail(confirmationUrl: string): {
     ].join("\n\n"),
   };
 }
+
+export function buildEmailChangedNotice(newEmail: string): {
+  html: string;
+  text: string;
+} {
+  const escapedEmail = escapeHtml(newEmail);
+
+  return {
+    html: [
+      "<p>Your account email address was changed.</p>",
+      `<p>The account now uses: <strong>${escapedEmail}</strong></p>`,
+      "<p>If you did not make this change, please contact support.</p>",
+    ].join(""),
+    text: [
+      "Your account email address was changed.",
+      `The account now uses: ${newEmail}`,
+      "If you did not make this change, please contact support.",
+    ].join("\n\n"),
+  };
+}

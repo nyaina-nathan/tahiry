@@ -30,9 +30,37 @@ export type EmailChangeDependencies = {
   now(): number;
 };
 
+export type EmailChangeConfirmationResult =
+  | { status: "invalid" }
+  | { status: "expired" }
+  | {
+      status: "confirmed";
+      previousEmail: string;
+      newEmail: string;
+    };
+
+export type EmailChangeConfirmationDependencies = {
+  applyChange(
+    tokenHash: string,
+    now: string,
+  ): Promise<EmailChangeConfirmationResult>;
+  sendChangedNotice(previousEmail: string, newEmail: string): Promise<void>;
+  now(): number;
+};
+
 const TOKEN_TTL_MS = 10 * 60 * 1000;
+const TOKEN_PATTERN = /^[a-f0-9]{64}$/i;
 const UUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+function invalidEmailChangeTokenError(): AppError {
+  return new AppError(
+    "Bad Request",
+    "The email change token is invalid, expired, or has already been used.",
+    400,
+    "authentication",
+  );
+}
 
 export function createEmailChangeToken(): string {
   return randomBytes(32).toString("hex");
@@ -123,5 +151,32 @@ export async function requestEmailChange(
     }
 
     throw error;
+  }
+}
+
+export async function confirmEmailChange(
+  token: string | null,
+  dependencies: EmailChangeConfirmationDependencies,
+): Promise<void> {
+  if (!token || !TOKEN_PATTERN.test(token)) {
+    throw invalidEmailChangeTokenError();
+  }
+
+  const result = await dependencies.applyChange(
+    hashEmailChangeToken(token),
+    new Date(dependencies.now()).toISOString(),
+  );
+
+  if (result.status === "invalid" || result.status === "expired") {
+    throw invalidEmailChangeTokenError();
+  }
+
+  try {
+    await dependencies.sendChangedNotice(
+      result.previousEmail,
+      result.newEmail,
+    );
+  } catch (error) {
+    console.error("Email changed, but the old-address notification failed.", error);
   }
 }
