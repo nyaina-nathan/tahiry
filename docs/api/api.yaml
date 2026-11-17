@@ -18,6 +18,7 @@ tags:
   - name: Categories
   - name: Money movements
   - name: Accounts
+  - name: Email reminders
 
 paths:
   /api/auth/register:
@@ -222,6 +223,92 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 
+  /api/email-reminders:
+    get:
+      tags: [Email reminders]
+      summary: Get the current user's email reminder
+      operationId: getEmailReminder
+      security:
+        - ProxyUserId: []
+      responses:
+        '200':
+          description: The email reminder owned by the authenticated user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailReminder'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    post:
+      tags: [Email reminders]
+      summary: Create the current user's email reminder
+      operationId: createEmailReminder
+      security:
+        - ProxyUserId: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailReminderInput'
+      responses:
+        '201':
+          description: Email reminder created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailReminder'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          description: The authenticated user already has an email reminder.
+          $ref: '#/components/responses/Conflict'
+
+    patch:
+      tags: [Email reminders]
+      summary: Update the current user's email reminder
+      operationId: updateEmailReminder
+      security:
+        - ProxyUserId: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailReminderPatch'
+      responses:
+        '200':
+          description: Email reminder updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailReminder'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      tags: [Email reminders]
+      summary: Delete the current user's email reminder
+      operationId: deleteEmailReminder
+      security:
+        - ProxyUserId: []
+      responses:
+        '204':
+          description: Email reminder deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
   /api/transfer:
     post:
       tags: [Money movements]
@@ -247,7 +334,7 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
-         '404':
+        '404':
            description: Source or destination account does not exist or is not owned by the current user.
            content:
              application/json:
@@ -764,6 +851,54 @@ components:
         created_at:
           type: [string, 'null']
           format: date-time
+
+    EmailReminderInput:
+      type: object
+      required: [day_of_week, time]
+      properties:
+        day_of_week:
+          type: integer
+          minimum: 0
+          maximum: 6
+          description: Day of the week, where 0 is Sunday and 6 is Saturday.
+        time:
+          type: string
+          pattern: '^(?:[01][0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$'
+          description: Reminder time in HH:mm or HH:mm:ss format.
+
+    EmailReminderPatch:
+      type: object
+      minProperties: 1
+      properties:
+        day_of_week:
+          type: integer
+          minimum: 0
+          maximum: 6
+          description: Day of the week, where 0 is Sunday and 6 is Saturday.
+        time:
+          type: string
+          pattern: '^(?:[01][0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$'
+          description: Reminder time in HH:mm or HH:mm:ss format.
+
+    EmailReminder:
+      type: object
+      required: [id, id_user, day_of_week, time]
+      properties:
+        id:
+          type: string
+          format: uuid
+        id_user:
+          type: string
+          format: uuid
+        day_of_week:
+          type: integer
+          minimum: 0
+          maximum: 6
+          description: Day of the week, where 0 is Sunday and 6 is Saturday.
+        time:
+          type: string
+          pattern: '^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$'
+          description: Reminder time returned in HH:mm:ss format.
 
     TransferInput:
       type: object

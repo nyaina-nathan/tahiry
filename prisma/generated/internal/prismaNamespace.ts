@@ -400,7 +400,8 @@ export const ModelName = {
   categories: 'categories',
   money_movements: 'money_movements',
   users: 'users',
-  account: 'account'
+  account: 'account',
+  weekly_reminder: 'weekly_reminder'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -416,7 +417,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "categories" | "money_movements" | "users" | "account"
+    modelProps: "categories" | "money_movements" | "users" | "account" | "weekly_reminder"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -716,6 +717,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    weekly_reminder: {
+      payload: Prisma.$weekly_reminderPayload<ExtArgs>
+      fields: Prisma.weekly_reminderFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.weekly_reminderFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$weekly_reminderPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.weekly_reminderFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$weekly_reminderPayload>
+        }
+        findFirst: {
+          args: Prisma.weekly_reminderFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$weekly_reminderPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.weekly_reminderFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$weekly_reminderPayload>
+        }
+        findMany: {
+          args: Prisma.weekly_reminderFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$weekly_reminderPayload>[]
+        }
+        create: {
+          args: Prisma.weekly_reminderCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$weekly_reminderPayload>
+        }
+        createMany: {
+          args: Prisma.weekly_reminderCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.weekly_reminderCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$weekly_reminderPayload>[]
+        }
+        delete: {
+          args: Prisma.weekly_reminderDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$weekly_reminderPayload>
+        }
+        update: {
+          args: Prisma.weekly_reminderUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$weekly_reminderPayload>
+        }
+        deleteMany: {
+          args: Prisma.weekly_reminderDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.weekly_reminderUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.weekly_reminderUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$weekly_reminderPayload>[]
+        }
+        upsert: {
+          args: Prisma.weekly_reminderUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$weekly_reminderPayload>
+        }
+        aggregate: {
+          args: Prisma.Weekly_reminderAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateWeekly_reminder>
+        }
+        groupBy: {
+          args: Prisma.weekly_reminderGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Weekly_reminderGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.weekly_reminderCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Weekly_reminderCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -802,6 +877,16 @@ export const AccountScalarFieldEnum = {
 } as const
 
 export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
+
+
+export const Weekly_reminderScalarFieldEnum = {
+  id: 'id',
+  id_user: 'id_user',
+  day_of_week: 'day_of_week',
+  time: 'time'
+} as const
+
+export type Weekly_reminderScalarFieldEnum = (typeof Weekly_reminderScalarFieldEnum)[keyof typeof Weekly_reminderScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -901,6 +986,20 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 /**
@@ -1058,6 +1157,7 @@ export type GlobalOmitConfig = {
   money_movements?: Prisma.money_movementsOmit
   users?: Prisma.usersOmit
   account?: Prisma.accountOmit
+  weekly_reminder?: Prisma.weekly_reminderOmit
 }
 
 /* Types for Logging */

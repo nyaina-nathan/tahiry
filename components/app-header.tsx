@@ -15,6 +15,7 @@ export const PRIMARY_NAV_LINKS: AppHeaderLink[] = [
   { href: "/incomes", label: "Incomes" },
   { href: "/categories", label: "Categories" },
   { href: "/accounts", label: "Accounts" },
+  { href: "/settings", label: "Settings" },
 ];
 
 type AppHeaderProps = {

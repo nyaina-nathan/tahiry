@@ -12,6 +12,7 @@
     "@prisma/adapter-pg": "^7.9.1",
     "@prisma/client": "^7.9.1",
     "@types/bcrypt": "^6.0.0",
+    "@vercel/speed-insights": "^2.1.0",
     "bcrypt": "^6.0.0",
     "dotenv": "^17.4.2",
     "exceljs": "^4.4.0",
@@ -20,7 +21,8 @@
     "pg": "^8.22.0",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "recharts": "^3.10.1"
+    "recharts": "^3.10.1",
+    "resend": "^6.38.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

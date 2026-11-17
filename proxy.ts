@@ -2,9 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { verifyToken } from "./services/jwt.service";
 
 const AUTH_ROUTES = ["/login", "/api/auth/login", "/api/auth/register", "/api/auth/validate-register"];
+const CRON_ROUTES = ["/api/cron/weekly-email"];
 
 export default async function proxy(req: NextRequest) {
   const path = req.nextUrl.pathname;
+
+  if (CRON_ROUTES.includes(path)) {
+    return NextResponse.next();
+  }
 
   const token = req.cookies.get("sess_id")?.value;
 
