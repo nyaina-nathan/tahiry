@@ -13,6 +13,11 @@ export type LoginPayload = {
   password: string;
 };
 
+export type EmailChangePayload = {
+  newEmail: string;
+  currentPassword: string;
+};
+
 export type UserPatchPayload = {
   username?: string;
   currency?: string;
@@ -119,6 +124,44 @@ export function validateLoginPayload(payload: unknown): LoginPayload {
   return {
     email: validateEmail(email),
     password,
+  };
+}
+
+export function validateEmailChangePayload(
+  payload: unknown,
+): EmailChangePayload {
+  if (!isRecord(payload)) {
+    throw validationError("Request body must be a JSON object.");
+  }
+
+  const unsupportedFields = Object.keys(payload).filter(
+    (field) => field !== "newEmail" && field !== "currentPassword",
+  );
+
+  if (unsupportedFields.length > 0) {
+    throw validationError("Only newEmail and currentPassword are allowed.");
+  }
+
+  const newEmail = getString(payload, "newEmail")?.trim();
+  const currentPassword = getString(payload, "currentPassword");
+
+  if (!newEmail) {
+    throw validationError("New email is required.");
+  }
+
+  if (
+    currentPassword === undefined ||
+    currentPassword.length < 8 ||
+    currentPassword.length > 72
+  ) {
+    throw validationError(
+      "Current password must be between 8 and 72 characters.",
+    );
+  }
+
+  return {
+    newEmail: validateEmail(newEmail),
+    currentPassword,
   };
 }
 

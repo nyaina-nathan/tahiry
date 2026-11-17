@@ -78,6 +78,57 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 
+  /api/auth/email-change:
+    post:
+      tags: [Auth]
+      summary: Request an email address change
+      operationId: requestEmailChange
+      description: Verifies the current password, stores the requested email address with a hash of a single-use confirmation token and its expiration (10 minutes from issuance), and emails the token to the new address using Resend. The current email remains unchanged until confirmation succeeds.
+      security:
+        - SessionCookie: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailChangeRequest'
+      responses:
+        '202':
+          description: Email change request accepted and confirmation email sent to the new address.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          description: Authentication is missing or invalid, or the current password is incorrect.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: The requested email address is already registered.
+          $ref: '#/components/responses/Conflict'
+
+  /api/auth/email-change/confirm:
+    get:
+      tags: [Auth]
+      summary: Confirm an email address change
+      operationId: confirmEmailChange
+      description: Public, single-use confirmation endpoint. Accepts the token emailed to the new address, verifies its hash and 10-minute expiration, updates the user's email, clears the pending email-change fields, and sends a notification to the old email address. If a matching token has expired, its pending email-change fields are cleared before the error response is returned.
+      parameters:
+        - name: token
+          in: query
+          required: true
+          description: Single-use email change confirmation token.
+          schema:
+            type: string
+      responses:
+        '303':
+          description: Redirects to the settings page. `emailChangeSuccess=true` indicates confirmation succeeded; `false` indicates an invalid, expired, or otherwise unsuccessful confirmation.
+          headers:
+            Location:
+              description: Settings page URL with the `emailChangeSuccess` query parameter.
+              schema:
+                type: string
+
   /api/auth/logout:
     post:
       tags: [Auth]
@@ -780,6 +831,21 @@ components:
         password:
           type: string
           format: password
+
+    EmailChangeRequest:
+      type: object
+      additionalProperties: false
+      required: [newEmail, currentPassword]
+      properties:
+        newEmail:
+          type: string
+          format: email
+          maxLength: 255
+        currentPassword:
+          type: string
+          format: password
+          minLength: 8
+          maxLength: 72
 
     UserPatch:
       type: object
