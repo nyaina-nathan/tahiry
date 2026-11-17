@@ -90,6 +90,7 @@ export function useUserSettings() {
       setCurrency(updatedUser.currency);
       setIsEditing(false);
       setSuccess("Your profile has been saved.");
+      window.dispatchEvent(new Event("profilechange"));
       return true;
     } catch (saveError) {
       setError(

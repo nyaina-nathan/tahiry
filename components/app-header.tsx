@@ -15,7 +15,6 @@ export const PRIMARY_NAV_LINKS: AppHeaderLink[] = [
   { href: "/incomes", label: "Incomes" },
   { href: "/categories", label: "Categories" },
   { href: "/accounts", label: "Accounts" },
-  { href: "/settings", label: "Settings" },
 ];
 
 type AppHeaderProps = {
@@ -42,6 +41,7 @@ function linkClassNameFor(href: string, pathname: string) {
 const SIGN_OUT_ERROR = "You could not be signed out. Please try again.";
 
 const THEME_EVENT = "themechange";
+const PROFILE_EVENT = "profilechange";
 
 function getThemeSnapshot() {
   return document.documentElement.classList.contains("dark");
@@ -73,11 +73,44 @@ export function AppHeader({ links = [] }: AppHeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [logoutError, setLogoutError] = useState("");
+  const [username, setUsername] = useState("");
   const isDark = useSyncExternalStore(
     subscribeToTheme,
     getThemeSnapshot,
     getServerThemeSnapshot,
   );
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadProfile() {
+      try {
+        const response = await fetch("/api/auth/me");
+        if (!response.ok) {
+          return;
+        }
+
+        const data = (await response.json()) as { username?: string };
+        if (!cancelled && data.username) {
+          setUsername(data.username);
+        }
+      } catch {
+        // The header remains usable if the profile request fails.
+      }
+    }
+
+    function handleProfileChange() {
+      void loadProfile();
+    }
+
+    void loadProfile();
+    window.addEventListener(PROFILE_EVENT, handleProfileChange);
+
+    return () => {
+      cancelled = true;
+      window.removeEventListener(PROFILE_EVENT, handleProfileChange);
+    };
+  }, []);
 
   function handleToggleTheme() {
     const next = !getThemeSnapshot();
@@ -107,6 +140,34 @@ export function AppHeader({ links = [] }: AppHeaderProps) {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [isMenuOpen]);
+
+  const profileInitial = username.trim().charAt(0).toUpperCase() || "?";
+
+  function renderProfileCard(onNavigate?: () => void) {
+    return (
+      <div className="flex items-center gap-2 border border-[var(--color-line)] bg-[var(--color-canvas)] p-2">
+        <div className="flex items-center gap-2 px-1">
+          <div
+            aria-hidden="true"
+            className="flex h-8 w-8 shrink-0 items-center justify-center bg-[var(--color-strong)] font-display text-lg text-white"
+          >
+            {profileInitial}
+          </div>
+          <span className="max-w-28 truncate font-mono text-[10px] font-bold tracking-[0.04em] text-[var(--color-ink)]">
+            {username || "Profile"}
+          </span>
+        </div>
+        <Link
+          href="/settings"
+          onClick={onNavigate}
+          className="flex min-h-9 items-center justify-center border border-[var(--color-line)] px-3 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-muted)] transition-colors hover:border-[var(--color-ink)] hover:text-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)]"
+          aria-current={isActiveLink("/settings", pathname) ? "page" : undefined}
+        >
+          Profile
+        </Link>
+      </div>
+    );
+  }
 
   async function handleLogout() {
     if (isLoggingOut) {
@@ -203,6 +264,7 @@ export function AppHeader({ links = [] }: AppHeaderProps) {
             )}
             <span>{isDark ? "Light" : "Dark"}</span>
           </button>
+          {renderProfileCard()}
         </nav>
         <button
           type="button"
@@ -244,6 +306,7 @@ export function AppHeader({ links = [] }: AppHeaderProps) {
                 {link.label}
               </Link>
             ))}
+            {renderProfileCard(() => setIsMenuOpen(false))}
             <button
               type="button"
               onClick={() => {
