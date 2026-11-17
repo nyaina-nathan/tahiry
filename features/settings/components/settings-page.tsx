@@ -1,11 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AppHeader, PRIMARY_NAV_LINKS } from "@/components/app-header";
 import { useEmailReminder } from "@/features/settings/hooks/use-email-reminder";
 import { useUserSettings } from "@/features/settings/hooks/use-user-settings";
 import { MoneyMovementsExportSection } from "@/features/settings/components/money-movements-export-section";
 import { EmailChangeSection } from "@/features/settings/components/email-change-section";
+import {
+  getEmailChangeResult,
+  removeEmailChangeResultFromUrl,
+} from "@/features/settings/utils/email-change-feedback";
 
 const DAYS_OF_WEEK = [
   "Monday",
@@ -19,6 +23,9 @@ const DAYS_OF_WEEK = [
 
 export function SettingsPage() {
   const [isReminderEditing, setIsReminderEditing] = useState(false);
+  const [emailChangeResult, setEmailChangeResult] = useState<boolean | null>(
+    null,
+  );
   const {
     user,
     username,
@@ -51,6 +58,28 @@ export function SettingsPage() {
     handleDelete,
   } = useEmailReminder();
 
+  useEffect(() => {
+    const result = getEmailChangeResult(window.location.search);
+    if (result === null) {
+      return;
+    }
+
+    // This effect consumes a one-time redirect query parameter.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setEmailChangeResult(result);
+
+    const timeout = window.setTimeout(() => {
+      setEmailChangeResult(null);
+      window.history.replaceState(
+        window.history.state,
+        "",
+        removeEmailChangeResultFromUrl(window.location.href),
+      );
+    }, 5000);
+
+    return () => window.clearTimeout(timeout);
+  }, []);
+
   return (
     <main className="min-h-screen bg-(--color-canvas)">
       <AppHeader links={PRIMARY_NAV_LINKS} />
@@ -64,6 +93,52 @@ export function SettingsPage() {
             Your preferences.
           </h1>
         </div>
+
+        {emailChangeResult !== null && (
+          <div
+            role={emailChangeResult ? "status" : "alert"}
+            className={`mb-8 flex items-center gap-5 border p-5 sm:p-7 ${
+              emailChangeResult
+                ? "border-(--color-positive) bg-(--color-surface)"
+                : "border-(--color-negative-line) bg-(--color-negative-soft)"
+            }`}
+          >
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 48 48"
+              className={`h-14 w-14 shrink-0 ${
+                emailChangeResult
+                  ? "text-(--color-positive)"
+                  : "text-(--color-negative)"
+              }`}
+            >
+              <circle cx="24" cy="24" r="22" fill="currentColor" />
+              {emailChangeResult ? (
+                <path
+                  d="m14 24 7 7 14-15"
+                  fill="none"
+                  stroke="white"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="4"
+                />
+              ) : (
+                <path
+                  d="m17 17 14 14m0-14L17 31"
+                  fill="none"
+                  stroke="white"
+                  strokeLinecap="round"
+                  strokeWidth="4"
+                />
+              )}
+            </svg>
+            <p className="text-base font-medium leading-7 text-(--color-ink) sm:text-lg">
+              {emailChangeResult
+                ? "Your email address has been changed successfully."
+                : "We couldn’t change your email address. The confirmation link may be invalid or expired."}
+            </p>
+          </div>
+        )}
 
           <div className="space-y-8">
             <section
