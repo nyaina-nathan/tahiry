@@ -5,6 +5,7 @@ import { AppHeader, PRIMARY_NAV_LINKS } from "@/components/app-header";
 import { useEmailReminder } from "@/features/settings/hooks/use-email-reminder";
 import { useUserSettings } from "@/features/settings/hooks/use-user-settings";
 import { MoneyMovementsExportSection } from "@/features/settings/components/money-movements-export-section";
+import { EmailChangeSection } from "@/features/settings/components/email-change-section";
 
 const DAYS_OF_WEEK = [
   "Monday",
@@ -196,6 +197,11 @@ export function SettingsPage() {
                   {profileSuccess}
                 </p>
               )}
+
+              <EmailChangeSection
+                currentEmail={user?.email ?? null}
+                isLoading={isProfileLoading}
+              />
             </section>
 
             <MoneyMovementsExportSection />
