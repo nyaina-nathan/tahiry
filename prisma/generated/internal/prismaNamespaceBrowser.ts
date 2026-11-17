@@ -55,7 +55,8 @@ export const ModelName = {
   money_movements: 'money_movements',
   users: 'users',
   account: 'account',
-  weekly_reminder: 'weekly_reminder'
+  weekly_reminder: 'weekly_reminder',
+  password_reset_token: 'password_reset_token'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -134,6 +135,18 @@ export const Weekly_reminderScalarFieldEnum = {
 } as const
 
 export type Weekly_reminderScalarFieldEnum = (typeof Weekly_reminderScalarFieldEnum)[keyof typeof Weekly_reminderScalarFieldEnum]
+
+
+export const Password_reset_tokenScalarFieldEnum = {
+  id: 'id',
+  id_user: 'id_user',
+  token_hash: 'token_hash',
+  expires_at: 'expires_at',
+  used_at: 'used_at',
+  created_at: 'created_at'
+} as const
+
+export type Password_reset_tokenScalarFieldEnum = (typeof Password_reset_tokenScalarFieldEnum)[keyof typeof Password_reset_tokenScalarFieldEnum]
 
 
 export const SortOrder = {

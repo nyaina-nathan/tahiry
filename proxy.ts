@@ -3,7 +3,13 @@ import { verifyToken } from "./services/jwt.service";
 
 const AUTH_ROUTES = ["/login", "/api/auth/login", "/api/auth/register", "/api/auth/validate-register"];
 const CRON_ROUTES = ["/api/cron/weekly-email"];
-const PUBLIC_API_ROUTES = ["/api/auth/email-change/confirm"];
+const PUBLIC_API_ROUTES = [
+  "/api/auth/email-change/confirm",
+  "/api/auth/password-change/confirm",
+  "/api/auth/password-reset",
+  "/api/auth/password-reset/change",
+];
+const PUBLIC_PAGE_ROUTES = ["/password-change"];
 
 export default async function proxy(req: NextRequest) {
   const path = req.nextUrl.pathname;
@@ -12,7 +18,14 @@ export default async function proxy(req: NextRequest) {
     return NextResponse.next();
   }
 
-  if (PUBLIC_API_ROUTES.includes(path)) {
+  if (PUBLIC_API_ROUTES.includes(path) || PUBLIC_PAGE_ROUTES.includes(path)) {
+    return NextResponse.next();
+  }
+
+  if (
+    path === "/login" &&
+    req.nextUrl.searchParams.get("isPasswordResetFail") === "true"
+  ) {
     return NextResponse.next();
   }
 

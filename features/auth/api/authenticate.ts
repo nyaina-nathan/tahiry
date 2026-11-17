@@ -1,12 +1,15 @@
 import type {
   ApiErrorResponse,
-  AuthMode,
+  CredentialsAuthMode,
   AuthPayload,
 } from "@/features/auth/types";
 
 const FALLBACK_ERROR = "We could not complete that request.";
 
-export async function authenticate(mode: AuthMode, payload: AuthPayload) {
+export async function authenticate(
+  mode: CredentialsAuthMode,
+  payload: AuthPayload,
+) {
   const response = await fetch(
     mode === "register" ? "/api/auth/register" : "/api/auth/login",
     {

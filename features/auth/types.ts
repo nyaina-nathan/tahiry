@@ -1,4 +1,5 @@
-export type AuthMode = "login" | "register";
+export type AuthMode = "login" | "register" | "password-reset";
+export type CredentialsAuthMode = Exclude<AuthMode, "password-reset">;
 
 export type ApiErrorResponse = {
   error?: {
