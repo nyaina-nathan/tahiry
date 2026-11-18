@@ -80,3 +80,84 @@ input {
   background: var(--color-accent);
   color: var(--color-accent-contrast);
 }
+
+/* --------------------------------------------------------------------------
+   Landing page — scoped so the app's own visual system stays untouched.
+   -------------------------------------------------------------------------- */
+
+.uc-landing {
+  --uc-paper: #f2f2f2;
+  --uc-white: #ffffff;
+  --uc-black: #000000;
+  --uc-graphite: #3a3a3a;
+  --uc-smoke: #6e6e6e;
+  --uc-ash: #888888;
+  --uc-khaki: #e7e3bf;
+  --uc-pink: #fa00ff;
+  --uc-cyan: #02bbff;
+  --uc-lime: #adff02;
+
+  background-color: var(--uc-paper);
+  background-image: radial-gradient(
+    rgb(0 0 0 / 0.055) 0.5px,
+    transparent 0.5px
+  );
+  background-size: 4px 4px;
+  color: var(--uc-black);
+  font-family: var(--font-landing-body), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.uc-landing ::selection {
+  background: var(--uc-lime);
+  color: var(--uc-black);
+}
+
+.uc-landing :focus-visible {
+  outline: 2px solid var(--uc-black);
+  outline-offset: 3px;
+}
+
+.uc-display {
+  font-family: var(--font-landing-display), "Arial Narrow", Impact, sans-serif;
+  font-weight: 900;
+  line-height: 0.85;
+  letter-spacing: -0.033em;
+  text-transform: uppercase;
+}
+
+.uc-hand {
+  font-family: var(--font-landing-hand), "Comic Sans MS", cursive;
+  letter-spacing: 0;
+}
+
+.uc-kicker {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+@keyframes uc-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.uc-marquee-track {
+  animation: uc-marquee 26s linear infinite;
+}
+
+.uc-marquee:hover .uc-marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .uc-marquee-track {
+    animation: none;
+  }
+}

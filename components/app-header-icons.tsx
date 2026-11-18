@@ -130,6 +130,7 @@ export function FallbackIcon(props: IconProps) {
 export function NavIcon({ href }: { href: string }) {
   switch (href) {
     case "/":
+    case "/dashboard":
       return <OverviewIcon />;
     case "/expenses":
       return <ExpensesIcon />;
