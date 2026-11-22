@@ -82,7 +82,7 @@ export function LoginForm() {
           };
 
       await authenticate(mode, payload);
-      router.replace("/dashboard");
+      router.replace("/");
       router.refresh();
     } catch (error) {
       setErrorMessage(

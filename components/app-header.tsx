@@ -12,7 +12,7 @@ export type AppHeaderLink = {
 };
 
 export const PRIMARY_NAV_LINKS: AppHeaderLink[] = [
-  { href: "/dashboard", label: "Overview" },
+  { href: "/", label: "Overview" },
   { href: "/expenses", label: "Expenses" },
   { href: "/incomes", label: "Incomes" },
   { href: "/categories", label: "Categories" },
@@ -211,7 +211,7 @@ export function AppHeader({ links = [] }: AppHeaderProps) {
     <header className="sticky top-0 z-40 border-b border-[var(--color-line)] bg-[var(--color-surface)]">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-5 px-4 py-4 sm:px-8 sm:py-5 lg:px-12">
         <Link
-          href="/dashboard"
+          href="/"
           aria-label="Tahiry"
           className="group relative flex items-center focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
         >
