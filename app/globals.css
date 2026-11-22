@@ -102,11 +102,12 @@ input {
     radial-gradient(ellipse at 72% 24%, rgb(52 211 153 / 0.2), transparent 38%),
     linear-gradient(
       180deg,
-      #022c22 0%,
-      #043d2e 28%,
-      #064e3b 48%,
-      #0d6b50 64%,
-      #a7ecca 84%,
+      #010b08 0%,
+      #021a13 16%,
+      #043b2c 34%,
+      #064e3b 50%,
+      #0f6b4f 66%,
+      #9fe8c6 84%,
       #eef1f4 100%
     );
   isolation: isolate;
