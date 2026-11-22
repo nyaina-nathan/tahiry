@@ -9,7 +9,7 @@ const PUBLIC_API_ROUTES = [
   "/api/auth/password-reset",
   "/api/auth/password-reset/change",
 ];
-const PUBLIC_PAGE_ROUTES = ["/", "/password-change"];
+const PUBLIC_PAGE_ROUTES = ["/", "/password-change", "/robots.txt"];
 
 export default async function proxy(req: NextRequest) {
   const path = req.nextUrl.pathname;

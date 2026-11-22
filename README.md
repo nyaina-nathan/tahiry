@@ -112,7 +112,7 @@ Authentication is cookie-based and handled in three layers: the route handlers i
 | ------------------ | ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------- |
 | Cron               | `/api/cron/weekly-email`                                                                                | Passed through; the route itself checks `Authorization: Bearer $CRON_SECRET` |
 | Public API         | `/api/auth/email-change/confirm`, `/api/auth/password-change/confirm`, `/api/auth/password-reset`, `/api/auth/password-reset/change` | Passed through without a session                |
-| Public page        | `/`, `/password-change`                                                                                 | Passed through without a session                                 |
+| Public page        | `/`, `/password-change`, `/robots.txt`                                                                  | Passed through without a session                                 |
 | Auth routes        | `/login`, `/api/auth/login`, `/api/auth/register`                                                       | Signed-in users are redirected to `/dashboard`; everyone else continues |
 | Protected          | Everything else, including `/dashboard`, `/accounts`, `/settings` and all data APIs                     | No valid session redirects to `/login`; valid sessions get `X-User-ID` |
 
@@ -249,7 +249,7 @@ The generated client lives in `prisma/generated/` and is committed. Re-run `npx 
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to see the landing placeholder, then go to `/login`; switch to the register tab to create your first user. A `cash` account is created automatically. Visiting a protected route such as `/dashboard` without a session redirects to `/login`.
+Open [http://localhost:3000](http://localhost:3000) to see the landing page, then go to `/login`; switch to the register tab to create your first user. A `cash` account is created automatically. Visiting a protected route such as `/dashboard` without a session redirects to `/login`.
 
 ### Scripts
 
@@ -276,9 +276,10 @@ Tests live next to the code as `*.test.ts` files. There is currently no `test` n
 │   ├── incomes/                # /incomes
 │   ├── login/                  # /login
 │   ├── password-change/        # /password-change (public reset screen)
+│   ├── robots.ts               # /robots.txt
 │   ├── settings/               # /settings
 │   ├── layout.tsx              # Fonts, metadata, theme bootstrap, Speed Insights
-│   └── page.tsx                # / (public landing placeholder)
+│   └── page.tsx                # / (public landing hero)
 ├── components/                 # Cross-feature UI (app header, icons)
 ├── features/                   # Feature slices
 │   ├── accounts/               # api/, components/, hooks/

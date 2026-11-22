@@ -80,3 +80,226 @@ input {
   background: var(--color-accent);
   color: var(--color-accent-contrast);
 }
+
+/* --------------------------------------------------------------------------
+   Landing page — scoped so the app's own visual system stays untouched.
+   -------------------------------------------------------------------------- */
+
+.landing-page {
+  color-scheme: light;
+  background-color: #eef1f4;
+  color: #111827;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.landing-page ::selection {
+  background: var(--color-accent-inverse);
+  color: #022c22;
+}
+
+.landing-hero {
+  background:
+    radial-gradient(ellipse at 72% 24%, rgb(52 211 153 / 0.2), transparent 38%),
+    linear-gradient(
+      180deg,
+      #022c22 0%,
+      #043d2e 28%,
+      #064e3b 48%,
+      #0d6b50 64%,
+      #a7ecca 84%,
+      #eef1f4 100%
+    );
+  isolation: isolate;
+}
+
+.landing-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgb(255 255 255 / 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.055) 1px, transparent 1px);
+  background-size: 72px 72px;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 46%, transparent 78%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 46%, transparent 78%);
+}
+
+.landing-card-halo {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  width: min(115%, 38rem);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgb(255 255 255 / 0.16);
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgb(52 211 153 / 0.2) 0%, transparent 62%);
+  pointer-events: none;
+}
+
+.landing-card-halo::before,
+.landing-card-halo::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgb(255 255 255 / 0.08);
+  border-radius: inherit;
+}
+
+.landing-card-halo::before {
+  inset: 2.5rem;
+}
+
+.landing-card-halo::after {
+  inset: 5rem;
+}
+
+.landing-account-card {
+  background:
+    radial-gradient(circle at 92% 0%, rgb(255 255 255 / 0.85), transparent 38%),
+    linear-gradient(135deg, #f8fffb 0%, #dcfce7 48%, #a7f3d0 100%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.55),
+    0 34px 90px -28px rgb(2 44 34 / 0.85);
+}
+
+.landing-card-ring {
+  position: absolute;
+  top: -3.5rem;
+  right: -3.5rem;
+  width: 11rem;
+  height: 11rem;
+  border: 1.5rem solid rgb(255 255 255 / 0.34);
+  border-radius: 9999px;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.landing-card-glow {
+  position: absolute;
+  bottom: -5rem;
+  left: -3rem;
+  width: 12rem;
+  height: 12rem;
+  border-radius: 9999px;
+  background: rgb(52 211 153 / 0.28);
+  filter: blur(32px);
+  pointer-events: none;
+}
+
+.landing-option-card {
+  transform-origin: 50% 100%;
+  transition:
+    transform 220ms cubic-bezier(0.23, 1, 0.32, 1),
+    border-color 160ms ease,
+    background-color 160ms ease,
+    box-shadow 220ms ease;
+}
+
+.landing-pill {
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    transform 140ms ease-out;
+}
+
+.landing-pill:active {
+  transform: scale(0.97);
+}
+
+.landing-enter {
+  animation: landing-rise 650ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+.landing-enter-delay {
+  animation-delay: 110ms;
+}
+
+.landing-card-content {
+  animation: landing-card-in 220ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+@keyframes landing-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes landing-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 640px) {
+  .landing-option-card {
+    transform: translateY(10px) rotate(-5deg);
+  }
+
+  .landing-option-card:nth-child(2) {
+    transform: translateY(-4px) rotate(0deg);
+  }
+
+  .landing-option-card:nth-child(3) {
+    transform: translateY(10px) rotate(5deg);
+  }
+
+  .landing-option-card:focus-visible {
+    z-index: 10;
+    transform: translateY(-10px) rotate(0deg);
+  }
+
+  .landing-option-card:active {
+    transform: translateY(0) rotate(0deg) scale(0.97);
+  }
+}
+
+@media (min-width: 640px) and (hover: hover) and (pointer: fine) {
+  .landing-option-card:hover {
+    z-index: 10;
+    background-color: #ffffff;
+    box-shadow: 0 24px 50px -24px rgb(2 44 34 / 0.8);
+    transform: translateY(-10px) rotate(0deg);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .landing-pill:hover {
+    background-color: #ffffff;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-enter,
+  .landing-card-content {
+    animation: none;
+  }
+
+  .landing-option-card {
+    transition: none;
+  }
+
+  .landing-option-card,
+  .landing-option-card:nth-child(2),
+  .landing-option-card:nth-child(3),
+  .landing-option-card:hover,
+  .landing-option-card:focus-visible,
+  .landing-option-card:active {
+    transform: none;
+  }
+
+  .landing-pill:active {
+    transform: none;
+  }
+}

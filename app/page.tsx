@@ -1,9 +1,12 @@
+import type { Metadata } from "next";
+import { LandingPage } from "@/features/landing/components/landing-page";
+
+export const metadata: Metadata = {
+  title: "Tahiry — Every coin, in plain sight",
+  description:
+    "Track what comes in, what goes out, and what is left across every account. Tahiry keeps your everyday money clear.",
+};
+
 export default function Home() {
-  return (
-    <main className="flex min-h-screen items-center justify-center p-8">
-      <p className="font-mono text-sm tracking-[0.14em]">
-        This is the home page
-      </p>
-    </main>
-  );
+  return <LandingPage />;
 }
