@@ -87,6 +87,12 @@ input {
 
 .landing-page {
   color-scheme: light;
+
+  /* The landing page is always light. Keep its brand accent from inheriting
+     the dark theme's mint variant when <html> has the .dark class. */
+  --color-accent: #064e3b;
+  --color-accent-contrast: #ffffff;
+
   background-color: #eef1f4;
   color: #111827;
   font-family: Arial, Helvetica, sans-serif;

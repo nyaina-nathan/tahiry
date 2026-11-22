@@ -1,3 +1,4 @@
+import { FeaturesSection } from "@/features/landing/components/features-section";
 import { HeroSection } from "@/features/landing/components/hero-section";
 import { LandingHeader } from "@/features/landing/components/landing-header";
 
@@ -34,6 +35,8 @@ export function LandingPage() {
           ))}
         </ul>
       </section>
+
+      <FeaturesSection />
     </main>
   );
 }
