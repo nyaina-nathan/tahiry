@@ -91,7 +91,7 @@ export function WhySection() {
       aria-labelledby="why-heading"
       className="scroll-mt-6 bg-[#eef1f4]"
     >
-      <div className="mx-auto w-full max-w-[87.5rem] px-5 pt-2 pb-24 sm:px-8 sm:pt-4 sm:pb-32 lg:px-12 lg:pb-36 xl:px-16">
+      <div className="mx-auto w-full max-w-[87.5rem] px-5 pt-2 pb-16 sm:px-8 sm:pt-4 sm:pb-20 lg:px-12 lg:pb-24 xl:px-16">
         <div className="rounded-[1.6rem] border border-[#053a2c]/10 bg-[#e6e9ed] p-6 sm:rounded-[2rem] sm:p-9 lg:p-12">
           <div className="flex flex-col gap-10 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
             <div className="max-w-[38rem]">

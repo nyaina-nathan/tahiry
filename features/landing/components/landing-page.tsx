@@ -1,5 +1,6 @@
 import { FeaturesSection } from "@/features/landing/components/features-section";
 import { HeroSection } from "@/features/landing/components/hero-section";
+import { LandingFooter } from "@/features/landing/components/landing-footer";
 import { LandingHeader } from "@/features/landing/components/landing-header";
 import { WhySection } from "@/features/landing/components/why-section";
 
@@ -40,6 +41,8 @@ export function LandingPage() {
       <FeaturesSection />
 
       <WhySection />
+
+      <LandingFooter />
     </main>
   );
 }
