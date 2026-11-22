@@ -11,7 +11,7 @@ const NAV_LINKS = [
 
 export function LandingHeader() {
   return (
-    <header className="relative z-20 px-5 pt-5 sm:px-8 sm:pt-7 lg:px-12 lg:pt-8">
+    <header className="relative z-20 mx-auto w-full max-w-[87.5rem] px-5 pt-5 sm:px-8 sm:pt-7 lg:px-12 lg:pt-8 xl:px-16">
       <div className="flex items-center justify-between gap-4">
         <Link
           href="/"

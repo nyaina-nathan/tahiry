@@ -24,7 +24,7 @@ export function HeroSection() {
   return (
     <section
       aria-labelledby="hero-title"
-      className="relative z-10 mx-auto grid w-full max-w-[87.5rem] grid-cols-1 items-center gap-14 px-5 pb-20 pt-14 sm:px-8 sm:pb-24 sm:pt-20 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-8 lg:px-12 lg:pb-28 lg:pt-16 xl:px-16"
+      className="relative z-10 mx-auto grid w-full max-w-[87.5rem] flex-1 grid-cols-1 content-center items-center gap-14 px-5 pb-20 pt-14 sm:px-8 sm:pb-24 sm:pt-20 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-8 lg:px-12 lg:pb-28 lg:pt-16 xl:px-16"
     >
       <div className="landing-enter max-w-[38rem]">
         <p className="flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-(--color-accent-inverse)">
