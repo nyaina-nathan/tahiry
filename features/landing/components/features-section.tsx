@@ -275,18 +275,6 @@ function FeatureCard({ feature }: { feature: Feature }) {
         <div className="mt-6 flex flex-1 items-center justify-end">
           <Art className={`h-32 w-auto sm:h-36 ${tone.art}`} />
         </div>
-
-        <Link
-          href="/login"
-          className={`group mt-7 inline-flex w-fit items-center gap-3 font-mono text-[10px] font-bold uppercase tracking-[0.16em] transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-4 ${tone.cta}`}
-        >
-          <span
-            className={`flex h-9 w-9 items-center justify-center rounded-full transition-transform duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] motion-safe:group-active:scale-[0.96] ${tone.ctaCircle}`}
-          >
-            <ArrowIcon />
-          </span>
-          Try it free
-        </Link>
       </article>
     </li>
   );

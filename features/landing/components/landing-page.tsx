@@ -1,6 +1,7 @@
 import { FeaturesSection } from "@/features/landing/components/features-section";
 import { HeroSection } from "@/features/landing/components/hero-section";
 import { LandingHeader } from "@/features/landing/components/landing-header";
+import { WhySection } from "@/features/landing/components/why-section";
 
 const ASSURANCES = [
   "Free forever",
@@ -17,7 +18,7 @@ export function LandingPage() {
       </div>
 
       <section
-        aria-label="Why Tahiry"
+        aria-label="Landing assurances"
         className="mx-auto w-full max-w-[87.5rem] px-5 pb-12 pt-7 sm:px-8 sm:pb-16 sm:pt-8 lg:px-12 xl:px-16"
       >
         <ul className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 border-t border-[#053a2c]/10 py-5">
@@ -37,6 +38,8 @@ export function LandingPage() {
       </section>
 
       <FeaturesSection />
+
+      <WhySection />
     </main>
   );
 }
