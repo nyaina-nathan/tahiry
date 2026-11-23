@@ -9,6 +9,8 @@
     "lint": "eslint",
     "test": "vitest run",
     "test:unit": "vitest run tests/unit",
+    "test:integration": "vitest run --config vitest.integration.config.mts",
+    "test:all": "npm run test:unit && npm run test:integration",
     "test:watch": "vitest"
   },
   "dependencies": {
