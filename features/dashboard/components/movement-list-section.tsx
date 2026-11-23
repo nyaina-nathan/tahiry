@@ -36,6 +36,8 @@ type MovementListSectionProps = {
   createLabel?: string;
   emptyTitle?: string;
   emptyDescription?: string;
+  selectedDay?: string | null;
+  onClearSelectedDay?: () => void;
   showFilters?: boolean;
   pageSize?: number;
   onPageSizeChange?: (pageSize: number) => void;
@@ -67,6 +69,8 @@ export function MovementListSection({
   createLabel = "New +",
   emptyTitle,
   emptyDescription,
+  selectedDay,
+  onClearSelectedDay,
   showFilters = true,
   pageSize,
   onPageSizeChange,
@@ -129,6 +133,8 @@ export function MovementListSection({
         onNextPage={onNextPage}
         emptyTitle={emptyTitle}
         emptyDescription={emptyDescription}
+        selectedDay={selectedDay}
+        onClearSelectedDay={onClearSelectedDay}
       />
     </section>
   );

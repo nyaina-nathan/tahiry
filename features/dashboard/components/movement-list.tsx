@@ -5,6 +5,7 @@ import { MovementEmptyState } from "@/features/dashboard/components/movement-emp
 import { MovementItem } from "@/features/dashboard/components/movement-item";
 import { MovementLoading } from "@/features/dashboard/components/movement-loading";
 import { MovementPagination } from "@/features/dashboard/components/movement-pagination";
+import { formatDate } from "@/features/dashboard/utils/formatters";
 
 type MovementListProps = {
   movements: MovementPage | null;
@@ -25,6 +26,8 @@ type MovementListProps = {
   accountId?: string;
   emptyTitle?: string;
   emptyDescription?: string;
+  selectedDay?: string | null;
+  onClearSelectedDay?: () => void;
 };
 
 export function MovementList({
@@ -46,22 +49,54 @@ export function MovementList({
   accountId,
   emptyTitle,
   emptyDescription,
+  selectedDay,
+  onClearSelectedDay,
 }: MovementListProps) {
+  const dayFilterBanner = selectedDay ? (
+    <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-[0.8rem] border border-[var(--color-line)] bg-[var(--color-surface)] px-4 py-3">
+      <p className="text-xs text-[var(--color-muted)]">
+        Showing movements from{" "}
+        <span className="font-semibold text-[var(--color-ink)]">
+          {formatDate(selectedDay)}
+        </span>{" "}
+        only.
+      </p>
+      {onClearSelectedDay && (
+        <button
+          type="button"
+          onClick={onClearSelectedDay}
+          className="min-h-10 rounded-[0.6rem] border border-[var(--color-line)] px-3 text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--color-ink)] transition-colors hover:border-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
+        >
+          Show all
+        </button>
+      )}
+    </div>
+  ) : null;
+
   if (isLoading || isListLoading) {
-    return <MovementLoading />;
+    return (
+      <>
+        {dayFilterBanner}
+        <MovementLoading />
+      </>
+    );
   }
 
   if (!movements?.items.length) {
     return (
-      <MovementEmptyState
-        title={emptyTitle}
-        description={emptyDescription}
-      />
+      <>
+        {dayFilterBanner}
+        <MovementEmptyState
+          title={emptyTitle}
+          description={emptyDescription}
+        />
+      </>
     );
   }
 
   return (
     <>
+      {dayFilterBanner}
       <ul className="space-y-3">
         {movements.items.map((movement) => {
           const category = categories.find(

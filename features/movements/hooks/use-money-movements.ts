@@ -73,6 +73,7 @@ export function useMoneyMovements({
   const [actionError, setActionError] = useState("");
   const [cashflowError, setCashflowError] = useState("");
   const [mutation, setMutation] = useState<Mutation>(null);
+  const [dataRevision, setDataRevision] = useState(0);
   const [filters, setFilters] = useState<Filters>(() =>
     createInitialFilters(fixedType, initialPageSize, accountId),
   );
@@ -314,6 +315,7 @@ export function useMoneyMovements({
 
     try {
       await saveMoneyMovement(editingId, payload);
+      setDataRevision((current) => current + 1);
       resetForm();
       await refreshWorkspace(filters, true);
     } catch (error) {
@@ -333,6 +335,7 @@ export function useMoneyMovements({
 
     try {
       await deleteMoneyMovement(id);
+      setDataRevision((current) => current + 1);
 
       if (editingId === id) {
         resetForm();
@@ -373,6 +376,7 @@ export function useMoneyMovements({
     actionError,
     cashflowError,
     mutation,
+    dataRevision,
     filters,
     editingId,
     isCreateFormOpen,
