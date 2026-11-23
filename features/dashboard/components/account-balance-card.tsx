@@ -16,27 +16,37 @@ export function AccountBalanceCard({
   const isNegative = account.balance.startsWith("-");
 
   return (
-    <article className="border border-(--color-line) bg-(--color-surface) p-3 sm:p-5">
-      <p className="truncate font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-(--color-muted) sm:text-[10px]">
-        {account.name}
-      </p>
+    <Link
+      href={`/accounts/${account.id_account}`}
+      aria-label={`View ${account.name} account`}
+      className="balance-account group flex h-full flex-col p-3 sm:p-5"
+    >
+      <div className="flex items-center justify-between gap-2">
+        <p className="truncate font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-(--color-muted) sm:text-[10px]">
+          {account.name}
+        </p>
+        <span
+          aria-hidden="true"
+          className="-translate-x-1 text-(--color-muted) opacity-0 transition-[transform,opacity] duration-200 ease-out group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100 motion-reduce:translate-x-0"
+        >
+          ↗
+        </span>
+      </div>
       {isLoading ? (
-        <div className="mt-2 h-4 w-full animate-pulse bg-(--color-canvas) sm:mt-5 sm:h-6 sm:w-28" />
+        <div className="mt-2 h-4 w-full animate-pulse rounded-full bg-(--color-canvas) sm:mt-5 sm:h-6 sm:w-28" />
       ) : (
-        <Link
-          href={`/accounts/${account.id_account}`}
-          aria-label={`View ${account.name} account`}
-          className={`mt-2 block break-all text-xs font-bold tabular-nums tracking-tight hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) sm:mt-5 sm:text-xl md:text-2xl ${
+        <p
+          className={`mt-2 break-all text-xs font-bold tabular-nums tracking-tight sm:mt-5 sm:text-xl md:text-2xl ${
             isNegative ? "text-(--color-negative)" : "text-(--color-ink)"
           }`}
         >
           {formatMoney(account.balance, currency)}
-        </Link>
+        </p>
       )}
       <p className="mt-2 hidden text-xs text-(--color-muted) sm:block">
         {formatMoney(account.income, currency)} in ·{" "}
         {formatMoney(account.expense, currency)} out
       </p>
-    </article>
+    </Link>
   );
 }

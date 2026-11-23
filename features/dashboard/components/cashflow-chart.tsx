@@ -42,14 +42,14 @@ function CashflowTooltip({
   }
 
   return (
-    <div className="border border-(--color-line) bg-(--color-surface) px-3 py-2">
+    <div className="rounded-xl border border-(--color-line) bg-(--color-surface) px-3 py-2 shadow-[0_12px_28px_-16px_rgba(2,44,34,0.45)] backdrop-blur-sm">
       <p className="font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-(--color-muted)">
         {formatDate(point.date)}
       </p>
       <dl className="mt-2 space-y-1">
         <div className="flex items-center justify-between gap-6">
           <dt className="flex items-center gap-2 text-xs text-(--color-muted)">
-            <span className="h-1.5 w-1.5 bg-(--color-accent)" />
+            <span className="h-1.5 w-1.5 rounded-full bg-(--color-accent)" />
             Income
           </dt>
           <dd className="font-mono text-xs font-bold text-(--color-ink)">
@@ -58,7 +58,7 @@ function CashflowTooltip({
         </div>
         <div className="flex items-center justify-between gap-6">
           <dt className="flex items-center gap-2 text-xs text-(--color-muted)">
-            <span className="h-1.5 w-1.5 bg-(--color-negative)" />
+            <span className="h-1.5 w-1.5 rounded-full bg-(--color-negative)" />
             Expenses
           </dt>
           <dd className="font-mono text-xs font-bold text-(--color-ink)">

@@ -37,11 +37,11 @@ export function CashflowSection({
         </div>
         <div className="flex flex-wrap items-center gap-4 font-mono text-[10px] uppercase tracking-[0.14em] text-(--color-muted)">
           <span className="flex items-center gap-2">
-            <span className="h-2 w-2 bg-(--color-accent)" aria-hidden="true" />
+            <span className="h-2 w-2 rounded-full bg-(--color-accent)" aria-hidden="true" />
             Income
           </span>
           <span className="flex items-center gap-2">
-            <span className="h-2 w-2 bg-(--color-negative)" aria-hidden="true" />
+            <span className="h-2 w-2 rounded-full bg-(--color-negative)" aria-hidden="true" />
             Expenses
           </span>
           {points.length > 0 && (
@@ -52,14 +52,14 @@ export function CashflowSection({
         </div>
       </div>
 
-      <div className="border border-(--color-line) bg-(--color-surface) p-4 sm:p-6">
+      <div className="dash-panel p-4 sm:p-6">
         {error ? (
           <div className="flex min-h-64 flex-col items-start justify-center gap-4 sm:min-h-72">
             <p className="text-sm text-(--color-muted)">{error}</p>
             <button
               type="button"
               onClick={onRetry}
-              className="min-h-10 bg-(--color-strong) px-4 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-white transition-colors hover:bg-(--color-accent) hover:text-(--color-accent-contrast) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent)"
+              className="min-h-10 rounded-[0.65rem] bg-(--color-strong) px-4 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-white transition-colors hover:bg-(--color-accent) hover:text-(--color-accent-contrast) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent)"
             >
               Try again
             </button>
@@ -68,8 +68,8 @@ export function CashflowSection({
           <div className="flex min-h-64 items-end gap-3 sm:min-h-72" aria-hidden="true">
             {Array.from({ length: 7 }, (_, index) => (
               <div key={index} className="flex flex-1 flex-col gap-2">
-                <div className="h-24 w-full animate-pulse bg-(--color-canvas) sm:h-32" />
-                <div className="h-4 w-full animate-pulse bg-(--color-canvas)" />
+                <div className="h-24 w-full animate-pulse rounded-lg bg-(--color-canvas) sm:h-32" />
+                <div className="h-4 w-full animate-pulse rounded-full bg-(--color-canvas)" />
               </div>
             ))}
           </div>

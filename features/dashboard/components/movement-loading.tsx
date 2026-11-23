@@ -4,7 +4,7 @@ export function MovementLoading() {
       {["one", "two", "three"].map((item) => (
         <div
           key={item}
-          className="h-24 animate-pulse border border-[var(--color-line)] bg-[var(--color-surface)]"
+          className="dash-panel h-24 animate-pulse"
         />
       ))}
     </div>

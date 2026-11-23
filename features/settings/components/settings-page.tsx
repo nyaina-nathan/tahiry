@@ -97,7 +97,7 @@ export function SettingsPage() {
         {emailChangeResult !== null && (
           <div
             role={emailChangeResult ? "status" : "alert"}
-            className={`mb-8 flex items-center gap-5 border p-5 sm:p-7 ${
+            className={`mb-8 flex items-center gap-5 rounded-[1rem] border p-5 shadow-[0_14px_32px_-26px_rgba(2,44,34,0.35)] sm:rounded-[var(--radius-card)] sm:p-7 ${
               emailChangeResult
                 ? "border-(--color-positive) bg-(--color-surface)"
                 : "border-(--color-negative-line) bg-(--color-negative-soft)"
@@ -143,7 +143,7 @@ export function SettingsPage() {
           <div className="space-y-8">
             <section
               aria-labelledby="profile-heading"
-              className="w-full border border-(--color-line) bg-(--color-surface) p-5 sm:p-8"
+              className="dash-panel w-full p-5 sm:p-8"
             >
               <div className="mb-8">
                 <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-accent)">
@@ -162,8 +162,8 @@ export function SettingsPage() {
 
               {isProfileLoading ? (
                 <div className="space-y-4" aria-label="Loading profile">
-                  <div className="h-11 animate-pulse bg-(--color-canvas)" />
-                  <div className="h-11 animate-pulse bg-(--color-canvas)" />
+                  <div className="h-11 animate-pulse rounded-[0.7rem] bg-(--color-canvas)" />
+                  <div className="h-11 animate-pulse rounded-[0.7rem] bg-(--color-canvas)" />
                 </div>
               ) : isProfileEditing ? (
                 <form onSubmit={(event) => void handleProfileSubmit(event)} className="space-y-6">
@@ -178,7 +178,7 @@ export function SettingsPage() {
                         required
                         minLength={1}
                         maxLength={255}
-                        className="min-h-11 w-full border border-(--color-line) bg-(--color-surface) px-3 text-sm text-(--color-ink) focus:border-(--color-accent) focus:outline-none"
+                        className="min-h-11 w-full rounded-[0.7rem] border border-(--color-line) bg-(--color-surface) px-3 text-sm text-(--color-ink) focus:border-(--color-accent) focus:outline-none"
                       />
                     </label>
 
@@ -192,7 +192,7 @@ export function SettingsPage() {
                         required
                         minLength={1}
                         maxLength={20}
-                        className="min-h-11 w-full border border-(--color-line) bg-(--color-surface) px-3 text-sm text-(--color-ink) focus:border-(--color-accent) focus:outline-none"
+                        className="min-h-11 w-full rounded-[0.7rem] border border-(--color-line) bg-(--color-surface) px-3 text-sm text-(--color-ink) focus:border-(--color-accent) focus:outline-none"
                       />
                     </label>
                   </div>
@@ -201,7 +201,7 @@ export function SettingsPage() {
                     <button
                       type="submit"
                       disabled={isProfileSaving}
-                      className="min-h-11 border border-(--color-ink) bg-(--color-ink) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-surface) transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
+                      className="min-h-11 rounded-[0.65rem] border border-(--color-ink) bg-(--color-ink) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-surface) transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
                     >
                       {isProfileSaving ? "Saving..." : "Save changes"}
                     </button>
@@ -209,7 +209,7 @@ export function SettingsPage() {
                       type="button"
                       onClick={cancelProfileEditing}
                       disabled={isProfileSaving}
-                      className="min-h-11 border border-(--color-line) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted) transition-colors hover:border-(--color-ink) hover:text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
+                      className="min-h-11 rounded-[0.65rem] border border-(--color-line) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted) transition-colors hover:border-(--color-ink) hover:text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
                     >
                       Cancel
                     </button>
@@ -240,7 +240,7 @@ export function SettingsPage() {
                     <button
                       type="button"
                       onClick={beginProfileEditing}
-                      className="min-h-11 border border-(--color-ink) bg-(--color-ink) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-surface) transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent)"
+                      className="min-h-11 rounded-[0.65rem] border border-(--color-ink) bg-(--color-ink) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-surface) transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent)"
                     >
                       Edit profile
                     </button>
@@ -251,7 +251,7 @@ export function SettingsPage() {
               {profileError && (
                 <div
                   role="alert"
-                  className="mt-6 border-l-4 border-(--color-negative) bg-(--color-negative-soft) px-4 py-3 text-sm text-(--color-negative-strong)"
+                  className="mt-6 rounded-[0.8rem] border border-(--color-negative-line) bg-(--color-negative-soft) px-4 py-3 text-sm text-(--color-negative-strong)"
                 >
                   {profileError}
                   <button
@@ -267,7 +267,7 @@ export function SettingsPage() {
               {profileSuccess && (
                 <p
                   role="status"
-                  className="mt-6 border-l-4 border-(--color-accent) bg-(--color-canvas) px-4 py-3 text-sm text-(--color-ink)"
+                  className="mt-6 rounded-[0.8rem] border border-(--color-line) bg-(--color-canvas) px-4 py-3 text-sm text-(--color-ink)"
                 >
                   {profileSuccess}
                 </p>
@@ -283,7 +283,7 @@ export function SettingsPage() {
 
             <section
             aria-labelledby="email-reminder-heading"
-            className="w-full border border-(--color-line) bg-(--color-surface) p-5 sm:p-8"
+            className="dash-panel w-full p-5 sm:p-8"
             >
           <div className="mb-8">
             <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-accent)">
@@ -303,9 +303,9 @@ export function SettingsPage() {
 
           {isLoading ? (
             <div className="space-y-4" aria-label="Loading email reminder">
-              <div className="h-11 animate-pulse bg-(--color-canvas)" />
-              <div className="h-11 animate-pulse bg-(--color-canvas)" />
-              <div className="h-11 w-32 animate-pulse bg-(--color-canvas)" />
+              <div className="h-11 animate-pulse rounded-[0.7rem] bg-(--color-canvas)" />
+              <div className="h-11 animate-pulse rounded-[0.7rem] bg-(--color-canvas)" />
+              <div className="h-11 w-32 animate-pulse rounded-[0.7rem] bg-(--color-canvas)" />
             </div>
           ) : !reminder || isReminderEditing ? (
             <form
@@ -326,7 +326,7 @@ export function SettingsPage() {
                   <select
                     value={dayOfWeek}
                     onChange={(event) => setDayOfWeek(Number(event.target.value))}
-                    className="min-h-11 w-full border border-(--color-line) bg-(--color-surface) px-3 text-sm text-(--color-ink) focus:border-(--color-accent) focus:outline-none"
+                    className="min-h-11 w-full rounded-[0.7rem] border border-(--color-line) bg-(--color-surface) px-3 text-sm text-(--color-ink) focus:border-(--color-accent) focus:outline-none"
                   >
                     {DAYS_OF_WEEK.map((day, index) => (
                       <option key={day} value={index}>
@@ -345,7 +345,7 @@ export function SettingsPage() {
                     value={time}
                     onChange={(event) => setTime(event.target.value)}
                     required
-                    className="min-h-11 w-full border border-(--color-line) bg-(--color-surface) px-3 text-sm text-(--color-ink) focus:border-(--color-accent) focus:outline-none"
+                    className="min-h-11 w-full rounded-[0.7rem] border border-(--color-line) bg-(--color-surface) px-3 text-sm text-(--color-ink) focus:border-(--color-accent) focus:outline-none"
                   />
                 </label>
               </div>
@@ -354,7 +354,7 @@ export function SettingsPage() {
                 <button
                   type="submit"
                   disabled={isSaving || isDeleting}
-                  className="min-h-11 border border-(--color-ink) bg-(--color-ink) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-surface) transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
+                  className="min-h-11 rounded-[0.65rem] border border-(--color-ink) bg-(--color-ink) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-surface) transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {isSaving
                     ? "Saving..."
@@ -372,7 +372,7 @@ export function SettingsPage() {
                        setIsReminderEditing(false);
                     }}
                     disabled={isSaving || isDeleting}
-                    className="min-h-11 border border-(--color-line) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted) transition-colors hover:border-(--color-ink) hover:text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
+                    className="min-h-11 rounded-[0.65rem] border border-(--color-line) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted) transition-colors hover:border-(--color-ink) hover:text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     Cancel
                   </button>
@@ -383,7 +383,7 @@ export function SettingsPage() {
                     type="button"
                     onClick={() => void loadReminder()}
                     disabled={isSaving || isDeleting}
-                    className="min-h-11 border border-(--color-line) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted) transition-colors hover:border-(--color-ink) hover:text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
+                    className="min-h-11 rounded-[0.65rem] border border-(--color-line) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted) transition-colors hover:border-(--color-ink) hover:text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     Reset
                   </button>
@@ -416,7 +416,7 @@ export function SettingsPage() {
                   type="button"
                    onClick={() => setIsReminderEditing(true)}
                   disabled={isDeleting}
-                  className="min-h-11 border border-(--color-ink) bg-(--color-ink) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-surface) transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
+                  className="min-h-11 rounded-[0.65rem] border border-(--color-ink) bg-(--color-ink) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-surface) transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   Update reminder
                 </button>
@@ -424,7 +424,7 @@ export function SettingsPage() {
                   type="button"
                   onClick={() => void handleDelete()}
                   disabled={isDeleting}
-                  className="min-h-11 border border-(--color-negative-line) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-negative-strong) transition-colors hover:bg-(--color-negative-soft) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-negative) disabled:cursor-not-allowed disabled:opacity-60"
+                  className="min-h-11 rounded-[0.65rem] border border-(--color-negative-line) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-negative-strong) transition-colors hover:bg-(--color-negative-soft) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-negative) disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {isDeleting ? "Deleting..." : "Delete reminder"}
                 </button>
@@ -435,7 +435,7 @@ export function SettingsPage() {
           {error && (
             <div
               role="alert"
-              className="mt-6 border-l-4 border-(--color-negative) bg-(--color-negative-soft) px-4 py-3 text-sm text-(--color-negative-strong)"
+              className="mt-6 rounded-[0.8rem] border border-(--color-negative-line) bg-(--color-negative-soft) px-4 py-3 text-sm text-(--color-negative-strong)"
             >
               {error}
               <button
@@ -451,7 +451,7 @@ export function SettingsPage() {
           {success && (
             <p
               role="status"
-              className="mt-6 border-l-4 border-(--color-accent) bg-(--color-canvas) px-4 py-3 text-sm text-(--color-ink)"
+              className="mt-6 rounded-[0.8rem] border border-(--color-line) bg-(--color-canvas) px-4 py-3 text-sm text-(--color-ink)"
             >
               {success}
             </p>

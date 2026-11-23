@@ -15,7 +15,7 @@ export function AccountCard({ account, currency }: AccountCardProps) {
   const isNegative = account.balance.startsWith("-");
 
   return (
-    <article className="relative border border-(--color-line) bg-(--color-surface) p-3 transition-colors hover:border-(--color-ink) sm:p-5">
+    <article className="dash-panel dash-card relative p-3 sm:p-5">
       <Link
         href={`/accounts/${account.id}`}
         className="absolute inset-0 z-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent)"

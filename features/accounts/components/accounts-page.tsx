@@ -64,7 +64,7 @@ export function AccountsPage() {
                 onClick={() => setShowTransferForm(true)}
                 aria-expanded={showTransferForm}
                 aria-controls="transfer-account-modal"
-                className="flex min-h-10 items-center justify-between gap-5 border border-(--color-line) px-3 text-(--color-ink) transition-colors hover:border-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent)"
+                className="flex min-h-10 items-center justify-between gap-5 rounded-[0.65rem] border border-(--color-line) px-3 text-(--color-ink) transition-colors hover:border-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent)"
               >
                 <span>Transfer</span>
                 <span aria-hidden="true" className="text-lg leading-none">
@@ -76,7 +76,7 @@ export function AccountsPage() {
                 onClick={() => setShowCreateForm(true)}
                 aria-expanded={showCreateForm}
                 aria-controls="create-account-modal"
-                className="flex min-h-10 items-center justify-between gap-5 border border-(--color-line) px-3 text-(--color-ink) transition-colors hover:border-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent)"
+                className="flex min-h-10 items-center justify-between gap-5 rounded-[0.65rem] border border-(--color-line) px-3 text-(--color-ink) transition-colors hover:border-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent)"
               >
                 <span>New account</span>
                 <span aria-hidden="true" className="text-lg leading-none">
@@ -141,17 +141,17 @@ export function AccountsPage() {
               {Array.from({ length: ACCOUNT_SKELETON_COUNT }, (_, index) => (
                 <article
                   key={index}
-                  className="border border-(--color-line) bg-(--color-surface) p-3 sm:p-5"
+                  className="dash-panel p-3 sm:p-5"
                   aria-hidden="true"
                 >
-                  <div className="h-2.5 w-20 animate-pulse bg-(--color-canvas)" />
-                  <div className="mt-2 h-4 w-full animate-pulse bg-(--color-canvas) sm:mt-5 sm:h-6 sm:w-28" />
+                  <div className="h-2.5 w-20 animate-pulse rounded-full bg-(--color-canvas)" />
+                  <div className="mt-2 h-4 w-full animate-pulse rounded-full bg-(--color-canvas) sm:mt-5 sm:h-6 sm:w-28" />
                 </article>
               ))}
             </div>
           ) : loadError ? (
             <div
-              className="border-l-4 border-(--color-negative) bg-(--color-negative-soft) px-5 py-5"
+              className="rounded-[1rem] border border-(--color-negative-line) bg-(--color-negative-soft) px-5 py-5 shadow-[0_14px_32px_-26px_rgba(2,44,34,0.35)] sm:rounded-[var(--radius-card)]"
               role="alert"
             >
               <p className="font-semibold text-(--color-negative-strong)">
@@ -160,13 +160,13 @@ export function AccountsPage() {
               <button
                 type="button"
                 onClick={() => void loadAccounts()}
-                className="mt-4 min-h-11 border border-(--color-negative-line) px-4 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-negative-strong) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-negative)"
+                className="mt-4 min-h-11 rounded-[0.65rem] border border-(--color-negative-line) px-4 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-negative-strong) transition-colors hover:bg-(--color-negative-soft) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-negative)"
               >
                 Try again
               </button>
             </div>
           ) : accounts.length === 0 ? (
-            <div className="border border-dashed border-(--color-line) px-6 py-14 text-center">
+            <div className="dash-panel dash-panel-dashed px-6 py-14 text-center">
               <p className="font-display text-3xl text-(--color-ink)">
                 No accounts yet.
               </p>
