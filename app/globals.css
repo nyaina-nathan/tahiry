@@ -556,3 +556,47 @@ input {
 .dash-panel.dash-panel-dashed {
   border-style: dashed;
 }
+
+/* App header — nav labels slide out to the right of their icon. The item grows
+   into the header's free space, so no chip ever covers a neighbouring icon. */
+.nav-label {
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  padding-left: 0;
+  transform: translateX(-4px);
+  transition:
+    max-width 180ms var(--ease-out-strong),
+    padding-left 180ms var(--ease-out-strong),
+    opacity 120ms ease-out,
+    transform 180ms var(--ease-out-strong);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .group:hover .nav-label {
+    max-width: 7rem;
+    padding-left: 0.5rem;
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.group:focus-visible .nav-label {
+  max-width: 7rem;
+  padding-left: 0.5rem;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-label {
+    transition: none;
+  }
+
+  .nav-label,
+  .group:hover .nav-label,
+  .group:focus-visible .nav-label {
+    transform: none;
+  }
+}

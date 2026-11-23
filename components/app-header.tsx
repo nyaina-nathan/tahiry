@@ -41,7 +41,7 @@ function linkClassNameFor(href: string, pathname: string) {
 }
 
 const iconButtonClassName =
-  "group relative flex h-10 w-10 shrink-0 items-center justify-center border border-transparent transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)]";
+  "group relative inline-flex h-10 shrink-0 items-center justify-center rounded-[0.65rem] border border-transparent px-2.5 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)]";
 
 const labelChipClassName =
   "pointer-events-none absolute left-1/2 top-full z-10 mt-1.5 -translate-x-1/2 translate-y-1 whitespace-nowrap border border-[var(--color-line)] bg-[var(--color-surface)] px-2 py-1 font-mono font-bold uppercase opacity-0 transition-[opacity,transform] duration-[90ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0 group-hover:opacity-100 group-hover:delay-[90ms] group-hover:duration-[140ms] group-focus-visible:translate-y-0 group-focus-visible:opacity-100 motion-reduce:translate-y-0 motion-reduce:transition-none";
@@ -49,6 +49,17 @@ const labelChipClassName =
 function HoverLabel({ children }: { children: ReactNode }) {
   return (
     <span aria-hidden="true" className={labelChipClassName}>
+      {children}
+    </span>
+  );
+}
+
+function NavLabel({ children }: { children: ReactNode }) {
+  return (
+    <span
+      aria-hidden="true"
+      className="nav-label font-mono font-bold uppercase"
+    >
       {children}
     </span>
   );
@@ -161,11 +172,11 @@ export function AppHeader({ links = [] }: AppHeaderProps) {
 
   function renderProfileCard(onNavigate?: () => void) {
     return (
-      <div className="flex items-center gap-2 border border-[var(--color-line)] bg-[var(--color-canvas)] p-2">
+      <div className="flex items-center gap-2 border border-[var(--color-line)] bg-[var(--color-canvas)] p-2 rounded-[0.9rem]">
         <div className="flex items-center gap-2 px-1">
           <div
             aria-hidden="true"
-            className="flex h-8 w-8 shrink-0 items-center justify-center bg-[var(--color-strong)] font-display text-lg text-white"
+            className="rounded-[0.6rem] flex h-8 w-8 shrink-0 items-center justify-center bg-[var(--color-strong)] font-display text-lg text-white"
           >
             {profileInitial}
           </div>
@@ -176,7 +187,7 @@ export function AppHeader({ links = [] }: AppHeaderProps) {
         <Link
           href="/settings"
           onClick={onNavigate}
-          className="flex min-h-9 items-center justify-center border border-[var(--color-line)] px-3 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-muted)] transition-colors hover:border-[var(--color-ink)] hover:text-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)]"
+          className=" rounded-[0.65rem] flex min-h-9 items-center justify-center border border-[var(--color-line)] px-3 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-muted)] transition-colors hover:border-[var(--color-ink)] hover:text-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)]"
           aria-current={isActiveLink("/settings", pathname) ? "page" : undefined}
         >
           Profile
@@ -243,12 +254,12 @@ export function AppHeader({ links = [] }: AppHeaderProps) {
                 {isActive && (
                   <span
                     aria-hidden="true"
-                    className="absolute bottom-1 left-1/2 h-[2px] w-4 -translate-x-1/2 bg-[var(--color-ink)]"
+                    className="absolute bottom-1 left-3 h-[2px] w-4 bg-[var(--color-ink)]"
                   />
                 )}
-                <HoverLabel>
+                <NavLabel>
                   <span className="text-[10px] tracking-[0.14em]">{link.label}</span>
-                </HoverLabel>
+                </NavLabel>
               </Link>
             );
           })}
@@ -260,11 +271,11 @@ export function AppHeader({ links = [] }: AppHeaderProps) {
             className={`${iconButtonClassName} cursor-pointer text-[var(--color-muted)] hover:border-[var(--color-line)] hover:text-[var(--color-negative)] focus-visible:outline-[var(--color-negative)] disabled:opacity-60`}
           >
             <SignOutIcon />
-            <HoverLabel>
+            <NavLabel>
               <span className="text-[10px] tracking-[0.14em]">
                 {isLoggingOut ? "Signing out…" : "Sign out"}
               </span>
-            </HoverLabel>
+            </NavLabel>
           </button>
           <button
             type="button"
@@ -273,11 +284,11 @@ export function AppHeader({ links = [] }: AppHeaderProps) {
             className={`${iconButtonClassName} cursor-pointer text-[var(--color-muted)] hover:border-[var(--color-line)] hover:text-[var(--color-ink)]`}
           >
             {isDark ? <SunIcon /> : <MoonIcon />}
-            <HoverLabel>
+            <NavLabel>
               <span className="text-[10px] tracking-[0.14em]">
                 {isDark ? "Light" : "Dark"}
               </span>
-            </HoverLabel>
+            </NavLabel>
           </button>
           <div className="ml-2">{renderProfileCard()}</div>
         </nav>
