@@ -20,10 +20,16 @@ export function BalanceSection({
   const accounts = balance?.accounts ?? [];
 
   return (
-    <section aria-labelledby="balance-heading" className="mb-12">
+    <section aria-labelledby="balance-heading" className="relative isolate mb-12">
+      <div aria-hidden="true" className="balance-aura" />
+
       <div className="mb-5 flex items-end justify-between gap-4">
         <div>
-          <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-(--color-accent)">
+          <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-(--color-line) bg-(--color-surface)/70 px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-(--color-accent) backdrop-blur-sm">
+            <span
+              aria-hidden="true"
+              className="h-1.5 w-1.5 rounded-full bg-(--color-accent)"
+            />
             Lifetime view
           </p>
           <h2 id="balance-heading" className="font-display text-2xl text-(--color-ink) sm:text-3xl">
@@ -39,14 +45,14 @@ export function BalanceSection({
         label="Current balance"
         value={balance?.balance}
         detail="Income minus expenses across all accounts"
-        className="bg-[var(--color-strong)] text-white"
+        className="balance-hero balance-rise text-white"
         mutedClassName="text-white/70"
         currency={currency}
         isLoading={isLoading}
       />
 
       {!isLoading && accounts.length === 0 ? (
-        <div className="mt-2 border border-(--color-line) bg-(--color-surface) p-3 sm:mt-4 sm:p-5">
+        <div className="balance-rise mt-2 rounded-[1rem] border border-white/75 bg-white/60 p-4 backdrop-blur-sm sm:mt-4 sm:rounded-[var(--radius-card)] sm:p-5 dark:border-white/10 dark:bg-white/5">
           <p className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-(--color-muted) sm:text-[10px]">
             No accounts yet.
           </p>
@@ -60,24 +66,28 @@ export function BalanceSection({
             ? Array.from({ length: ACCOUNT_SKELETON_COUNT }, (_, index) => (
                 <article
                   key={index}
-                  className="border border-(--color-line) bg-(--color-surface) p-3 sm:p-5"
+                  className="rounded-[1rem] border border-white/75 bg-white/60 p-3 backdrop-blur-sm sm:rounded-[var(--radius-card)] sm:p-5 dark:border-white/10 dark:bg-white/5"
                   aria-hidden="true"
                 >
-                  <div className="h-2.5 w-20 animate-pulse bg-(--color-canvas)" />
-                  <div className="mt-2 h-4 w-full animate-pulse bg-(--color-canvas) sm:mt-5 sm:h-6 sm:w-28" />
+                  <div className="h-2.5 w-20 animate-pulse rounded-full bg-(--color-canvas)" />
+                  <div className="mt-2 h-4 w-full animate-pulse rounded-full bg-(--color-canvas) sm:mt-5 sm:h-6 sm:w-28" />
                 </article>
               ))
-            : accounts.map((account) => (
-                <AccountBalanceCard
+            : accounts.map((account, index) => (
+                <div
                   key={account.id_account}
-                  account={account}
-                  currency={currency}
-                  isLoading={isLoading}
-                />
+                  className="balance-rise"
+                  style={{ animationDelay: `${index * 50}ms` }}
+                >
+                  <AccountBalanceCard
+                    account={account}
+                    currency={currency}
+                    isLoading={isLoading}
+                  />
+                </div>
               ))}
         </div>
       )}
-
     </section>
   );
 }
