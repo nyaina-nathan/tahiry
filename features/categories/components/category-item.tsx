@@ -45,7 +45,7 @@ export function CategoryItem({
   onUpdate,
 }: CategoryItemProps) {
   return (
-    <li className="border border-[var(--color-line)] bg-[var(--color-surface)] p-4 sm:p-5">
+    <li className="dash-panel p-4 sm:p-5">
       {isEditing ? (
         <CategoryEditForm
           categoryId={category.id}
@@ -62,7 +62,7 @@ export function CategoryItem({
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex min-w-0 items-center gap-4">
             <span
-              className={`flex h-11 w-11 shrink-0 items-center justify-center font-display text-2xl text-white ${accentClassName}`}
+              className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-[0.85rem] font-display text-2xl text-white ${accentClassName}`}
               aria-hidden="true"
             >
               {category.cat_name.charAt(0).toUpperCase()}
@@ -89,14 +89,14 @@ export function CategoryItem({
               <button
                 type="button"
                 onClick={onBeginEditing}
-                className="min-h-11 border border-[var(--color-line)] px-3 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-ink)] transition-colors hover:border-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
+                className="min-h-11 rounded-[0.65rem] border border-[var(--color-line)] px-3 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-ink)] transition-colors hover:border-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
               >
                 Edit
               </button>
               <button
                 type="button"
                 onClick={onRequestDelete}
-                className="min-h-11 border border-[var(--color-negative-line)] px-3 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-negative)] transition-colors hover:bg-[var(--color-negative-soft)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-negative)]"
+                className="min-h-11 rounded-[0.65rem] border border-[var(--color-negative-line)] px-3 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-negative)] transition-colors hover:bg-[var(--color-negative-soft)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-negative)]"
               >
                 Delete
               </button>

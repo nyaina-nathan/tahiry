@@ -493,3 +493,66 @@ input {
     display: none;
   }
 }
+
+/* --------------------------------------------------------------------------
+   Dashboard — flat panels and list rows. Same rounded, softly lifted surface
+   as the balance accounts, without the hover behaviour (most are not links).
+   -------------------------------------------------------------------------- */
+
+.dash-panel {
+  border: 1px solid var(--color-line);
+  border-radius: 1rem;
+  background: var(--color-surface);
+  box-shadow:
+    0 1px 2px rgb(17 24 39 / 0.04),
+    0 14px 32px -26px rgb(2 44 34 / 0.35);
+}
+
+@media (min-width: 640px) {
+  .dash-panel {
+    border-radius: var(--radius-card);
+  }
+}
+
+.dark .dash-panel {
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.5),
+    0 14px 32px -26px rgb(0 0 0 / 0.7);
+}
+
+/* Clickable panel — the same surface plus a small lift. Gated to devices with
+   a real hover, and disabled for people who prefer reduced motion. */
+.dash-card {
+  transition:
+    transform 200ms var(--ease-out-strong),
+    border-color 160ms ease,
+    box-shadow 200ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .dash-card:hover {
+    transform: translateY(-3px);
+    border-color: rgb(6 78 59 / 0.28);
+    box-shadow:
+      0 1px 2px rgb(17 24 39 / 0.04),
+      0 20px 40px -26px rgb(2 44 34 / 0.5);
+  }
+
+  .dark .dash-card:hover {
+    border-color: rgb(52 211 153 / 0.28);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dash-card,
+  .dash-card:hover {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* The empty-state variant of a panel. `.dash-panel` sets the full border
+   shorthand, so `border-dashed` alone would lose the cascade fight. */
+.dash-panel.dash-panel-dashed {
+  border-style: dashed;
+}

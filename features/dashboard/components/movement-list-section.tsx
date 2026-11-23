@@ -89,7 +89,7 @@ export function MovementListSection({
           <button
             type="button"
             onClick={onCreateNewMovement}
-            className="min-h-10 bg-[var(--color-strong)] px-4 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-white transition-colors hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-contrast)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
+            className="min-h-10 rounded-[0.65rem] bg-[var(--color-strong)] px-4 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-white transition-colors hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-contrast)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
           >
             {createLabel}
           </button>

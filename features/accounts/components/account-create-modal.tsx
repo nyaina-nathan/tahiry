@@ -17,7 +17,7 @@ type AccountCreateModalProps = {
 };
 
 const inputClassName =
-  "min-h-12 w-full border border-[var(--color-line)] bg-[var(--color-surface)] px-4 text-base outline-none transition-colors placeholder:text-[var(--color-placeholder)] focus:border-[var(--color-accent)] focus:ring-2 focus:ring-[var(--color-accent)]/20";
+  "min-h-12 w-full rounded-[0.7rem] border border-[var(--color-line)] bg-[var(--color-surface)] px-4 text-base outline-none transition-colors placeholder:text-[var(--color-placeholder)] focus:border-[var(--color-accent)] focus:ring-2 focus:ring-[var(--color-accent)]/20";
 
 export function AccountCreateModal({
   name,
@@ -96,7 +96,7 @@ export function AccountCreateModal({
       aria-modal="true"
       aria-labelledby="create-account-heading"
     >
-      <div className="max-h-[calc(100dvh-2rem)] w-full max-w-xl overflow-y-auto border border-(--color-line) bg-(--color-canvas) shadow-2xl sm:max-h-[calc(100dvh-4rem)]">
+      <div className="max-h-[calc(100dvh-2rem)] w-full max-w-xl overflow-y-auto rounded-[1.25rem] border border-(--color-line) bg-(--color-canvas) shadow-2xl sm:max-h-[calc(100dvh-4rem)]">
         <section aria-labelledby="create-account-heading">
           <div className="flex items-start justify-between gap-4 p-5 pb-0 sm:p-6 sm:pb-0">
             <div>
@@ -112,7 +112,7 @@ export function AccountCreateModal({
             </div>
           </div>
           <form
-            className="m-5 border border-(--color-line) bg-(--color-surface) p-5 sm:m-6 sm:p-6"
+            className="dash-panel m-5 p-5 sm:m-6 sm:p-6"
             onSubmit={onSubmit}
           >
             <div className="space-y-5">
@@ -143,7 +143,7 @@ export function AccountCreateModal({
                 <button
                   type="submit"
                   disabled={isCreating}
-                  className="flex min-h-13 flex-1 items-center justify-between bg-(--color-strong) px-4 font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-white transition-colors hover:bg-(--color-accent) hover:text-(--color-accent-contrast) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-wait disabled:opacity-60"
+                  className="flex min-h-13 flex-1 items-center justify-between rounded-[0.7rem] bg-(--color-strong) px-4 font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-white transition-colors hover:bg-(--color-accent) hover:text-(--color-accent-contrast) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-wait disabled:opacity-60"
                 >
                   <span>{isCreating ? "Creating..." : "Add account"}</span>
                   <span aria-hidden="true" className="text-lg">
@@ -154,7 +154,7 @@ export function AccountCreateModal({
                   type="button"
                   onClick={onCancel}
                   disabled={isCreating}
-                  className="min-h-13 border border-(--color-line) px-4 font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-(--color-ink) transition-colors hover:border-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:opacity-60"
+                  className="min-h-13 rounded-[0.7rem] border border-(--color-line) px-4 font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-(--color-ink) transition-colors hover:border-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:opacity-60"
                 >
                   Cancel
                 </button>

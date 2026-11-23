@@ -93,7 +93,7 @@ export function MovementFormSection({
 
   const form = (
     <form
-      className="border border-[var(--color-line)] bg-[var(--color-surface)] p-5 sm:p-6"
+      className="dash-panel p-5 sm:p-6"
       onSubmit={onSubmit}
     >
       <MovementFormFields
@@ -148,7 +148,7 @@ export function MovementFormSection({
       aria-labelledby="movement-form-heading"
     >
       <div className="flex min-h-full items-center justify-center">
-        <div className="w-full max-w-2xl max-h-[calc(100vh-2rem)] overflow-y-auto border border-[var(--color-line)] bg-[var(--color-canvas)] shadow-2xl sm:max-h-[calc(100vh-4rem)]">
+        <div className="w-full max-w-2xl max-h-[calc(100vh-2rem)] overflow-y-auto rounded-[1.25rem] border border-[var(--color-line)] bg-[var(--color-canvas)] shadow-2xl sm:max-h-[calc(100vh-4rem)]">
           <div className="flex items-start justify-between gap-4 p-5 pb-0 sm:p-6 sm:pb-0">
             <div>
               <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--color-accent)]">
@@ -174,7 +174,7 @@ export function MovementFormSection({
                   ? "Close edit movement dialog"
                   : "Close new movement dialog"
               }
-              className="min-h-10 border border-[var(--color-line)] px-3 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--color-ink)] transition-colors hover:border-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)] disabled:opacity-60"
+              className="min-h-10 rounded-[0.65rem] border border-[var(--color-line)] px-3 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--color-ink)] transition-colors hover:border-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)] disabled:opacity-60"
             >
               Close
             </button>

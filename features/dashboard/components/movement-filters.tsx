@@ -25,7 +25,7 @@ export function MovementFilters({
         );
 
   return (
-    <div className="mb-5 border border-[var(--color-line)] bg-[var(--color-surface)] p-4">
+    <div className="dash-panel mb-5 p-4">
       <div
         className={
           fixedType

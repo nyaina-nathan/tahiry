@@ -55,7 +55,7 @@ export function CategoryGroup({
         <div>
           <div className="mb-2 flex items-center gap-2">
             <span
-              className={`h-2.5 w-2.5 ${accentClassName}`}
+              className={`h-2.5 w-2.5 rounded-full ${accentClassName}`}
               aria-hidden="true"
             />
             <h2
@@ -73,7 +73,7 @@ export function CategoryGroup({
       </div>
 
       {group.length === 0 ? (
-        <div className="border border-dashed border-[var(--color-line)] px-5 py-8 text-center">
+        <div className="dash-panel dash-panel-dashed px-5 py-8 text-center">
           <p className="font-display text-2xl text-[var(--color-ink)]">
             Nothing here yet.
           </p>
