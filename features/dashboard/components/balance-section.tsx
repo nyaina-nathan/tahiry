@@ -61,7 +61,7 @@ export function BalanceSection({
           </p>
         </div>
       ) : (
-        <div className="mt-2 grid grid-cols-1 gap-2 sm:mt-4 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
+        <div className="balance-account-grid mt-2 sm:mt-4">
           {isLoading && accounts.length === 0
             ? Array.from({ length: ACCOUNT_SKELETON_COUNT }, (_, index) => (
                 <article
