@@ -43,17 +43,6 @@ function linkClassNameFor(href: string, pathname: string) {
 const iconButtonClassName =
   "group relative inline-flex h-10 shrink-0 items-center justify-center rounded-[0.65rem] border border-transparent px-2.5 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)]";
 
-const labelChipClassName =
-  "pointer-events-none absolute left-1/2 top-full z-10 mt-1.5 -translate-x-1/2 translate-y-1 whitespace-nowrap border border-[var(--color-line)] bg-[var(--color-surface)] px-2 py-1 font-mono font-bold uppercase opacity-0 transition-[opacity,transform] duration-[90ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0 group-hover:opacity-100 group-hover:delay-[90ms] group-hover:duration-[140ms] group-focus-visible:translate-y-0 group-focus-visible:opacity-100 motion-reduce:translate-y-0 motion-reduce:transition-none";
-
-function HoverLabel({ children }: { children: ReactNode }) {
-  return (
-    <span aria-hidden="true" className={labelChipClassName}>
-      {children}
-    </span>
-  );
-}
-
 function NavLabel({ children }: { children: ReactNode }) {
   return (
     <span
@@ -223,13 +212,12 @@ export function AppHeader({ links = [] }: AppHeaderProps) {
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-5 px-4 py-4 sm:px-8 sm:py-5 lg:px-12">
         <Link
           href="/dashboard"
-          aria-label="Tahiry"
-          className="group relative flex items-center focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
+          className="flex items-center focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
         >
           <img alt="" className="w-[5ch]" src={"/icon.png"} />
-          <HoverLabel>
-            <span className="text-xs tracking-[0.2em]">Tahiry</span>
-          </HoverLabel>
+          <span className="ml-2 font-mono text-sm font-bold uppercase tracking-[0.2em] text-(--color-ink)">
+            Tahiry
+          </span>
         </Link>
         <nav
           aria-label="Primary navigation"
