@@ -148,7 +148,7 @@ export function EmailChangeSection({
               required
               maxLength={255}
               disabled={isSubmitting}
-              className="min-h-11 w-full border border-(--color-line) bg-(--color-surface) px-3 text-sm text-(--color-ink) focus:border-(--color-accent) focus:outline-none disabled:opacity-60"
+              className="min-h-11 w-full rounded-[0.7rem] border border-(--color-line) bg-(--color-surface) px-3 text-sm text-(--color-ink) focus:border-(--color-accent) focus:outline-none disabled:opacity-60"
             />
           </label>
 
@@ -161,7 +161,7 @@ export function EmailChangeSection({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="min-h-11 border border-(--color-ink) bg-(--color-ink) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-surface) transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
+              className="min-h-11 rounded-[0.65rem] border border-(--color-ink) bg-(--color-ink) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-surface) transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
             >
               Continue
             </button>
@@ -169,7 +169,7 @@ export function EmailChangeSection({
               type="button"
               onClick={cancelEditing}
               disabled={isSubmitting}
-              className="min-h-11 border border-(--color-line) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted) transition-colors hover:border-(--color-ink) hover:text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
+              className="min-h-11 rounded-[0.65rem] border border-(--color-line) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted) transition-colors hover:border-(--color-ink) hover:text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
             >
               Cancel
             </button>
@@ -193,7 +193,7 @@ export function EmailChangeSection({
               <button
                 type="button"
                 onClick={beginEditing}
-                className="min-h-11 border border-(--color-ink) bg-(--color-ink) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-surface) transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent)"
+                className="min-h-11 rounded-[0.65rem] border border-(--color-ink) bg-(--color-ink) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-surface) transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent)"
               >
                 Change email
               </button>
@@ -205,7 +205,7 @@ export function EmailChangeSection({
       {success && (
         <p
           role="status"
-          className="mt-6 border-l-4 border-(--color-accent) bg-(--color-canvas) px-4 py-3 text-sm text-(--color-ink)"
+          className="mt-6 rounded-[0.8rem] border border-(--color-line) bg-(--color-canvas) px-4 py-3 text-sm text-(--color-ink)"
         >
           {success}
         </p>
@@ -218,7 +218,7 @@ export function EmailChangeSection({
           event.preventDefault();
           cancelPasswordModal();
         }}
-        className="m-auto w-[calc(100%-2rem)] max-w-md border border-(--color-line) bg-(--color-surface) p-0 text-(--color-ink) shadow-xl backdrop:bg-black/60"
+        className="m-auto w-[calc(100%-2rem)] max-w-md rounded-[1.25rem] border border-(--color-line) bg-(--color-surface) p-0 text-(--color-ink) shadow-xl backdrop:bg-black/60"
       >
         <form
           onSubmit={(event) => void handleSubmit(event)}
@@ -257,14 +257,14 @@ export function EmailChangeSection({
               minLength={8}
               maxLength={72}
               disabled={isSubmitting}
-              className="min-h-11 w-full border border-(--color-line) bg-(--color-surface) px-3 text-sm text-(--color-ink) focus:border-(--color-accent) focus:outline-none disabled:opacity-60"
+              className="min-h-11 w-full rounded-[0.7rem] border border-(--color-line) bg-(--color-surface) px-3 text-sm text-(--color-ink) focus:border-(--color-accent) focus:outline-none disabled:opacity-60"
             />
           </label>
 
           {error && (
             <p
               role="alert"
-              className="border-l-4 border-(--color-negative) bg-(--color-negative-soft) px-4 py-3 text-sm text-(--color-negative-strong)"
+              className="rounded-[0.8rem] border border-(--color-negative-line) bg-(--color-negative-soft) px-4 py-3 text-sm text-(--color-negative-strong)"
             >
               {error}
             </p>
@@ -274,7 +274,7 @@ export function EmailChangeSection({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="min-h-11 border border-(--color-ink) bg-(--color-ink) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-surface) transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
+              className="min-h-11 rounded-[0.65rem] border border-(--color-ink) bg-(--color-ink) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-surface) transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isSubmitting ? "Sending..." : "Confirm email change"}
             </button>
@@ -282,7 +282,7 @@ export function EmailChangeSection({
               type="button"
               onClick={cancelPasswordModal}
               disabled={isSubmitting}
-              className="min-h-11 border border-(--color-line) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted) transition-colors hover:border-(--color-ink) hover:text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
+              className="min-h-11 rounded-[0.65rem] border border-(--color-line) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted) transition-colors hover:border-(--color-ink) hover:text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
             >
               Cancel
             </button>

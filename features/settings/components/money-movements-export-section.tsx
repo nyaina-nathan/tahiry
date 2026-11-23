@@ -53,7 +53,7 @@ export function MoneyMovementsExportSection() {
   return (
     <section
       aria-labelledby="money-movements-export-heading"
-      className="w-full border border-(--color-line) bg-(--color-surface) p-5 sm:p-8"
+      className="dash-panel w-full p-5 sm:p-8"
     >
       <div className="flex flex-wrap items-end justify-between gap-6">
         <div>
@@ -75,7 +75,7 @@ export function MoneyMovementsExportSection() {
         <button
           type="button"
           onClick={openExport}
-          className="inline-flex min-h-11 items-center gap-3 border border-(--color-strong) bg-(--color-strong) px-4 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-white transition-colors hover:border-(--color-accent) hover:bg-(--color-accent) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent)"
+          className="inline-flex min-h-11 items-center gap-3 rounded-[0.65rem] border border-(--color-strong) bg-(--color-strong) px-4 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-white transition-colors hover:border-(--color-accent) hover:bg-(--color-accent) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent)"
         >
           <span>Export in Excel</span>
           <span aria-hidden="true" className="text-base">
