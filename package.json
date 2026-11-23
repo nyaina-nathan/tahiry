@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "vitest run",
+    "test:unit": "vitest run tests/unit",
+    "test:integration": "vitest run --config vitest.integration.config.mts",
+    "test:all": "npm run test:unit && npm run test:integration",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.9.1",
@@ -26,14 +31,22 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
+    "@testcontainers/postgresql": "^12.2.2",
+    "@testing-library/jest-dom": "^8.0.0",
+    "@testing-library/react": "^16.3.3",
+    "@types/node": "^22.20.5",
     "@types/pg": "^8.20.4",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^6.3.0",
     "eslint": "^9",
     "eslint-config-next": "16.3.0",
+    "jsdom": "^31.0.1",
     "prisma": "^7.9.1",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "testcontainers": "^12.2.2",
+    "typescript": "^5",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.1"
   }
 }

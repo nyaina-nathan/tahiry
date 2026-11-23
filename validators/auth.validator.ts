@@ -1,5 +1,4 @@
-// @ts-expect-error Node's native TypeScript runner requires the extension.
-import { AppError } from "../libs/errors/app-error.ts";
+import { AppError } from "@/libs/errors/app-error";
 
 export type RegisterPayload = {
   username: string;

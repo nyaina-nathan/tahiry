@@ -10,7 +10,7 @@ alter table money_movements
 add column id_account uuid references account(id) on delete set null;
 
 alter table money_movements
-add column id_account_source uuid references account(id) on delete set null
+add column id_account_source uuid references account(id) on delete set null;
 
 -- 1. Create the ENUM type
 CREATE TYPE movement_type AS ENUM ('EXPENSE', 'INCOME', 'TRANSFERT');

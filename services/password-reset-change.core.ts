@@ -1,7 +1,5 @@
-// @ts-expect-error Node's native TypeScript runner requires the extension.
-import { AppError } from "../libs/errors/app-error.ts";
-// @ts-expect-error Node's native TypeScript runner requires the extension.
-import { hashPasswordResetToken } from "./password-reset.core.ts";
+import { AppError } from "@/libs/errors/app-error";
+import { hashPasswordResetToken } from "@/services/password-reset.core";
 
 export type PasswordResetTokenRecord = {
   id: string;
