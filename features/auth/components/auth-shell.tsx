@@ -11,7 +11,7 @@ export function AuthShell() {
       <AuthHero />
 
       <section className="relative flex w-full items-center justify-center px-5 py-10 sm:px-8 lg:w-[56%] lg:px-12">
-        <div className="w-full max-w-[460px]">
+        <div className="auth-panel w-full max-w-[460px]">
           <AuthMobileBrand />
           <LoginForm />
           <AuthSecurityNote />

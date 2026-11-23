@@ -600,3 +600,56 @@ input {
     transform: none;
   }
 }
+
+/* --------------------------------------------------------------------------
+   Auth — login/register mode switch. A same-document view transition scoped to
+   the auth column: the panel crossfades and morphs its height, nothing else on
+   the page moves.
+   -------------------------------------------------------------------------- */
+
+.auth-panel {
+  view-transition-name: auth-panel;
+}
+
+/* The rest of the page is identical before and after, so it must not crossfade. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
+
+::view-transition-group(auth-panel) {
+  animation-duration: 220ms;
+  animation-timing-function: var(--ease-out-strong);
+}
+
+::view-transition-old(auth-panel) {
+  animation: auth-panel-out 140ms var(--ease-out-strong) both;
+}
+
+::view-transition-new(auth-panel) {
+  animation: auth-panel-in 200ms var(--ease-out-strong) both;
+}
+
+@keyframes auth-panel-out {
+  to {
+    opacity: 0;
+    filter: blur(2px);
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes auth-panel-in {
+  from {
+    opacity: 0;
+    filter: blur(2px);
+    transform: translateY(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(auth-panel),
+  ::view-transition-old(auth-panel),
+  ::view-transition-new(auth-panel) {
+    animation: none;
+  }
+}

@@ -3,6 +3,7 @@
 import type { FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { flushSync } from "react-dom";
 import { authenticate } from "@/features/auth/api/authenticate";
 import { AuthError } from "@/features/auth/components/auth-error";
 import { AuthHeading } from "@/features/auth/components/auth-heading";
@@ -49,9 +50,28 @@ export function LoginForm() {
   }, []);
 
   function switchMode(nextMode: AuthMode) {
-    setMode(nextMode);
-    setErrorMessage("");
-    setIsPasswordResetSent(false);
+    if (nextMode === mode) {
+      return;
+    }
+
+    const commit = () => {
+      setMode(nextMode);
+      setErrorMessage("");
+      setIsPasswordResetSent(false);
+    };
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (!document.startViewTransition || prefersReducedMotion) {
+      commit();
+      return;
+    }
+
+    document.startViewTransition(() => {
+      flushSync(commit);
+    });
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
