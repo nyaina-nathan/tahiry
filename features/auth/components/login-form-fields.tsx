@@ -46,7 +46,7 @@ export function LoginFormFields({ mode }: LoginFormFieldsProps) {
           maxLength={isRegistering ? 72 : undefined}
           hint={
             isRegistering ? (
-              <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-[var(--color-muted)]">
+              <span className="text-[10px] uppercase tracking-[0.1em] text-[var(--color-muted)]">
                 8 characters minimum
               </span>
             ) : undefined

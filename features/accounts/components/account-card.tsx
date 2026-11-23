@@ -23,7 +23,7 @@ export function AccountCard({ account, currency }: AccountCardProps) {
         <span className="sr-only">Open {account.name}</span>
       </Link>
       <div className="flex items-start justify-between gap-3">
-        <p className="min-w-0 truncate font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-(--color-muted) sm:text-[10px]">
+        <p className="min-w-0 truncate text-[9px] font-bold uppercase tracking-[0.16em] text-(--color-muted) sm:text-[10px]">
           {account.name}
         </p>
         <button
@@ -31,14 +31,14 @@ export function AccountCard({ account, currency }: AccountCardProps) {
           aria-pressed={isShown}
           aria-label={isShown ? "Hide account balance" : "Show account balance"}
           onClick={() => setIsShown((shown) => !shown)}
-          className="relative z-10 shrink-0 font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-(--color-muted) transition-colors hover:text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) cursor-pointer"
+          className="relative z-10 shrink-0 text-[9px] font-bold uppercase tracking-[0.14em] text-(--color-muted) transition-colors hover:text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) cursor-pointer"
         >
           {isShown ? "Hide" : "Show"}
         </button>
       </div>
       {isShown ? (
         <p
-          className={`mt-2 break-all text-xs font-bold tabular-nums tracking-tight sm:mt-5 sm:text-xl md:text-2xl ${
+          className={`mt-2 break-all text-xs font-bold font-mono tabular-nums tracking-tight sm:mt-5 sm:text-xl md:text-2xl ${
             isNegative ? "text-(--color-negative)" : "text-(--color-ink)"
           }`}
         >
@@ -46,16 +46,27 @@ export function AccountCard({ account, currency }: AccountCardProps) {
         </p>
       ) : (
         <p
-          className="mt-2 break-all text-xs font-bold tabular-nums tracking-tight text-(--color-muted) sm:mt-5 sm:text-xl md:text-2xl"
+          className="mt-2 break-all text-xs font-bold font-mono tabular-nums tracking-tight text-(--color-muted) sm:mt-5 sm:text-xl md:text-2xl"
           aria-hidden="true"
         >
           {currency} ••••
         </p>
       )}
       <p className="mt-2 hidden text-xs text-(--color-muted) sm:block">
-        {isShown
-          ? `${formatMoney(account.income, currency)} in · ${formatMoney(account.expense, currency)} out`
-          : "•••• in · •••• out"}
+        {isShown ? (
+          <>
+            <span className="font-mono">
+              {formatMoney(account.income, currency)}
+            </span>{" "}
+            in ·{" "}
+            <span className="font-mono">
+              {formatMoney(account.expense, currency)}
+            </span>{" "}
+            out
+          </>
+        ) : (
+          "•••• in · •••• out"
+        )}
       </p>
     </article>
   );

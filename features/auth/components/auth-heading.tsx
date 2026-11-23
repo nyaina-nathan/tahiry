@@ -10,14 +10,14 @@ export function AuthHeading({ mode }: AuthHeadingProps) {
 
   return (
     <div className="mb-8">
-      <p className="mb-4 font-mono text-xs font-bold uppercase tracking-[0.24em] text-[var(--color-accent)]">
+      <p className="mb-4 text-xs font-bold uppercase tracking-[0.24em] text-[var(--color-accent)]">
         {isRegistering
           ? "New account"
           : isPasswordResetting
             ? "Password reset"
             : "Personal finance"}
       </p>
-      <h2 className="font-display text-5xl leading-none tracking-tight text-[var(--color-ink)] sm:text-6xl">
+      <h2 className="font-bold text-5xl leading-none tracking-tight text-[var(--color-ink)] sm:text-6xl">
         {isRegistering
           ? "Start fresh."
           : isPasswordResetting

@@ -40,7 +40,7 @@ export function CategoryFormFields({
       <div>
         <label
           htmlFor={nameId}
-          className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-ink)]"
+          className="mb-2 block text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-ink)]"
         >
           Category name
         </label>
@@ -58,7 +58,7 @@ export function CategoryFormFields({
       <div>
         <label
           htmlFor={typeId}
-          className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-ink)]"
+          className="mb-2 block text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-ink)]"
         >
           Type
         </label>

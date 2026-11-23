@@ -12,13 +12,13 @@ export function CategoriesIntro({
   return (
     <div className="mb-10 flex flex-col gap-6 border-b border-(--color-line) pb-10 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <h1 className="font-display text-5xl leading-none tracking-tight text-(--color-ink) sm:text-7xl">
+        <h1 className="font-bold text-5xl leading-none tracking-tight text-(--color-ink) sm:text-7xl">
           Your categories.
         </h1>
       </div>
-      <div className="flex items-end gap-4 font-mono text-[10px] uppercase tracking-[0.14em] text-(--color-muted) sm:text-right">
+      <div className="flex items-end gap-4 text-[10px] uppercase tracking-[0.14em] text-(--color-muted) sm:text-right">
         <div>
-          <span className="block text-3xl font-bold tracking-normal text-(--color-ink)">
+          <span className="block text-3xl font-bold font-mono tracking-normal text-(--color-ink)">
             {categoryCount.toString().padStart(2, "0")}
           </span>
           categories total

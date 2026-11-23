@@ -53,12 +53,12 @@ export function CategoryCreateForm({
         <section aria-labelledby="create-category-heading">
           <div className="flex items-start justify-between gap-4 p-5 pb-0 sm:p-6 sm:pb-0">
             <div>
-              <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--color-accent)]">
+              <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--color-accent)]">
                 Add a new label
               </p>
               <h2
                 id="create-category-heading"
-                className="font-display text-3xl text-[var(--color-ink)]"
+                className="font-semibold text-3xl text-[var(--color-ink)]"
               >
                 Create category
               </h2>
@@ -88,7 +88,7 @@ export function CategoryCreateForm({
                 <button
                   type="submit"
                   disabled={isCreating}
-                  className="flex min-h-13 flex-1 items-center justify-between rounded-[0.7rem] bg-[var(--color-strong)] px-4 font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-white transition-colors hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-contrast)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)] disabled:cursor-wait disabled:opacity-60"
+                  className="flex min-h-13 flex-1 items-center justify-between rounded-[0.7rem] bg-[var(--color-strong)] px-4 text-[10px] font-bold uppercase tracking-[0.15em] text-white transition-colors hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-contrast)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)] disabled:cursor-wait disabled:opacity-60"
                 >
                   <span>{isCreating ? "Creating..." : "Add category"}</span>
                   <span aria-hidden="true" className="text-lg">
@@ -99,7 +99,7 @@ export function CategoryCreateForm({
                   type="button"
                   onClick={onCancel}
                   disabled={isCreating}
-                  className="min-h-13 rounded-[0.7rem] border border-[var(--color-line)] px-4 font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-[var(--color-ink)] transition-colors hover:border-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)] disabled:opacity-60"
+                  className="min-h-13 rounded-[0.7rem] border border-[var(--color-line)] px-4 text-[10px] font-bold uppercase tracking-[0.15em] text-[var(--color-ink)] transition-colors hover:border-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)] disabled:opacity-60"
                 >
                   Cancel
                 </button>

@@ -25,18 +25,18 @@ export function BalanceSection({
 
       <div className="mb-5 flex items-end justify-between gap-4">
         <div>
-          <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-(--color-line) bg-(--color-surface)/70 px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-(--color-accent) backdrop-blur-sm">
+          <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-(--color-line) bg-(--color-surface)/70 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-(--color-accent) backdrop-blur-sm">
             <span
               aria-hidden="true"
               className="h-1.5 w-1.5 rounded-full bg-(--color-accent)"
             />
             Lifetime view
           </p>
-          <h2 id="balance-heading" className="font-display text-2xl text-(--color-ink) sm:text-3xl">
+          <h2 id="balance-heading" className="font-semibold text-2xl text-(--color-ink) sm:text-3xl">
             The bottom line.
           </h2>
         </div>
-        <span className="hidden font-mono text-[10px] uppercase tracking-[0.14em] text-(--color-muted) sm:block">
+        <span className="hidden text-[10px] uppercase tracking-[0.14em] text-(--color-muted) sm:block">
           Updated from every movement
         </span>
       </div>
@@ -53,7 +53,7 @@ export function BalanceSection({
 
       {!isLoading && accounts.length === 0 ? (
         <div className="balance-rise mt-2 rounded-[1rem] border border-white/75 bg-white/60 p-4 backdrop-blur-sm sm:mt-4 sm:rounded-[var(--radius-card)] sm:p-5 dark:border-white/10 dark:bg-white/5">
-          <p className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-(--color-muted) sm:text-[10px]">
+          <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-(--color-muted) sm:text-[10px]">
             No accounts yet.
           </p>
           <p className="mt-2 text-xs text-(--color-muted) sm:mt-4 sm:text-sm">
@@ -61,7 +61,7 @@ export function BalanceSection({
           </p>
         </div>
       ) : (
-        <div className="mt-2 grid grid-cols-1 gap-2 sm:mt-4 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
+        <div className="balance-account-grid mt-2 sm:mt-4">
           {isLoading && accounts.length === 0
             ? Array.from({ length: ACCOUNT_SKELETON_COUNT }, (_, index) => (
                 <article

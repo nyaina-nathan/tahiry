@@ -63,7 +63,7 @@ export function MovementFormFields({
       <div>
         <label
           htmlFor="movement-title"
-          className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-ink)]"
+          className="mb-2 block text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-ink)]"
         >
           Title
         </label>
@@ -82,7 +82,7 @@ export function MovementFormFields({
       <div>
         <label
           htmlFor="movement-account"
-          className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-ink)]"
+          className="mb-2 block text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-ink)]"
         >
           Account
         </label>
@@ -113,7 +113,7 @@ export function MovementFormFields({
       <div>
         <label
           htmlFor="movement-amount"
-          className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-ink)]"
+          className="mb-2 block text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-ink)]"
         >
           Amount
         </label>
@@ -132,10 +132,10 @@ export function MovementFormFields({
               )
             }
             required
-            className={`${inputClassName} pr-16`}
+            className={`${inputClassName} font-mono pr-16`}
             placeholder="0.00"
           />
-          <span className="pointer-events-none absolute inset-y-0 right-4 flex items-center font-mono text-[10px] font-bold uppercase text-[var(--color-muted)]">
+          <span className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-[10px] font-bold uppercase text-[var(--color-muted)]">
             {currency}
           </span>
         </div>
@@ -147,7 +147,7 @@ export function MovementFormFields({
       <div>
         <label
           htmlFor="movement-category"
-          className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-ink)]"
+          className="mb-2 block text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-ink)]"
         >
           Category
         </label>
@@ -171,7 +171,7 @@ export function MovementFormFields({
       <div>
         <label
           htmlFor="movement-date"
-          className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-ink)]"
+          className="mb-2 block text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-ink)]"
         >
           Logged date
         </label>
@@ -188,7 +188,7 @@ export function MovementFormFields({
       <div>
         <label
           htmlFor="movement-description"
-          className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-ink)]"
+          className="mb-2 block text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-ink)]"
         >
           Description{" "}
           <span className="font-normal normal-case tracking-normal text-[var(--color-muted)]">

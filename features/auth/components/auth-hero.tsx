@@ -15,10 +15,10 @@ export function AuthHero() {
       <AuthBrand className="relative z-10" />
 
       <div className="relative z-10 max-w-md">
-        <p className="mb-5 font-mono text-xs font-bold uppercase tracking-[0.28em] text-[var(--color-accent-inverse)]">
+        <p className="mb-5 text-xs font-bold uppercase tracking-[0.28em] text-[var(--color-accent-inverse)]">
           Money, made visible
         </p>
-        <h1 className="font-display text-6xl leading-[0.95] tracking-tight xl:text-7xl">
+        <h1 className="font-bold text-6xl leading-[0.95] tracking-tight xl:text-7xl">
           Make every coin count.
         </h1>
         <p className="mt-8 max-w-sm text-base leading-7 text-[var(--color-strong-muted)]">
@@ -27,7 +27,7 @@ export function AuthHero() {
         </p>
       </div>
 
-      <p className="relative z-10 font-mono text-xs uppercase tracking-[0.2em] text-[var(--color-strong-faint)]">
+      <p className="relative z-10 text-xs uppercase tracking-[0.2em] text-[var(--color-strong-faint)]">
         Your money. Your rules.
       </p>
     </section>

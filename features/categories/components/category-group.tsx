@@ -60,21 +60,21 @@ export function CategoryGroup({
             />
             <h2
               id={`${type.toLowerCase()}-heading`}
-              className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-[var(--color-ink)]"
+              className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--color-ink)]"
             >
               {title}
             </h2>
           </div>
           <p className="text-sm text-[var(--color-muted)]">{description}</p>
         </div>
-        <span className="font-mono text-xs text-[var(--color-muted)]">
+        <span className="text-xs font-mono text-[var(--color-muted)]">
           {group.length.toString().padStart(2, "0")}
         </span>
       </div>
 
       {group.length === 0 ? (
         <div className="dash-panel dash-panel-dashed px-5 py-8 text-center">
-          <p className="font-display text-2xl text-[var(--color-ink)]">
+          <p className="font-semibold text-2xl text-[var(--color-ink)]">
             Nothing here yet.
           </p>
           <p className="mt-2 text-sm text-[var(--color-muted)]">

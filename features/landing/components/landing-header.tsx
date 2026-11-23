@@ -23,7 +23,7 @@ export function LandingHeader() {
             loading="eager"
             className="h-9 w-9 rounded-[0.65rem] object-cover ring-1 ring-white/15"
           />
-          <span className="font-mono text-sm font-bold uppercase tracking-[0.24em] text-white">
+          <span className="text-sm font-bold uppercase tracking-[0.24em] text-white">
             Tahiry
           </span>
         </Link>
@@ -36,7 +36,7 @@ export function LandingHeader() {
             <a
               key={link.label}
               href={link.href}
-              className={`rounded-full px-4 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.14em] transition-colors duration-150 ${
+              className={`rounded-full px-4 py-2 text-[10px] font-bold uppercase tracking-[0.14em] transition-colors duration-150 ${
                 index === 0
                   ? "bg-white/10 text-white"
                   : "text-white/60 hover:text-white"

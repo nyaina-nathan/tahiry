@@ -37,7 +37,7 @@ export function MovementFilters({
           <div>
             <label
               htmlFor="filter-type"
-              className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--color-muted)]"
+              className="mb-2 block text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--color-muted)]"
             >
               Type
             </label>
@@ -73,7 +73,7 @@ export function MovementFilters({
         <div>
           <label
             htmlFor="filter-category"
-            className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--color-muted)]"
+            className="mb-2 block text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--color-muted)]"
           >
             Category
           </label>
@@ -96,7 +96,7 @@ export function MovementFilters({
         <div>
           <label
             htmlFor="filter-from"
-            className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--color-muted)]"
+            className="mb-2 block text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--color-muted)]"
           >
             From
           </label>
@@ -117,7 +117,7 @@ export function MovementFilters({
         <div>
           <label
             htmlFor="filter-to"
-            className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--color-muted)]"
+            className="mb-2 block text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--color-muted)]"
           >
             To
           </label>

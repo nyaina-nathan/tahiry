@@ -25,17 +25,17 @@ export function CashflowSection({
     <section aria-labelledby="cashflow-heading" className="mb-12">
       <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-(--color-accent)">
+          <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-(--color-accent)">
             Cash flow
           </p>
           <h2
             id="cashflow-heading"
-            className="font-display text-2xl text-(--color-ink) sm:text-3xl"
+            className="font-semibold text-2xl text-(--color-ink) sm:text-3xl"
           >
             The last 7 days.
           </h2>
         </div>
-        <div className="flex flex-wrap items-center gap-4 font-mono text-[10px] uppercase tracking-[0.14em] text-(--color-muted)">
+        <div className="flex flex-wrap items-center gap-4 text-[10px] uppercase tracking-[0.14em] text-(--color-muted)">
           <span className="flex items-center gap-2">
             <span className="h-2 w-2 rounded-full bg-(--color-accent)" aria-hidden="true" />
             Income
@@ -59,7 +59,7 @@ export function CashflowSection({
             <button
               type="button"
               onClick={onRetry}
-              className="min-h-10 rounded-[0.65rem] bg-(--color-strong) px-4 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-white transition-colors hover:bg-(--color-accent) hover:text-(--color-accent-contrast) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent)"
+              className="min-h-10 rounded-[0.65rem] bg-(--color-strong) px-4 text-[10px] font-bold uppercase tracking-[0.1em] text-white transition-colors hover:bg-(--color-accent) hover:text-(--color-accent-contrast) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent)"
             >
               Try again
             </button>
@@ -87,18 +87,18 @@ export function CashflowSection({
             <CashflowChart points={points} currency={currency} />
             <dl className="mt-4 grid grid-cols-2 gap-4 border-t border-(--color-line) pt-4 sm:max-w-md">
               <div>
-                <dt className="font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-(--color-muted)">
+                <dt className="text-[9px] font-bold uppercase tracking-[0.12em] text-(--color-muted)">
                   Income this week
                 </dt>
-                <dd className="mt-1 font-mono text-sm font-bold text-(--color-accent)">
+                <dd className="mt-1 text-sm font-bold font-mono text-(--color-accent)">
                   {formatMoney(incomeTotal.toFixed(2), currency)}
                 </dd>
               </div>
               <div>
-                <dt className="font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-(--color-muted)">
+                <dt className="text-[9px] font-bold uppercase tracking-[0.12em] text-(--color-muted)">
                   Expenses this week
                 </dt>
-                <dd className="mt-1 font-mono text-sm font-bold text-(--color-negative)">
+                <dd className="mt-1 text-sm font-bold font-mono text-(--color-negative)">
                   {formatMoney(expenseTotal.toFixed(2), currency)}
                 </dd>
               </div>

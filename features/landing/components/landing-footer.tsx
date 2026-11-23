@@ -29,7 +29,7 @@ export function LandingFooter() {
                 height={24}
                 className="h-6 w-6 rounded-[0.55rem] object-cover ring-1 ring-white/15"
               />
-              <span className="font-mono text-[11px] font-bold uppercase tracking-[0.24em] text-white">
+              <span className="text-[11px] font-bold uppercase tracking-[0.24em] text-white">
                 Tahiry
               </span>
             </Link>
@@ -52,7 +52,7 @@ export function LandingFooter() {
                   href={link.href}
                   target={isExternal ? "_blank" : undefined}
                   rel={isExternal ? "noreferrer noopener" : undefined}
-                  className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-white/60 transition-colors duration-150 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#a7f3d0]"
+                  className="text-[10px] font-bold uppercase tracking-[0.14em] text-white/60 transition-colors duration-150 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#a7f3d0]"
                 >
                   {link.label}
                 </a>
