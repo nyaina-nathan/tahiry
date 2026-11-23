@@ -11,6 +11,12 @@ import type {
   CurrentUser,
   Filters,
 } from "@/features/dashboard/types";
+import {
+  aggregateDailyTotals,
+  buildDateRange,
+  resolveMovementRange,
+  type DailyTotalPoint,
+} from "@/features/dashboard/utils/date-range";
 import { fetchAccounts } from "@/features/accounts/api/accounts-api";
 
 type ApiErrorResponse = {
@@ -70,31 +76,32 @@ export type WorkspaceSnapshot = {
   currentMovements: MovementPage;
 };
 
-const CASHFLOW_DAYS = 7;
 const CASHFLOW_PAGE_SIZE = 100;
 const CASHFLOW_MAX_PAGES = 10;
+const SERIES_MAX_PAGES = 25;
 
-function buildCashflowDates(days: number): string[] {
-  const now = new Date();
-  const end = Date.UTC(
-    now.getUTCFullYear(),
-    now.getUTCMonth(),
-    now.getUTCDate(),
-  );
+type RangeFetchOptions = {
+  from: string;
+  to: string;
+  movementType: "INCOME" | "EXPENSE";
+  categoryId?: string;
+  accountId?: string;
+  maxPages: number;
+  errorMessage: string;
+};
 
-  return Array.from({ length: days }, (_, index) =>
-    new Date(end - (days - 1 - index) * 86_400_000).toISOString().slice(0, 10),
-  );
-}
-
-async function fetchCashflowMovements(
-  from: string,
-  to: string,
-  movementType: "INCOME" | "EXPENSE",
-) {
+async function fetchMovementsInRange({
+  from,
+  to,
+  movementType,
+  categoryId,
+  accountId,
+  maxPages,
+  errorMessage,
+}: RangeFetchOptions) {
   const movements: MoneyMovement[] = [];
 
-  for (let page = 1; page <= CASHFLOW_MAX_PAGES; page += 1) {
+  for (let page = 1; page <= maxPages; page += 1) {
     const query = new URLSearchParams({
       logged_for_from: from,
       logged_for_to: to,
@@ -102,9 +109,17 @@ async function fetchCashflowMovements(
       page: page.toString(),
       page_size: CASHFLOW_PAGE_SIZE.toString(),
     });
+
+    if (categoryId) {
+      query.set("id_category", categoryId);
+    }
+    if (accountId) {
+      query.set("id_account", accountId);
+    }
+
     const result = await fetchJson<MovementPage>(
       `/api/money-movements?${query.toString()}`,
-      "The last 7 days could not be loaded.",
+      errorMessage,
     );
 
     movements.push(...result.items);
@@ -118,34 +133,71 @@ async function fetchCashflowMovements(
 }
 
 export async function fetchCashflowWindow(): Promise<CashflowPoint[]> {
-  const dates = buildCashflowDates(CASHFLOW_DAYS);
-  const [incomeMovements, expenseMovements] = await Promise.all([
-    fetchCashflowMovements(dates[0], dates[dates.length - 1], "INCOME"),
-    fetchCashflowMovements(dates[0], dates[dates.length - 1], "EXPENSE"),
-  ]);
-  const movements = [...incomeMovements, ...expenseMovements];
-  const points = new Map<string, CashflowPoint>(
-    dates.map((date) => [date, { date, income: 0, expense: 0 }]),
-  );
+  const range = resolveMovementRange("", "");
 
-  for (const movement of movements) {
-    const point = movement.logged_for
-      ? points.get(movement.logged_for)
-      : undefined;
-    const amount = Number(movement.amount);
-
-    if (!point || !Number.isFinite(amount)) {
-      continue;
-    }
-
-    if (movement.movement_type === "INCOME") {
-      point.income += amount;
-    } else if (movement.movement_type === "EXPENSE") {
-      point.expense += amount;
-    }
+  if (!range) {
+    return [];
   }
 
-  return dates.map((date) => points.get(date)!);
+  const dates = buildDateRange(range.from, range.to);
+  const [incomeMovements, expenseMovements] = await Promise.all([
+    fetchMovementsInRange({
+      from: range.from,
+      to: range.to,
+      movementType: "INCOME",
+      maxPages: CASHFLOW_MAX_PAGES,
+      errorMessage: "The last 7 days could not be loaded.",
+    }),
+    fetchMovementsInRange({
+      from: range.from,
+      to: range.to,
+      movementType: "EXPENSE",
+      maxPages: CASHFLOW_MAX_PAGES,
+      errorMessage: "The last 7 days could not be loaded.",
+    }),
+  ]);
+  const incomePoints = aggregateDailyTotals(dates, incomeMovements);
+  const expensePoints = aggregateDailyTotals(dates, expenseMovements);
+
+  return dates.map((date, index) => ({
+    date,
+    income: incomePoints[index].total,
+    expense: expensePoints[index].total,
+  }));
+}
+
+type MovementDailyTotalsOptions = {
+  from: string;
+  to: string;
+  movementType: "INCOME" | "EXPENSE";
+  categoryId?: string;
+  accountId?: string;
+};
+
+export async function fetchMovementDailyTotals({
+  from,
+  to,
+  movementType,
+  categoryId,
+  accountId,
+}: MovementDailyTotalsOptions): Promise<DailyTotalPoint[]> {
+  const dates = buildDateRange(from, to);
+
+  if (dates.length === 0) {
+    return [];
+  }
+
+  const movements = await fetchMovementsInRange({
+    from,
+    to,
+    movementType,
+    categoryId,
+    accountId,
+    maxPages: SERIES_MAX_PAGES,
+    errorMessage: "The chart could not be loaded.",
+  });
+
+  return aggregateDailyTotals(dates, movements);
 }
 
 function fetchBalance(includeBalance: boolean) {

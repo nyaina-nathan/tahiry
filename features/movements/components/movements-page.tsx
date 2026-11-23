@@ -1,12 +1,18 @@
 "use client";
 
+import { useState } from "react";
 import { AppHeader, PRIMARY_NAV_LINKS } from "@/components/app-header";
 import type { MovementType } from "@/types/money-movement.types";
+import type { Filters } from "@/features/dashboard/types";
 import { DashboardActionError } from "@/features/dashboard/components/dashboard-action-error";
 import { DashboardLoadError } from "@/features/dashboard/components/dashboard-load-error";
 import { MovementFormSection } from "@/features/dashboard/components/movement-form-section";
 import { MovementListSection } from "@/features/dashboard/components/movement-list-section";
+import { formatDate } from "@/features/dashboard/utils/formatters";
+import { resolveMovementRange } from "@/features/dashboard/utils/date-range";
+import { MovementChartSection } from "@/features/movements/components/movement-chart-section";
 import { useMoneyMovements } from "@/features/movements/hooks/use-money-movements";
+import { useMovementDailyTotals } from "@/features/movements/hooks/use-movement-daily-totals";
 
 type MovementsPageProps = {
   type: Exclude<MovementType, "TRANSFERT">;
@@ -55,6 +61,7 @@ export function MovementsPage({ type }: MovementsPageProps) {
     loadError,
     actionError,
     mutation,
+    dataRevision,
     filters,
     editingId,
     isCreateFormOpen,
@@ -85,8 +92,59 @@ export function MovementsPage({ type }: MovementsPageProps) {
     setPendingDeleteId,
   } = useMoneyMovements({ fixedType: type, withBalance: false });
 
+  const [chartSpan, setChartSpan] = useState({ from: "", to: "" });
+  const [selectedDay, setSelectedDay] = useState<string | null>(null);
+  const chartRange = resolveMovementRange(chartSpan.from, chartSpan.to);
+  const chart = useMovementDailyTotals({
+    range: chartRange,
+    movementType: type,
+    categoryId: filters.categoryId,
+    revision: dataRevision,
+  });
+
   const copy = PAGE_COPY[type];
   const deletingId = mutation === "delete" ? pendingDeleteId : null;
+  const emptyTitle = selectedDay
+    ? `No ${type === "EXPENSE" ? "expenses" : "income"} on ${formatDate(selectedDay)}.`
+    : copy.emptyTitle;
+  const emptyDescription = selectedDay
+    ? "Pick another day in the chart or clear the day filter."
+    : copy.emptyDescription;
+
+  function handleFiltersChange(nextFilters: Filters) {
+    if (
+      nextFilters.loggedForFrom !== filters.loggedForFrom ||
+      nextFilters.loggedForTo !== filters.loggedForTo
+    ) {
+      setChartSpan({
+        from: nextFilters.loggedForFrom,
+        to: nextFilters.loggedForTo,
+      });
+      setSelectedDay(null);
+    }
+
+    updateFilters(nextFilters);
+  }
+
+  function handleSelectDay(day: string) {
+    setSelectedDay(day);
+    updateFilters({
+      ...filters,
+      loggedForFrom: day,
+      loggedForTo: day,
+      page: 1,
+    });
+  }
+
+  function handleClearDay() {
+    setSelectedDay(null);
+    updateFilters({
+      ...filters,
+      loggedForFrom: chartSpan.from,
+      loggedForTo: chartSpan.to,
+      page: 1,
+    });
+  }
 
   return (
     <main className="min-h-screen overflow-x-clip bg-(--color-canvas)">
@@ -114,6 +172,18 @@ export function MovementsPage({ type }: MovementsPageProps) {
               </p>
             </header>
 
+            <MovementChartSection
+              points={chart.points}
+              currency={user.currency}
+              movementType={type}
+              range={chartRange}
+              selectedDay={selectedDay}
+              isLoading={chart.isLoading}
+              error={chart.error}
+              onSelectDay={handleSelectDay}
+              onRetry={chart.refresh}
+            />
+
             <MovementListSection
               movements={movements}
               categories={categories}
@@ -128,9 +198,11 @@ export function MovementsPage({ type }: MovementsPageProps) {
               fixedType={type}
               heading={copy.listHeading}
               createLabel={copy.createLabel}
-              emptyTitle={copy.emptyTitle}
-              emptyDescription={copy.emptyDescription}
-              onFiltersChange={updateFilters}
+              emptyTitle={emptyTitle}
+              emptyDescription={emptyDescription}
+              selectedDay={selectedDay}
+              onClearSelectedDay={handleClearDay}
+              onFiltersChange={handleFiltersChange}
               onBeginEditing={beginEditing}
               onCreateNewMovement={beginCreating}
               onRequestDelete={requestDelete}
