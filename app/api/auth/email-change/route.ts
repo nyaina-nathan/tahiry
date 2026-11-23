@@ -1,4 +1,5 @@
 import type { NextRequest } from "next/server";
+import { getCurrentUser } from "@/libs/api/get-current-user";
 import { withErrorHandler } from "@/libs/api/with-error-handler";
 import { requestEmailChange } from "@/services/email-change.service";
 import {
@@ -7,12 +8,10 @@ import {
 } from "@/validators/auth.validator";
 
 export const POST = withErrorHandler(async (request: NextRequest) => {
+  const userId = await getCurrentUser(request);
   const payload = validateEmailChangePayload(await parseJsonPayload(request));
 
-  await requestEmailChange(
-    request.headers.get("X-User-ID"),
-    payload,
-  );
+  await requestEmailChange(userId, payload);
 
   return new Response(null, { status: 202 });
 });

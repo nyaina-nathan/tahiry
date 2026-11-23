@@ -1,5 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { getCurrentUser } from "@/libs/api/get-current-user";
 import { withErrorHandler } from "@/libs/api/with-error-handler";
 import {
   deleteAccount,
@@ -16,10 +17,7 @@ type AccountRouteContext = {
 export const GET = withErrorHandler<AccountRouteContext>(
   async (request: NextRequest, context) => {
     const { id } = await context.params;
-    const account = await getAccount(
-      request.headers.get("X-User-Id"),
-      id,
-    );
+    const account = await getAccount(await getCurrentUser(request), id);
 
     return NextResponse.json(account);
   },
@@ -28,12 +26,9 @@ export const GET = withErrorHandler<AccountRouteContext>(
 export const PATCH = withErrorHandler<AccountRouteContext>(
   async (request: NextRequest, context) => {
     const { id } = await context.params;
+    const userId = await getCurrentUser(request);
     const payload = validateAccountPatch(await parseJsonPayload(request));
-    const account = await updateAccount(
-      request.headers.get("X-User-Id"),
-      id,
-      payload,
-    );
+    const account = await updateAccount(userId, id, payload);
 
     return NextResponse.json(account);
   },
@@ -42,7 +37,7 @@ export const PATCH = withErrorHandler<AccountRouteContext>(
 export const DELETE = withErrorHandler<AccountRouteContext>(
   async (request: NextRequest, context) => {
     const { id } = await context.params;
-    await deleteAccount(request.headers.get("X-User-Id"), id);
+    await deleteAccount(await getCurrentUser(request), id);
 
     return new Response(null, { status: 204 });
   },

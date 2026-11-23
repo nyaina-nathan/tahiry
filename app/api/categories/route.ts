@@ -1,5 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { getCurrentUser } from "@/libs/api/get-current-user";
 import { withErrorHandler } from "@/libs/api/with-error-handler";
 import {
   createCategory,
@@ -16,7 +17,7 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
     request.nextUrl.searchParams.get("cat_type"),
   );
   const categories = await listCategories(
-    request.headers.get("X-User-Id"),
+    await getCurrentUser(request),
     categoryType,
   );
 
@@ -24,11 +25,9 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
 });
 
 export const POST = withErrorHandler(async (request: NextRequest) => {
+  const userId = await getCurrentUser(request);
   const payload = validateCategoryInput(await parseJsonPayload(request));
-  const category = await createCategory(
-    request.headers.get("X-User-Id"),
-    payload,
-  );
+  const category = await createCategory(userId, payload);
 
   return NextResponse.json(category, { status: 201 });
 });

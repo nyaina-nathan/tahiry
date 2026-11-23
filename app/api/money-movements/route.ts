@@ -1,5 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { getCurrentUser } from "@/libs/api/get-current-user";
 import { withErrorHandler } from "@/libs/api/with-error-handler";
 import {
   createMoneyMovement,
@@ -14,7 +15,7 @@ import {
 export const GET = withErrorHandler(async (request: NextRequest) => {
   const filters = parseMovementFilters(request.nextUrl.searchParams);
   const page = await listMoneyMovements(
-    request.headers.get("X-User-Id"),
+    await getCurrentUser(request),
     filters,
   );
 
@@ -22,11 +23,9 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
 });
 
 export const POST = withErrorHandler(async (request: NextRequest) => {
+  const userId = await getCurrentUser(request);
   const payload = validateMovementInput(await parseJsonPayload(request));
-  const movement = await createMoneyMovement(
-    request.headers.get("X-User-Id"),
-    payload,
-  );
+  const movement = await createMoneyMovement(userId, payload);
 
   return NextResponse.json(movement, { status: 201 });
 });

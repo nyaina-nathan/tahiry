@@ -1,8 +1,9 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { getCurrentUser } from "@/libs/api/get-current-user";
 import { withErrorHandler } from "@/libs/api/with-error-handler";
 import {
-  getCurrentUser,
+  getUserById,
   updateCurrentUser,
 } from "@/services/auth.service";
 import {
@@ -11,14 +12,14 @@ import {
 } from "@/validators/auth.validator";
 
 export const GET = withErrorHandler(async (request: NextRequest) => {
-  const user = await getCurrentUser(request.headers.get("X-User-ID"));
+  const user = await getUserById(await getCurrentUser(request));
 
   return NextResponse.json(user);
 });
 
 export const PATCH = withErrorHandler(async (request: NextRequest) => {
   const user = await updateCurrentUser(
-    request.headers.get("X-User-ID"),
+    await getCurrentUser(request),
     validateUserPatchPayload(await parseJsonPayload(request)),
   );
 
