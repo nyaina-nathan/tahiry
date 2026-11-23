@@ -86,10 +86,10 @@ export function SettingsPage() {
 
       <div className="mx-auto max-w-7xl px-5 py-10 sm:px-8 sm:py-14 lg:px-12 lg:py-16">
         <div className="mb-10 border-b border-(--color-line) pb-10">
-          <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-(--color-accent)">
+          <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-(--color-accent)">
             Settings
           </p>
-          <h1 className="font-display text-5xl leading-none tracking-tight text-(--color-ink) sm:text-7xl">
+          <h1 className="font-bold text-5xl leading-none tracking-tight text-(--color-ink) sm:text-7xl">
             Your preferences.
           </h1>
         </div>
@@ -146,12 +146,12 @@ export function SettingsPage() {
               className="dash-panel w-full p-5 sm:p-8"
             >
               <div className="mb-8">
-                <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-accent)">
+                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-accent)">
                   Profile
                 </p>
                 <h2
                   id="profile-heading"
-                  className="font-display text-3xl text-(--color-ink) sm:text-4xl"
+                  className="font-semibold text-3xl text-(--color-ink) sm:text-4xl"
                 >
                   Your details.
                 </h2>
@@ -169,7 +169,7 @@ export function SettingsPage() {
                 <form onSubmit={(event) => void handleProfileSubmit(event)} className="space-y-6">
                   <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                     <label className="block">
-                      <span className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted)">
+                      <span className="mb-2 block text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted)">
                         Username
                       </span>
                       <input
@@ -183,7 +183,7 @@ export function SettingsPage() {
                     </label>
 
                     <label className="block">
-                      <span className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted)">
+                      <span className="mb-2 block text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted)">
                         Currency
                       </span>
                       <input
@@ -201,7 +201,7 @@ export function SettingsPage() {
                     <button
                       type="submit"
                       disabled={isProfileSaving}
-                      className="min-h-11 rounded-[0.65rem] border border-(--color-ink) bg-(--color-ink) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-surface) transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
+                      className="min-h-11 rounded-[0.65rem] border border-(--color-ink) bg-(--color-ink) px-5 text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-surface) transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
                     >
                       {isProfileSaving ? "Saving..." : "Save changes"}
                     </button>
@@ -209,7 +209,7 @@ export function SettingsPage() {
                       type="button"
                       onClick={cancelProfileEditing}
                       disabled={isProfileSaving}
-                      className="min-h-11 rounded-[0.65rem] border border-(--color-line) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted) transition-colors hover:border-(--color-ink) hover:text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
+                      className="min-h-11 rounded-[0.65rem] border border-(--color-line) px-5 text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted) transition-colors hover:border-(--color-ink) hover:text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
                     >
                       Cancel
                     </button>
@@ -219,7 +219,7 @@ export function SettingsPage() {
                 <div>
                   <dl className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                     <div>
-                      <dt className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted)">
+                      <dt className="text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted)">
                         Username
                       </dt>
                       <dd className="mt-2 text-lg text-(--color-ink)">
@@ -227,7 +227,7 @@ export function SettingsPage() {
                       </dd>
                     </div>
                     <div>
-                      <dt className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted)">
+                      <dt className="text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted)">
                         Currency
                       </dt>
                       <dd className="mt-2 text-lg text-(--color-ink)">
@@ -240,7 +240,7 @@ export function SettingsPage() {
                     <button
                       type="button"
                       onClick={beginProfileEditing}
-                      className="min-h-11 rounded-[0.65rem] border border-(--color-ink) bg-(--color-ink) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-surface) transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent)"
+                      className="min-h-11 rounded-[0.65rem] border border-(--color-ink) bg-(--color-ink) px-5 text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-surface) transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent)"
                     >
                       Edit profile
                     </button>
@@ -257,7 +257,7 @@ export function SettingsPage() {
                   <button
                     type="button"
                     onClick={() => void loadUser()}
-                    className="ml-3 font-mono text-[10px] font-bold uppercase tracking-[0.14em] underline"
+                    className="ml-3 text-[10px] font-bold uppercase tracking-[0.14em] underline"
                   >
                     Try again
                   </button>
@@ -286,12 +286,12 @@ export function SettingsPage() {
             className="dash-panel w-full p-5 sm:p-8"
             >
           <div className="mb-8">
-            <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-accent)">
+            <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-accent)">
               Email reminders
             </p>
             <h2
               id="email-reminder-heading"
-              className="font-display text-3xl text-(--color-ink) sm:text-4xl"
+              className="font-semibold text-3xl text-(--color-ink) sm:text-4xl"
             >
               Weekly money summary.
             </h2>
@@ -320,7 +320,7 @@ export function SettingsPage() {
             >
               <div className="grid grid-cols-2 gap-4 sm:gap-6">
                 <label className="block">
-                  <span className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted)">
+                  <span className="mb-2 block text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted)">
                     Day
                   </span>
                   <select
@@ -337,7 +337,7 @@ export function SettingsPage() {
                 </label>
 
                 <label className="block">
-                  <span className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted)">
+                  <span className="mb-2 block text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted)">
                     Time
                   </span>
                   <input
@@ -354,7 +354,7 @@ export function SettingsPage() {
                 <button
                   type="submit"
                   disabled={isSaving || isDeleting}
-                  className="min-h-11 rounded-[0.65rem] border border-(--color-ink) bg-(--color-ink) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-surface) transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
+                  className="min-h-11 rounded-[0.65rem] border border-(--color-ink) bg-(--color-ink) px-5 text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-surface) transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {isSaving
                     ? "Saving..."
@@ -372,7 +372,7 @@ export function SettingsPage() {
                        setIsReminderEditing(false);
                     }}
                     disabled={isSaving || isDeleting}
-                    className="min-h-11 rounded-[0.65rem] border border-(--color-line) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted) transition-colors hover:border-(--color-ink) hover:text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
+                    className="min-h-11 rounded-[0.65rem] border border-(--color-line) px-5 text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted) transition-colors hover:border-(--color-ink) hover:text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     Cancel
                   </button>
@@ -383,7 +383,7 @@ export function SettingsPage() {
                     type="button"
                     onClick={() => void loadReminder()}
                     disabled={isSaving || isDeleting}
-                    className="min-h-11 rounded-[0.65rem] border border-(--color-line) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted) transition-colors hover:border-(--color-ink) hover:text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
+                    className="min-h-11 rounded-[0.65rem] border border-(--color-line) px-5 text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted) transition-colors hover:border-(--color-ink) hover:text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     Reset
                   </button>
@@ -394,7 +394,7 @@ export function SettingsPage() {
             <div>
               <dl className="grid grid-cols-2 gap-4 sm:gap-6">
                 <div>
-                  <dt className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted)">
+                  <dt className="text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted)">
                     Day
                   </dt>
                   <dd className="mt-2 text-lg text-(--color-ink)">
@@ -402,7 +402,7 @@ export function SettingsPage() {
                   </dd>
                 </div>
                 <div>
-                  <dt className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted)">
+                  <dt className="text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted)">
                     Time
                   </dt>
                   <dd className="mt-2 text-lg text-(--color-ink)">
@@ -416,7 +416,7 @@ export function SettingsPage() {
                   type="button"
                    onClick={() => setIsReminderEditing(true)}
                   disabled={isDeleting}
-                  className="min-h-11 rounded-[0.65rem] border border-(--color-ink) bg-(--color-ink) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-surface) transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
+                  className="min-h-11 rounded-[0.65rem] border border-(--color-ink) bg-(--color-ink) px-5 text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-surface) transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   Update reminder
                 </button>
@@ -424,7 +424,7 @@ export function SettingsPage() {
                   type="button"
                   onClick={() => void handleDelete()}
                   disabled={isDeleting}
-                  className="min-h-11 rounded-[0.65rem] border border-(--color-negative-line) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-negative-strong) transition-colors hover:bg-(--color-negative-soft) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-negative) disabled:cursor-not-allowed disabled:opacity-60"
+                  className="min-h-11 rounded-[0.65rem] border border-(--color-negative-line) px-5 text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-negative-strong) transition-colors hover:bg-(--color-negative-soft) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-negative) disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {isDeleting ? "Deleting..." : "Delete reminder"}
                 </button>
@@ -441,7 +441,7 @@ export function SettingsPage() {
               <button
                 type="button"
                 onClick={() => void loadReminder()}
-                className="ml-3 font-mono text-[10px] font-bold uppercase tracking-[0.14em] underline"
+                className="ml-3 text-[10px] font-bold uppercase tracking-[0.14em] underline"
               >
                 Try again
               </button>

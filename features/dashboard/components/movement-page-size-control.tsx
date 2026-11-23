@@ -16,7 +16,7 @@ export function MovementPageSizeControl({
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <label
           htmlFor="movement-page-size"
-          className="font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--color-muted)]"
+          className="text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--color-muted)]"
         >
           Movements per page
         </label>

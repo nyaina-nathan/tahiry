@@ -11,7 +11,7 @@ export function MovementTypeSelector({
 }: MovementTypeSelectorProps) {
   return (
     <fieldset>
-      <legend className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-ink)]">
+      <legend className="mb-2 text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-ink)]">
         Movement type
       </legend>
       <div className="grid grid-cols-2 gap-2">
@@ -21,7 +21,7 @@ export function MovementTypeSelector({
             type="button"
             onClick={() => onChange(type)}
             aria-pressed={value === type}
-            className={`min-h-12 rounded-[0.7rem] border px-3 font-mono text-[10px] font-bold uppercase tracking-[0.12em] transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)] ${
+            className={`min-h-12 rounded-[0.7rem] border px-3 text-[10px] font-bold uppercase tracking-[0.12em] transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)] ${
               value === type
                 ? type === "EXPENSE"
                   ? "border-[var(--color-negative-fill)] bg-[var(--color-negative-fill)] text-white"

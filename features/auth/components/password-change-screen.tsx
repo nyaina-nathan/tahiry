@@ -69,10 +69,10 @@ export function PasswordChangeScreen({ token }: PasswordChangeScreenProps) {
         <div className="w-full max-w-[460px]">
           <AuthMobileBrand />
           <div className="mb-8">
-            <p className="mb-4 font-mono text-xs font-bold uppercase tracking-[0.24em] text-[var(--color-accent)]">
+            <p className="mb-4 text-xs font-bold uppercase tracking-[0.24em] text-[var(--color-accent)]">
               Password reset
             </p>
-            <h1 className="font-display text-5xl leading-none tracking-tight text-[var(--color-ink)] sm:text-6xl">
+            <h1 className="font-bold text-5xl leading-none tracking-tight text-[var(--color-ink)] sm:text-6xl">
               Choose a new password.
             </h1>
             <p className="mt-5 text-base leading-7 text-[var(--color-muted)]">
@@ -90,7 +90,7 @@ export function PasswordChangeScreen({ token }: PasswordChangeScreenProps) {
               </p>
               <Link
                 href="/login"
-                className="flex min-h-14 w-full items-center justify-between bg-[var(--color-strong)] px-5 font-mono text-xs font-bold uppercase tracking-[0.16em] text-white transition-colors hover:bg-[var(--color-accent)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
+                className="flex min-h-14 w-full items-center justify-between bg-[var(--color-strong)] px-5 text-xs font-bold uppercase tracking-[0.16em] text-white transition-colors hover:bg-[var(--color-accent)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
               >
                 <span>Return to sign in</span>
                 <span aria-hidden="true" className="text-xl">
@@ -126,7 +126,7 @@ export function PasswordChangeScreen({ token }: PasswordChangeScreenProps) {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="group relative flex min-h-14 w-full items-center justify-between overflow-hidden bg-[var(--color-strong)] px-5 text-left font-mono text-xs font-bold uppercase tracking-[0.16em] text-white transition-colors hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-contrast)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)] disabled:cursor-wait disabled:opacity-60"
+                className="group relative flex min-h-14 w-full items-center justify-between overflow-hidden bg-[var(--color-strong)] px-5 text-left text-xs font-bold uppercase tracking-[0.16em] text-white transition-colors hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-contrast)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)] disabled:cursor-wait disabled:opacity-60"
               >
                 <span>
                   {isSubmitting ? "Saving..." : "Save new password"}
@@ -159,7 +159,7 @@ export function PasswordChangeScreen({ token }: PasswordChangeScreenProps) {
               </p>
               <Link
                 href="/login"
-                className="inline-flex min-h-11 items-center font-mono text-xs font-bold uppercase tracking-[0.12em] text-[var(--color-accent)] underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
+                className="inline-flex min-h-11 items-center text-xs font-bold uppercase tracking-[0.12em] text-[var(--color-accent)] underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
               >
                 Return to sign in
               </Link>

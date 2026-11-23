@@ -100,12 +100,12 @@ export function AccountCreateModal({
         <section aria-labelledby="create-account-heading">
           <div className="flex items-start justify-between gap-4 p-5 pb-0 sm:p-6 sm:pb-0">
             <div>
-              <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-(--color-accent)">
+              <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-(--color-accent)">
                 Add a new wallet
               </p>
               <h2
                 id="create-account-heading"
-                className="font-display text-3xl text-(--color-ink)"
+                className="font-semibold text-3xl text-(--color-ink)"
               >
                 Create account
               </h2>
@@ -119,7 +119,7 @@ export function AccountCreateModal({
               <div>
                 <label
                   htmlFor="new-account-name"
-                  className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-(--color-ink)"
+                  className="mb-2 block text-[10px] font-bold uppercase tracking-[0.12em] text-(--color-ink)"
                 >
                   Account name
                 </label>
@@ -143,7 +143,7 @@ export function AccountCreateModal({
                 <button
                   type="submit"
                   disabled={isCreating}
-                  className="flex min-h-13 flex-1 items-center justify-between rounded-[0.7rem] bg-(--color-strong) px-4 font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-white transition-colors hover:bg-(--color-accent) hover:text-(--color-accent-contrast) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-wait disabled:opacity-60"
+                  className="flex min-h-13 flex-1 items-center justify-between rounded-[0.7rem] bg-(--color-strong) px-4 text-[10px] font-bold uppercase tracking-[0.15em] text-white transition-colors hover:bg-(--color-accent) hover:text-(--color-accent-contrast) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-wait disabled:opacity-60"
                 >
                   <span>{isCreating ? "Creating..." : "Add account"}</span>
                   <span aria-hidden="true" className="text-lg">
@@ -154,7 +154,7 @@ export function AccountCreateModal({
                   type="button"
                   onClick={onCancel}
                   disabled={isCreating}
-                  className="min-h-13 rounded-[0.7rem] border border-(--color-line) px-4 font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-(--color-ink) transition-colors hover:border-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:opacity-60"
+                  className="min-h-13 rounded-[0.7rem] border border-(--color-line) px-4 text-[10px] font-bold uppercase tracking-[0.15em] text-(--color-ink) transition-colors hover:border-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:opacity-60"
                 >
                   Cancel
                 </button>

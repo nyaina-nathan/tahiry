@@ -43,7 +43,7 @@ function CashflowTooltip({
 
   return (
     <div className="rounded-xl border border-(--color-line) bg-(--color-surface) px-3 py-2 shadow-[0_12px_28px_-16px_rgba(2,44,34,0.45)] backdrop-blur-sm">
-      <p className="font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-(--color-muted)">
+      <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-(--color-muted)">
         {formatDate(point.date)}
       </p>
       <dl className="mt-2 space-y-1">
@@ -52,7 +52,7 @@ function CashflowTooltip({
             <span className="h-1.5 w-1.5 rounded-full bg-(--color-accent)" />
             Income
           </dt>
-          <dd className="font-mono text-xs font-bold text-(--color-ink)">
+          <dd className="text-xs font-bold font-mono text-(--color-ink)">
             {formatMoney(point.income.toFixed(2), currency)}
           </dd>
         </div>
@@ -61,7 +61,7 @@ function CashflowTooltip({
             <span className="h-1.5 w-1.5 rounded-full bg-(--color-negative)" />
             Expenses
           </dt>
-          <dd className="font-mono text-xs font-bold text-(--color-ink)">
+          <dd className="text-xs font-bold font-mono text-(--color-ink)">
             {formatMoney(point.expense.toFixed(2), currency)}
           </dd>
         </div>
@@ -89,7 +89,7 @@ export function CashflowChart({ points, currency }: CashflowChartProps) {
             tickFormatter={formatWeekdayDate}
             tickLine={false}
             axisLine={{ stroke: "var(--color-line)" }}
-            tick={{ fill: "var(--color-muted)", fontSize: 10 }}
+            tick={{ fill: "var(--color-muted)", fontSize: 10, fontFamily: "var(--font-mono)" }}
             dy={8}
           />
           <YAxis
@@ -97,7 +97,7 @@ export function CashflowChart({ points, currency }: CashflowChartProps) {
             tickFormatter={(value) => formatAxisMoney(Number(value), currency)}
             tickLine={false}
             axisLine={false}
-            tick={{ fill: "var(--color-muted)", fontSize: 10 }}
+            tick={{ fill: "var(--color-muted)", fontSize: 10, fontFamily: "var(--font-mono)" }}
             domain={[0, "auto"]}
           />
           <Tooltip

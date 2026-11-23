@@ -21,7 +21,7 @@ export function AuthField({
     <div>
       <div className="mb-2 flex items-center justify-between gap-4">
         <label
-          className="block font-mono text-xs font-bold uppercase tracking-[0.12em] text-[var(--color-ink)]"
+          className="block text-xs font-bold uppercase tracking-[0.12em] text-[var(--color-ink)]"
           htmlFor={id}
         >
           {label}

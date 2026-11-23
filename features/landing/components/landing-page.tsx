@@ -26,7 +26,7 @@ export function LandingPage() {
           {ASSURANCES.map((item) => (
             <li
               key={item}
-              className="flex items-center gap-2 font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#315e52] sm:text-[10px]"
+              className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.16em] text-[#315e52] sm:text-[10px]"
             >
               <span
                 aria-hidden="true"

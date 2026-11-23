@@ -115,12 +115,12 @@ export function EmailChangeSection({
       className="mt-10 border-t border-(--color-line) pt-8"
     >
       <div className="mb-8">
-        <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-accent)">
+        <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-accent)">
           Email address
         </p>
         <h3
           id="email-change-heading"
-          className="font-display text-2xl text-(--color-ink) sm:text-3xl"
+          className="font-semibold text-2xl text-(--color-ink) sm:text-3xl"
         >
           Manage your sign-in email.
         </h3>
@@ -137,7 +137,7 @@ export function EmailChangeSection({
       ) : isEditing ? (
         <form onSubmit={handleContinue} className="space-y-6">
           <label className="block max-w-xl">
-            <span className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted)">
+            <span className="mb-2 block text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted)">
               New email
             </span>
             <input
@@ -161,7 +161,7 @@ export function EmailChangeSection({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="min-h-11 rounded-[0.65rem] border border-(--color-ink) bg-(--color-ink) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-surface) transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
+              className="min-h-11 rounded-[0.65rem] border border-(--color-ink) bg-(--color-ink) px-5 text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-surface) transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
             >
               Continue
             </button>
@@ -169,7 +169,7 @@ export function EmailChangeSection({
               type="button"
               onClick={cancelEditing}
               disabled={isSubmitting}
-              className="min-h-11 rounded-[0.65rem] border border-(--color-line) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted) transition-colors hover:border-(--color-ink) hover:text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
+              className="min-h-11 rounded-[0.65rem] border border-(--color-line) px-5 text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted) transition-colors hover:border-(--color-ink) hover:text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
             >
               Cancel
             </button>
@@ -179,7 +179,7 @@ export function EmailChangeSection({
         <div>
           <dl>
             <div>
-              <dt className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted)">
+              <dt className="text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted)">
                 Current email
               </dt>
               <dd className="mt-2 break-all text-lg text-(--color-ink)">
@@ -193,7 +193,7 @@ export function EmailChangeSection({
               <button
                 type="button"
                 onClick={beginEditing}
-                className="min-h-11 rounded-[0.65rem] border border-(--color-ink) bg-(--color-ink) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-surface) transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent)"
+                className="min-h-11 rounded-[0.65rem] border border-(--color-ink) bg-(--color-ink) px-5 text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-surface) transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent)"
               >
                 Change email
               </button>
@@ -225,12 +225,12 @@ export function EmailChangeSection({
           className="space-y-6 p-6 sm:p-8"
         >
           <div>
-            <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-accent)">
+            <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-accent)">
               Confirm it’s you
             </p>
             <h3
               id="email-change-password-heading"
-              className="font-display text-2xl text-(--color-ink)"
+              className="font-semibold text-2xl text-(--color-ink)"
             >
               Enter your password.
             </h3>
@@ -244,7 +244,7 @@ export function EmailChangeSection({
           </div>
 
           <label className="block">
-            <span className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted)">
+            <span className="mb-2 block text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted)">
               Current password
             </span>
             <input
@@ -274,7 +274,7 @@ export function EmailChangeSection({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="min-h-11 rounded-[0.65rem] border border-(--color-ink) bg-(--color-ink) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-surface) transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
+              className="min-h-11 rounded-[0.65rem] border border-(--color-ink) bg-(--color-ink) px-5 text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-surface) transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isSubmitting ? "Sending..." : "Confirm email change"}
             </button>
@@ -282,7 +282,7 @@ export function EmailChangeSection({
               type="button"
               onClick={cancelPasswordModal}
               disabled={isSubmitting}
-              className="min-h-11 rounded-[0.65rem] border border-(--color-line) px-5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted) transition-colors hover:border-(--color-ink) hover:text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
+              className="min-h-11 rounded-[0.65rem] border border-(--color-line) px-5 text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted) transition-colors hover:border-(--color-ink) hover:text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-not-allowed disabled:opacity-60"
             >
               Cancel
             </button>

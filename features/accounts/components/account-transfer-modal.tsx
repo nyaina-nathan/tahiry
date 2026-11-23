@@ -113,12 +113,12 @@ export function AccountTransferModal({
     >
       <div className="w-full max-w-xl rounded-[1.25rem] border border-(--color-line) bg-(--color-canvas) shadow-2xl">
         <div className="p-5 sm:p-6">
-          <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-(--color-accent)">
+          <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-(--color-accent)">
             Move money between wallets
           </p>
           <h2
             id="transfer-account-heading"
-            className="font-display text-3xl text-(--color-ink)"
+            className="font-semibold text-3xl text-(--color-ink)"
           >
             Transfer
           </h2>
@@ -132,7 +132,7 @@ export function AccountTransferModal({
             <div>
               <label
                 htmlFor="transfer-source-account"
-                className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-(--color-ink)"
+                className="mb-2 block text-[10px] font-bold uppercase tracking-[0.12em] text-(--color-ink)"
               >
                 Source account
               </label>
@@ -158,7 +158,7 @@ export function AccountTransferModal({
             <div>
               <label
                 htmlFor="transfer-destination-account"
-                className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-(--color-ink)"
+                className="mb-2 block text-[10px] font-bold uppercase tracking-[0.12em] text-(--color-ink)"
               >
                 Destination account
               </label>
@@ -183,7 +183,7 @@ export function AccountTransferModal({
             <div>
               <label
                 htmlFor="transfer-amount"
-                className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-(--color-ink)"
+                className="mb-2 block text-[10px] font-bold uppercase tracking-[0.12em] text-(--color-ink)"
               >
                 Amount
               </label>
@@ -204,10 +204,10 @@ export function AccountTransferModal({
                     )
                   }
                   required
-                  className={`${inputClassName} pr-16`}
+                  className={`${inputClassName} font-mono pr-16`}
                   placeholder="0.00"
                 />
-                <span className="pointer-events-none absolute inset-y-0 right-4 flex items-center font-mono text-[10px] font-bold uppercase text-(--color-muted)">
+                <span className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-[10px] font-bold uppercase text-(--color-muted)">
                   {currency}
                 </span>
               </div>
@@ -216,7 +216,7 @@ export function AccountTransferModal({
             <div>
               <label
                 htmlFor="transfer-reason"
-                className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-(--color-ink)"
+                className="mb-2 block text-[10px] font-bold uppercase tracking-[0.12em] text-(--color-ink)"
               >
                 Reason
               </label>
@@ -241,7 +241,7 @@ export function AccountTransferModal({
               <button
                 type="submit"
                 disabled={isTransferring}
-                className="flex min-h-13 flex-1 items-center justify-between rounded-[0.7rem] bg-(--color-strong) px-4 font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-white transition-colors hover:bg-(--color-accent) hover:text-(--color-accent-contrast) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-wait disabled:opacity-60"
+                className="flex min-h-13 flex-1 items-center justify-between rounded-[0.7rem] bg-(--color-strong) px-4 text-[10px] font-bold uppercase tracking-[0.15em] text-white transition-colors hover:bg-(--color-accent) hover:text-(--color-accent-contrast) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-wait disabled:opacity-60"
               >
                 <span>{isTransferring ? "Transferring..." : "Transfer money"}</span>
                 <span aria-hidden="true" className="text-lg">
@@ -252,7 +252,7 @@ export function AccountTransferModal({
                 type="button"
                 onClick={onCancel}
                 disabled={isTransferring}
-                className="min-h-13 rounded-[0.7rem] border border-(--color-line) px-4 font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-(--color-ink) transition-colors hover:border-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:opacity-60"
+                className="min-h-13 rounded-[0.7rem] border border-(--color-line) px-4 text-[10px] font-bold uppercase tracking-[0.15em] text-(--color-ink) transition-colors hover:border-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:opacity-60"
               >
                 Cancel
               </button>

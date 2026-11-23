@@ -24,7 +24,7 @@ type AppHeaderProps = {
 };
 
 const linkClassName =
-  "font-mono text-[10px] font-bold uppercase tracking-[0.14em] transition-colors hover:text-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]";
+  "text-[10px] font-bold uppercase tracking-[0.14em] transition-colors hover:text-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]";
 
 function isActiveLink(href: string, pathname: string) {
   return href === "/"
@@ -47,7 +47,7 @@ function NavLabel({ children }: { children: ReactNode }) {
   return (
     <span
       aria-hidden="true"
-      className="nav-label font-mono font-bold uppercase"
+      className="nav-label font-bold uppercase"
     >
       {children}
     </span>
@@ -165,18 +165,18 @@ export function AppHeader({ links = [] }: AppHeaderProps) {
         <div className="flex items-center gap-2 px-1">
           <div
             aria-hidden="true"
-            className="rounded-[0.6rem] flex h-8 w-8 shrink-0 items-center justify-center bg-[var(--color-strong)] font-display text-lg text-white"
+            className="rounded-[0.6rem] flex h-8 w-8 shrink-0 items-center justify-center bg-[var(--color-strong)] font-bold text-lg text-white"
           >
             {profileInitial}
           </div>
-          <span className="max-w-28 truncate font-mono text-[10px] font-bold tracking-[0.04em] text-[var(--color-ink)]">
+          <span className="max-w-28 truncate text-[10px] font-bold tracking-[0.04em] text-[var(--color-ink)]">
             {username || "Profile"}
           </span>
         </div>
         <Link
           href="/settings"
           onClick={onNavigate}
-          className=" rounded-[0.65rem] flex min-h-9 items-center justify-center border border-[var(--color-line)] px-3 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-muted)] transition-colors hover:border-[var(--color-ink)] hover:text-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)]"
+          className=" rounded-[0.65rem] flex min-h-9 items-center justify-center border border-[var(--color-line)] px-3 text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-muted)] transition-colors hover:border-[var(--color-ink)] hover:text-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)]"
           aria-current={isActiveLink("/settings", pathname) ? "page" : undefined}
         >
           Profile
@@ -215,7 +215,7 @@ export function AppHeader({ links = [] }: AppHeaderProps) {
           className="flex items-center focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
         >
           <img alt="" className="w-[5ch]" src={"/icon.png"} />
-          <span className="ml-2 font-mono text-sm font-bold uppercase tracking-[0.2em] text-(--color-ink)">
+          <span className="ml-2 text-sm font-bold uppercase tracking-[0.2em] text-(--color-ink)">
             Tahiry
           </span>
         </Link>
@@ -329,7 +329,7 @@ export function AppHeader({ links = [] }: AppHeaderProps) {
                 void handleLogout();
               }}
               disabled={isLoggingOut}
-              className="min-h-11 flex items-center gap-3 pt-3 text-left font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-muted)] transition-colors hover:text-[var(--color-negative)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-negative)] disabled:opacity-60"
+              className="min-h-11 flex items-center gap-3 pt-3 text-left text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-muted)] transition-colors hover:text-[var(--color-negative)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-negative)] disabled:opacity-60"
             >
               <SignOutIcon />
               {isLoggingOut ? "Signing out…" : "Sign out"}
@@ -341,7 +341,7 @@ export function AppHeader({ links = [] }: AppHeaderProps) {
                 handleToggleTheme();
               }}
               aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
-              className="min-h-11 flex items-center gap-3 pt-3 text-left font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-muted)] transition-colors hover:text-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
+              className="min-h-11 flex items-center gap-3 pt-3 text-left text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-muted)] transition-colors hover:text-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
             >
               {isDark ? <SunIcon /> : <MoonIcon />}
               <span>{isDark ? "Light" : "Dark"}</span>
@@ -352,7 +352,7 @@ export function AppHeader({ links = [] }: AppHeaderProps) {
       {logoutError && (
         <div
           role="alert"
-          className="border-t border-[var(--color-negative)] px-4 py-2 text-center font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-negative)]"
+          className="border-t border-[var(--color-negative)] px-4 py-2 text-center text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-negative)]"
         >
           {logoutError}
         </div>

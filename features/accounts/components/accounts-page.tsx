@@ -44,16 +44,16 @@ export function AccountsPage() {
       <div className="mx-auto max-w-7xl px-5 py-10 sm:px-8 sm:py-14 lg:px-12 lg:py-16">
         <div className="mb-10 flex flex-col gap-6 border-b border-(--color-line) pb-10 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-(--color-accent)">
+            <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-(--color-accent)">
               Accounts
             </p>
-            <h1 className="font-display text-5xl leading-none tracking-tight text-(--color-ink) sm:text-7xl">
+            <h1 className="font-bold text-5xl leading-none tracking-tight text-(--color-ink) sm:text-7xl">
               Your accounts.
             </h1>
           </div>
-          <div className="flex items-end gap-4 font-mono text-[10px] uppercase tracking-[0.14em] text-(--color-muted) sm:text-right">
+          <div className="flex items-end gap-4 text-[10px] uppercase tracking-[0.14em] text-(--color-muted) sm:text-right">
             <div>
-              <span className="block text-3xl font-bold tracking-normal text-(--color-ink)">
+              <span className="block text-3xl font-bold font-mono tracking-normal text-(--color-ink)">
                 {accounts.length.toString().padStart(2, "0")}
               </span>
               accounts total
@@ -160,14 +160,14 @@ export function AccountsPage() {
               <button
                 type="button"
                 onClick={() => void loadAccounts()}
-                className="mt-4 min-h-11 rounded-[0.65rem] border border-(--color-negative-line) px-4 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-negative-strong) transition-colors hover:bg-(--color-negative-soft) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-negative)"
+                className="mt-4 min-h-11 rounded-[0.65rem] border border-(--color-negative-line) px-4 text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-negative-strong) transition-colors hover:bg-(--color-negative-soft) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-negative)"
               >
                 Try again
               </button>
             </div>
           ) : accounts.length === 0 ? (
             <div className="dash-panel dash-panel-dashed px-6 py-14 text-center">
-              <p className="font-display text-3xl text-(--color-ink)">
+              <p className="font-semibold text-3xl text-(--color-ink)">
                 No accounts yet.
               </p>
               <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-(--color-muted)">

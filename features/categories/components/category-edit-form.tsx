@@ -45,7 +45,7 @@ export function CategoryEditForm({
         <button
           type="submit"
           disabled={isUpdating}
-          className="min-h-11 rounded-[0.7rem] bg-[var(--color-strong)] px-4 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-white transition-colors hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-contrast)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)] disabled:cursor-wait disabled:opacity-60"
+          className="min-h-11 rounded-[0.7rem] bg-[var(--color-strong)] px-4 text-[10px] font-bold uppercase tracking-[0.14em] text-white transition-colors hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-contrast)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)] disabled:cursor-wait disabled:opacity-60"
         >
           {isUpdating ? "Saving..." : "Save changes"}
         </button>
@@ -53,7 +53,7 @@ export function CategoryEditForm({
           type="button"
           onClick={onCancel}
           disabled={isUpdating}
-          className="min-h-11 rounded-[0.7rem] border border-[var(--color-line)] px-4 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-ink)] transition-colors hover:border-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)] disabled:opacity-60"
+          className="min-h-11 rounded-[0.7rem] border border-[var(--color-line)] px-4 text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-ink)] transition-colors hover:border-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)] disabled:opacity-60"
         >
           Cancel
         </button>

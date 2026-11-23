@@ -102,12 +102,12 @@ export function MoneyMovementsExportModal({
     >
       <div className="w-full max-w-xl rounded-[1.25rem] border border-(--color-line) bg-(--color-canvas) shadow-2xl">
         <div className="p-5 sm:p-6">
-          <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-(--color-accent)">
+          <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-(--color-accent)">
             Download your records
           </p>
           <h2
             id="export-movements-heading"
-            className="font-display text-3xl text-(--color-ink)"
+            className="font-semibold text-3xl text-(--color-ink)"
           >
             Export in Excel
           </h2>
@@ -125,7 +125,7 @@ export function MoneyMovementsExportModal({
             <div>
               <label
                 htmlFor="export-from"
-                className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-(--color-ink)"
+                className="mb-2 block text-[10px] font-bold uppercase tracking-[0.12em] text-(--color-ink)"
               >
                 From
               </label>
@@ -141,7 +141,7 @@ export function MoneyMovementsExportModal({
             <div>
               <label
                 htmlFor="export-to"
-                className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-(--color-ink)"
+                className="mb-2 block text-[10px] font-bold uppercase tracking-[0.12em] text-(--color-ink)"
               >
                 To
               </label>
@@ -165,7 +165,7 @@ export function MoneyMovementsExportModal({
             <button
               type="submit"
               disabled={isExporting}
-              className="flex min-h-13 flex-1 items-center justify-between rounded-[0.7rem] bg-(--color-strong) px-4 font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-white transition-colors hover:bg-(--color-accent) hover:text-(--color-accent-contrast) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-wait disabled:opacity-60"
+              className="flex min-h-13 flex-1 items-center justify-between rounded-[0.7rem] bg-(--color-strong) px-4 text-[10px] font-bold uppercase tracking-[0.15em] text-white transition-colors hover:bg-(--color-accent) hover:text-(--color-accent-contrast) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:cursor-wait disabled:opacity-60"
             >
               <span>{isExporting ? "Preparing..." : "Export in Excel"}</span>
               <span aria-hidden="true" className="text-lg">
@@ -176,7 +176,7 @@ export function MoneyMovementsExportModal({
               type="button"
               onClick={onCancel}
               disabled={isExporting}
-              className="min-h-13 rounded-[0.7rem] border border-(--color-line) px-4 font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-(--color-ink) transition-colors hover:border-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:opacity-60"
+              className="min-h-13 rounded-[0.7rem] border border-(--color-line) px-4 text-[10px] font-bold uppercase tracking-[0.15em] text-(--color-ink) transition-colors hover:border-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent) disabled:opacity-60"
             >
               Cancel
             </button>

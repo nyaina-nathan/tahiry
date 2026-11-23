@@ -158,7 +158,7 @@ export function LoginForm() {
           <button
             type="button"
             onClick={() => switchMode("login")}
-            className="min-h-11 font-mono text-xs font-bold uppercase tracking-[0.12em] text-[var(--color-accent)] underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
+            className="min-h-11 text-xs font-bold uppercase tracking-[0.12em] text-[var(--color-accent)] underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
           >
             Back to sign in
           </button>
@@ -171,7 +171,7 @@ export function LoginForm() {
               <button
                 type="button"
                 onClick={() => switchMode("password-reset")}
-                className="min-h-8 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-accent)] underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)]"
+                className="min-h-8 text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-accent)] underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)]"
               >
                 Forgot password?
               </button>
@@ -187,7 +187,7 @@ export function LoginForm() {
               <button
                 type="button"
                 onClick={() => switchMode("login")}
-                className="min-h-8 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-muted)] underline underline-offset-4 hover:text-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)]"
+                className="min-h-8 text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-muted)] underline underline-offset-4 hover:text-[var(--color-ink)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)]"
               >
                 Back to sign in
               </button>

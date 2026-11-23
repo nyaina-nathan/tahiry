@@ -108,7 +108,7 @@ export function AccountDetailPage({ accountId }: AccountDetailPageProps) {
   const backLink = (
     <Link
       href="/accounts"
-      className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted) transition-colors hover:text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent)"
+      className="text-[10px] font-bold uppercase tracking-[0.14em] text-(--color-muted) transition-colors hover:text-(--color-ink) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-accent)"
     >
       ← All accounts
     </Link>
@@ -121,7 +121,7 @@ export function AccountDetailPage({ accountId }: AccountDetailPageProps) {
         <div className="mx-auto max-w-7xl px-5 py-10 sm:px-8 sm:py-14 lg:px-12 lg:py-16">
           {backLink}
           <div className="mt-8 border border-dashed border-(--color-line) px-6 py-14 text-center">
-            <p className="font-display text-3xl text-(--color-ink)">
+            <p className="font-semibold text-3xl text-(--color-ink)">
               Account not found.
             </p>
             <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-(--color-muted)">
@@ -147,10 +147,10 @@ export function AccountDetailPage({ accountId }: AccountDetailPageProps) {
           <>
             <header className="mb-8 border-b border-(--color-line) pb-6">
               {backLink}
-              <p className="mt-4 mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-(--color-accent)">
+              <p className="mt-4 mb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-(--color-accent)">
                 Account
               </p>
-              <h1 className="font-display text-4xl leading-none tracking-tight text-(--color-ink) sm:text-6xl">
+              <h1 className="font-bold text-4xl leading-none tracking-tight text-(--color-ink) sm:text-6xl">
                 {account?.name ?? "Account"}
               </h1>
             </header>

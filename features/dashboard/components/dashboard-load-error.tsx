@@ -16,7 +16,7 @@ export function DashboardLoadError({
       <button
         type="button"
         onClick={onRetry}
-        className="mt-4 min-h-11 border border-[var(--color-negative-line)] px-4 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-negative-strong)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-negative)]"
+        className="mt-4 min-h-11 border border-[var(--color-negative-line)] px-4 text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-negative-strong)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-negative)]"
       >
         Try again
       </button>

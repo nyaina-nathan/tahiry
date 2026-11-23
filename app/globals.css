@@ -69,16 +69,12 @@
 body {
   background: var(--color-canvas);
   color: var(--color-ink);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
 button,
 input {
   font: inherit;
-}
-
-.font-display {
-  font-family: var(--font-display), Georgia, serif;
 }
 
 ::selection {
@@ -100,7 +96,7 @@ input {
 
   background-color: #eef1f4;
   color: #111827;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
 /* Anchor navigation on the landing page glides instead of jumping. Scoped to
