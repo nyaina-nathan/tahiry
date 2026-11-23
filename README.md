@@ -92,7 +92,7 @@ Income and expenses with no account attached still count towards the global bala
 
 ## Authentication and access control
 
-Authentication is cookie-based and handled in three layers: the route handlers issue sessions, `proxy.ts` guards every request, and the services re-check ownership of every resource.
+Authentication is cookie-based and handled in three layers: the route handlers issue sessions, `proxy.ts` guards page requests, and the protected route handlers authenticate API requests before the services re-check ownership of every resource.
 
 ### Session lifecycle
 
@@ -100,26 +100,25 @@ Authentication is cookie-based and handled in three layers: the route handlers i
 2. `POST /api/auth/login` compares the password with the stored hash and signs a JWT.
 3. The JWT is signed with HS256 via `jose`, expires after **7 days**, and carries the user ID in the `sub` claim.
 4. The token is stored in the `sess_id` cookie: `HttpOnly`, `SameSite=Lax`, `Path=/`, `Secure` in production, `Max-Age` 7 days.
-5. `proxy.ts` verifies the cookie on every matched request. Valid session: continue and add an `X-User-ID` request header. No session: redirect to `/login`.
-6. Route handlers read `X-User-ID`, and every service validates that it is a UUID and that the requested row belongs to that user.
+5. `proxy.ts` verifies the cookie for page requests. Valid session: continue. No session: redirect to `/login`.
+6. Protected route handlers call `getCurrentUser(request)` from `libs/api/get-current-user.ts`, which reads the `sess_id` cookie, verifies the JWT and returns the user ID, or throws a `401`. Every service then validates that the ID is a UUID and that the requested row belongs to that user.
 7. `POST /api/auth/logout` deletes the cookie and returns `204`.
 
 ### What `proxy.ts` protects
 
-`proxy.ts` is the Next.js 16 replacement for `middleware.ts`. It runs on every request except `_next/static`, `_next/image`, `favicon.ico` and `icon.png`.
+`proxy.ts` is the Next.js 16 replacement for `middleware.ts`. It only guards pages. All `/api` routes are excluded from the matcher and authenticate themselves, so API clients receive a JSON `401` instead of a redirect. It runs on every page request except `_next/static`, `_next/image`, `favicon.ico` and `icon.png`.
 
-| Route class        | Routes                                                                                                 | Behaviour                                                        |
-| ------------------ | ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------- |
-| Cron               | `/api/cron/weekly-email`                                                                                | Passed through; the route itself checks `Authorization: Bearer $CRON_SECRET` |
-| Public API         | `/api/auth/email-change/confirm`, `/api/auth/password-change/confirm`, `/api/auth/password-reset`, `/api/auth/password-reset/change` | Passed through without a session                |
-| Public page        | `/`, `/password-change`, `/robots.txt`                                                                  | Passed through without a session                                 |
-| Auth routes        | `/login`, `/api/auth/login`, `/api/auth/register`                                                       | Signed-in users are redirected to `/dashboard`; everyone else continues |
-| Protected          | Everything else, including `/dashboard`, `/accounts`, `/settings` and all data APIs                     | No valid session redirects to `/login`; valid sessions get `X-User-ID` |
+| Route class     | Routes                                                    | Behaviour                                                       |
+| --------------- | --------------------------------------------------------- | --------------------------------------------------------------- |
+| Public page     | `/`, `/password-change`, `/robots.txt`                    | Passed through without a session                                |
+| Auth page       | `/login`                                                  | Signed-in users are redirected to `/dashboard`; everyone else continues |
+| Protected page  | Everything else, including `/dashboard`, `/accounts`, `/settings` | No valid session redirects to `/login`                   |
+| API routes      | `/api/**`                                                 | Excluded from the proxy; protected handlers enforce the session |
 
 The login page also passes through when it carries `?isPasswordResetFail=true`, so an expired reset link can show its error without a session.
 
 > [!NOTE]
-> `X-User-ID` is trusted by the route handlers because `proxy.ts` sets it. Do not expose the route handlers behind a path that bypasses the proxy, and do not accept a client-supplied user ID anywhere else.
+> `getCurrentUser` reads the session directly from the request cookie. Never trust a client-supplied user ID header.
 
 ### Password reset
 
@@ -303,7 +302,7 @@ Tests live next to the code as `*.test.ts` files. There is currently no `test` n
 ├── docs/
 │   ├── api/api.yaml            # OpenAPI 3.1 specification
 │   └── db/*.sql                # Database bootstrap scripts
-├── proxy.ts                    # Session guard and X-User-ID injection
+├── proxy.ts                    # Page session guard
 ├── prisma.config.ts            # Prisma CLI configuration
 ├── next.config.ts
 └── vercel.json                 # Daily cron definition

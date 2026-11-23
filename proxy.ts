@@ -1,24 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyToken } from "./services/jwt.service";
 
-const AUTH_ROUTES = ["/login", "/api/auth/login", "/api/auth/register", "/api/auth/validate-register"];
-const CRON_ROUTES = ["/api/cron/weekly-email"];
-const PUBLIC_API_ROUTES = [
-  "/api/auth/email-change/confirm",
-  "/api/auth/password-change/confirm",
-  "/api/auth/password-reset",
-  "/api/auth/password-reset/change",
-];
 const PUBLIC_PAGE_ROUTES = ["/", "/password-change", "/robots.txt"];
 
 export default async function proxy(req: NextRequest) {
   const path = req.nextUrl.pathname;
 
-  if (CRON_ROUTES.includes(path)) {
-    return NextResponse.next();
-  }
-
-  if (PUBLIC_API_ROUTES.includes(path) || PUBLIC_PAGE_ROUTES.includes(path)) {
+  if (PUBLIC_PAGE_ROUTES.includes(path)) {
     return NextResponse.next();
   }
 
@@ -33,7 +21,7 @@ export default async function proxy(req: NextRequest) {
 
   const session = await verifyToken(token);
 
-  if (AUTH_ROUTES.includes(path)) {
+  if (path === "/login") {
     if (session) {
       return NextResponse.redirect(new URL("/dashboard", req.nextUrl));
     }
@@ -44,14 +32,9 @@ export default async function proxy(req: NextRequest) {
     return NextResponse.redirect(new URL("/login", req.nextUrl));
   }
 
-  const requestHeaders = new Headers(req.headers);
-  requestHeaders.set("X-User-ID", session.sub);
-
-  return NextResponse.next({
-    request: { headers: requestHeaders },
-  });
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|icon.png).*)"],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|icon.png).*)"],
 };

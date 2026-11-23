@@ -6,9 +6,8 @@ info:
     API for managing personal categories and money movements.
 
     Authentication endpoints issue a JWT in the `sess_id` HTTP-only cookie.
-    Protected entity endpoints are called through the application proxy. The
-    proxy verifies the cookie and forwards the authenticated user's ID in the
-    `X-User-Id` header.
+    Protected entity endpoints authenticate the request inside the route
+    handler by verifying that cookie and resolving the user's ID.
 servers:
   - url: /
 
@@ -258,7 +257,7 @@ paths:
       summary: List the current user's accounts
       operationId: listAccounts
       security:
-        - ProxyUserId: []
+        - SessionCookie: []
       responses:
         '200':
           description: Accounts owned by the authenticated user.
@@ -276,7 +275,7 @@ paths:
       summary: Create an account
       operationId: createAccount
       security:
-        - ProxyUserId: []
+        - SessionCookie: []
       requestBody:
         required: true
         content:
@@ -306,7 +305,7 @@ paths:
       summary: Get one account
       operationId: getAccount
       security:
-        - ProxyUserId: []
+        - SessionCookie: []
       responses:
         '200':
           description: Account owned by the authenticated user.
@@ -324,7 +323,7 @@ paths:
       summary: Update an account
       operationId: updateAccount
       security:
-        - ProxyUserId: []
+        - SessionCookie: []
       requestBody:
         required: true
         content:
@@ -353,7 +352,7 @@ paths:
       summary: Delete an account
       operationId: deleteAccount
       security:
-        - ProxyUserId: []
+        - SessionCookie: []
       responses:
         '204':
           description: Account deleted. Related movements retain their records with `id_account` and `id_account_source` set to null.
@@ -371,7 +370,7 @@ paths:
       summary: Get the current user's email reminder
       operationId: getEmailReminder
       security:
-        - ProxyUserId: []
+        - SessionCookie: []
       responses:
         '200':
           description: The email reminder owned by the authenticated user.
@@ -389,7 +388,7 @@ paths:
       summary: Create the current user's email reminder
       operationId: createEmailReminder
       security:
-        - ProxyUserId: []
+        - SessionCookie: []
       requestBody:
         required: true
         content:
@@ -416,7 +415,7 @@ paths:
       summary: Update the current user's email reminder
       operationId: updateEmailReminder
       security:
-        - ProxyUserId: []
+        - SessionCookie: []
       requestBody:
         required: true
         content:
@@ -442,7 +441,7 @@ paths:
       summary: Delete the current user's email reminder
       operationId: deleteEmailReminder
       security:
-        - ProxyUserId: []
+        - SessionCookie: []
       responses:
         '204':
           description: Email reminder deleted.
@@ -458,7 +457,7 @@ paths:
       operationId: transferMoney
       description: Creates a single `TRANSFERT` movement where `id_account` is the destination account and `id_account_source` is the source account. Both accounts must belong to the authenticated user and be distinct.
       security:
-        - ProxyUserId: []
+        - SessionCookie: []
       requestBody:
         required: true
         content:
@@ -496,7 +495,7 @@ paths:
       operationId: exportMoneyMovements
       description: Exports all money movements owned by the authenticated user. If either date is omitted, that side of the date range is unbounded.
       security:
-        - ProxyUserId: []
+        - SessionCookie: []
       requestBody:
         required: false
         content:
@@ -527,7 +526,7 @@ paths:
       summary: Get the current user's lifetime balance
       operationId: getBalance
       security:
-        - ProxyUserId: []
+        - SessionCookie: []
       responses:
         '200':
           description: Lifetime income, expenses, and net balance.
@@ -544,7 +543,7 @@ paths:
       summary: List the current user's categories
       operationId: listCategories
       security:
-        - ProxyUserId: []
+        - SessionCookie: []
       parameters:
         - name: cat_type
           in: query
@@ -569,7 +568,7 @@ paths:
       summary: Create a category
       operationId: createCategory
       security:
-        - ProxyUserId: []
+        - SessionCookie: []
       requestBody:
         required: true
         content:
@@ -596,7 +595,7 @@ paths:
       summary: Get one category
       operationId: getCategory
       security:
-        - ProxyUserId: []
+        - SessionCookie: []
       responses:
         '200':
           description: Category owned by the authenticated user.
@@ -614,7 +613,7 @@ paths:
       summary: Update a category
       operationId: updateCategory
       security:
-        - ProxyUserId: []
+        - SessionCookie: []
       requestBody:
         required: true
         content:
@@ -640,7 +639,7 @@ paths:
       summary: Delete a category
       operationId: deleteCategory
       security:
-        - ProxyUserId: []
+        - SessionCookie: []
       responses:
         '204':
           description: Category deleted. Related movements retain their records with a null category.
@@ -655,7 +654,7 @@ paths:
       summary: List the current user's money movements
       operationId: listMoneyMovements
       security:
-        - ProxyUserId: []
+        - SessionCookie: []
       parameters:
         - $ref: '#/components/parameters/MovementType'
         - $ref: '#/components/parameters/CategoryId'
@@ -680,7 +679,7 @@ paths:
       operationId: createMoneyMovement
       description: The `TRANSFERT` movement type is not accepted here; transfers are created through `POST /api/transfer`.
       security:
-        - ProxyUserId: []
+        - SessionCookie: []
       requestBody:
         required: true
         content:
@@ -713,7 +712,7 @@ paths:
       summary: Get one money movement
       operationId: getMoneyMovement
       security:
-        - ProxyUserId: []
+        - SessionCookie: []
       responses:
         '200':
           description: Money movement owned by the authenticated user.
@@ -732,7 +731,7 @@ paths:
       operationId: updateMoneyMovement
       description: The `TRANSFERT` movement type is not accepted here; transfers cannot be converted to or from other movement types. The movement's account is not changed by PATCH.
       security:
-        - ProxyUserId: []
+        - SessionCookie: []
       requestBody:
         required: true
         content:
@@ -758,7 +757,7 @@ paths:
       summary: Delete a money movement
       operationId: deleteMoneyMovement
       security:
-        - ProxyUserId: []
+        - SessionCookie: []
       responses:
         '204':
           description: Money movement deleted.
@@ -774,11 +773,6 @@ components:
       in: cookie
       name: sess_id
       description: JWT session cookie containing the authenticated user's ID claim.
-    ProxyUserId:
-      type: apiKey
-      in: header
-      name: X-User-Id
-      description: Internal header set by the authenticated application proxy. Never trust a client-supplied value.
 
   headers:
     SessionCookie:

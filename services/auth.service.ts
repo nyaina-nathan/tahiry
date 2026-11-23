@@ -79,7 +79,7 @@ export async function loginUser(payload: LoginPayload): Promise<AuthResult> {
   };
 }
 
-export async function getCurrentUser(userId: string | null) {
+export async function getUserById(userId: string | null) {
   if (!userId || !UUID_PATTERN.test(userId)) {
     throw new AppError(
       "Unauthorized",
