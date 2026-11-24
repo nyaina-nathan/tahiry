@@ -2,6 +2,7 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/libs/api/get-current-user";
 import { withErrorHandler } from "@/libs/api/with-error-handler";
+import { withRateLimit } from "@/libs/api/with-rate-limit";
 import {
   getUserById,
   updateCurrentUser,
@@ -11,17 +12,21 @@ import {
   validateUserPatchPayload,
 } from "@/validators/auth.validator";
 
-export const GET = withErrorHandler(async (request: NextRequest) => {
-  const user = await getUserById(await getCurrentUser(request));
+export const GET = withErrorHandler(
+  withRateLimit("api.read", async (request: NextRequest) => {
+    const user = await getUserById(await getCurrentUser(request));
 
-  return NextResponse.json(user);
-});
+    return NextResponse.json(user);
+  }),
+);
 
-export const PATCH = withErrorHandler(async (request: NextRequest) => {
-  const user = await updateCurrentUser(
-    await getCurrentUser(request),
-    validateUserPatchPayload(await parseJsonPayload(request)),
-  );
+export const PATCH = withErrorHandler(
+  withRateLimit("api.write", async (request: NextRequest) => {
+    const user = await updateCurrentUser(
+      await getCurrentUser(request),
+      validateUserPatchPayload(await parseJsonPayload(request)),
+    );
 
-  return NextResponse.json(user);
-});
+    return NextResponse.json(user);
+  }),
+);
