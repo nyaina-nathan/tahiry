@@ -2,10 +2,13 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/libs/api/get-current-user";
 import { withErrorHandler } from "@/libs/api/with-error-handler";
+import { withRateLimit } from "@/libs/api/with-rate-limit";
 import { getBalance } from "@/services/balance.service";
 
-export const GET = withErrorHandler(async (request: NextRequest) => {
-  const balance = await getBalance(await getCurrentUser(request));
+export const GET = withErrorHandler(
+  withRateLimit("api.read", async (request: NextRequest) => {
+    const balance = await getBalance(await getCurrentUser(request));
 
-  return NextResponse.json(balance);
-});
+    return NextResponse.json(balance);
+  }),
+);

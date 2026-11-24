@@ -2,6 +2,7 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/libs/api/get-current-user";
 import { withErrorHandler } from "@/libs/api/with-error-handler";
+import { withRateLimit } from "@/libs/api/with-rate-limit";
 import {
   deleteAccount,
   getAccount,
@@ -15,30 +16,30 @@ type AccountRouteContext = {
 };
 
 export const GET = withErrorHandler<AccountRouteContext>(
-  async (request: NextRequest, context) => {
+  withRateLimit("api.read", async (request: NextRequest, context) => {
     const { id } = await context.params;
     const account = await getAccount(await getCurrentUser(request), id);
 
     return NextResponse.json(account);
-  },
+  }),
 );
 
 export const PATCH = withErrorHandler<AccountRouteContext>(
-  async (request: NextRequest, context) => {
+  withRateLimit("api.write", async (request: NextRequest, context) => {
     const { id } = await context.params;
     const userId = await getCurrentUser(request);
     const payload = validateAccountPatch(await parseJsonPayload(request));
     const account = await updateAccount(userId, id, payload);
 
     return NextResponse.json(account);
-  },
+  }),
 );
 
 export const DELETE = withErrorHandler<AccountRouteContext>(
-  async (request: NextRequest, context) => {
+  withRateLimit("api.write", async (request: NextRequest, context) => {
     const { id } = await context.params;
     await deleteAccount(await getCurrentUser(request), id);
 
     return new Response(null, { status: 204 });
-  },
+  }),
 );

@@ -141,8 +141,62 @@ The login page also passes through when it carries `?isPasswordResetFail=true`, 
 - Session tokens: JWT HS256, 7-day expiry, signed with `JWT_SECRET`.
 - Reset and email-change tokens: 64 hex characters, stored only as SHA-256 hashes, single-use where applicable.
 - Cookies: `HttpOnly` and `SameSite=Lax`; `Secure` is enabled automatically in production.
-- There is no CSRF token. `SameSite=Lax` is the current mitigation.
-- There is no rate limiting on login or password-reset requests. Put one in front of the app if it is public.
+- CSRF: there is no CSRF token. `SameSite=Lax` is the current mitigation.
+- Rate limiting: every API endpoint is protected by Upstash Redis sliding windows. See [Rate limiting](#rate-limiting).
+
+## Rate limiting
+
+Every `/api` route except the cron entry point goes through a Redis-backed sliding-window limiter (`@upstash/ratelimit`). The check runs inside the route handler via `withRateLimit`, after the request reaches the Node.js runtime and before the handler parses the body or touches the database.
+
+| Policy          | Applies to                                                                 | Key             | Limit          |
+| --------------- | -------------------------------------------------------------------------- | --------------- | -------------- |
+| `auth.register` | `POST /api/auth/register`                                                  | Client IP       | 5 / hour       |
+| `auth.login`    | `POST /api/auth/login`                                                     | Client IP       | 10 / 15 min    |
+| `auth.logout`   | `POST /api/auth/logout`                                                    | Client IP       | 60 / min       |
+| `auth.passwordReset` | `POST /api/auth/password-reset`                                       | Client IP       | 5 / 15 min     |
+| `auth.passwordResetChange` | `POST /api/auth/password-reset/change`                          | Client IP       | 5 / 15 min     |
+| `auth.passwordConfirm` | `GET /api/auth/password-change/confirm`                            | Client IP       | 20 / 15 min    |
+| `auth.emailChange` | `POST /api/auth/email-change`                                          | Session user    | 5 / hour       |
+| `auth.emailConfirm` | `GET /api/auth/email-change/confirm`                                   | Client IP       | 20 / 15 min    |
+| `api.read`      | `GET` on accounts, categories, movements, balance, reminders, `/auth/me`  | Session user    | 120 / min      |
+| `api.write`     | `POST`/`PATCH`/`DELETE` on accounts, categories, movements, reminders, `/auth/me` | Session user | 60 / min |
+| `api.transfer`  | `POST /api/transfer`                                                       | Session user    | 30 / min       |
+| `api.export`    | `POST /api/exports`                                                        | Session user    | 10 / hour      |
+
+How the key is chosen:
+
+- **Session user:** the `sess_id` JWT is verified locally and the `sub` claim becomes the key, so one user cannot exhaust another user's budget. If the token is missing or invalid, the limiter falls back to the client IP.
+- **Client IP:** the first address in `x-forwarded-for`, then `x-real-ip`. Vercel sets these headers. If you self-host behind another proxy, configure it to overwrite `x-forwarded-for` so clients cannot spoof their address.
+
+Reads and writes share one budget per family, not one per endpoint: spreading requests across accounts, categories and movements still counts against the same `api.read` or `api.write` window.
+
+When a limit is exceeded the API returns:
+
+```json
+{
+  "error": {
+    "title": "Too Many Requests",
+    "message": "Too many requests. Please try again later.",
+    "status": 429,
+    "origin": "rate_limit"
+  }
+}
+```
+
+The response includes `Retry-After`, `X-RateLimit-Limit`, `X-RateLimit-Remaining` and `X-RateLimit-Reset` (a Unix timestamp in seconds). Successful responses also carry the three `X-RateLimit-*` headers, so clients can adapt before they are blocked.
+
+### Configuration
+
+Set both variables in `.env` (and in the Vercel project) to enable limiting. Create a Redis database in the [Upstash console](https://console.upstash.com/redis) and copy its REST URL and token:
+
+```bash
+UPSTASH_REDIS_REST_URL=https://your-redis.upstash.io
+UPSTASH_REDIS_REST_TOKEN=your-token
+```
+
+If either variable is missing, or Redis does not answer within **1 second**, the request is allowed and the failure is logged at most once per minute. This fail-open behaviour keeps the app usable during a Redis outage, at the cost of temporarily losing abuse protection. The login and password-reset limits are deliberately IP-keyed even for signed-in users, because those endpoints are the main brute-force target.
+
+The cron endpoint (`GET /api/cron/weekly-email`) is excluded: it is already protected by the `CRON_SECRET` bearer token and is called once per day by Vercel Cron.
 
 ## Weekly email summary
 
@@ -176,6 +230,7 @@ It returns `money-movements.xlsx` with title, category, account, amount, type an
 | Data           | PostgreSQL, Prisma 7 with the `@prisma/adapter-pg` driver     |
 | Auth           | `jose` (JWT), `bcrypt`                                        |
 | Email          | Resend                                                        |
+| Rate limiting  | Upstash Redis, `@upstash/ratelimit`                           |
 | Export         | ExcelJS                                                       |
 | Deployment     | Vercel (including Cron), `@vercel/speed-insights`             |
 
@@ -207,6 +262,8 @@ cp .env.example .env
 | `RESEND_API_KEY` | Email features      | Resend API key                                                           |
 | `EMAIL_FROM`     | Email features      | Verified sender address, e.g. `Tahiry <no-reply@example.com>`            |
 | `CRON_SECRET`    | Cron                | Bearer secret expected by `/api/cron/weekly-email`                       |
+| `UPSTASH_REDIS_REST_URL` | Production | Upstash Redis REST endpoint. Rate limiting is disabled when either Upstash variable is missing |
+| `UPSTASH_REDIS_REST_TOKEN` | Production | Upstash Redis REST token                                               |
 
 Generate a secret with:
 
@@ -289,6 +346,8 @@ Tests live next to the code as `*.test.ts` files. There is currently no `test` n
 │   └── settings/               # Profile, email change, reminders, export
 ├── libs/
 │   ├── api/with-error-handler.ts  # Converts thrown errors into JSON responses
+│   ├── api/with-rate-limit.ts     # Applies an Upstash policy to a route handler
+│   ├── rate-limit/                # Policies, Redis client, identifiers, responses
 │   ├── db/prisma.ts               # Prisma client with the pg adapter
 │   └── errors/app-error.ts        # AppError and shared error factories
 ├── services/                   # Business logic, authorization and email flows
@@ -379,6 +438,8 @@ Errors use a consistent shape:
 }
 ```
 
+Rate-limited requests use the same envelope with `429`, `origin: "rate_limit"`, and `Retry-After` / `X-RateLimit-*` headers. See [Rate limiting](#rate-limiting) for the per-endpoint budgets.
+
 The full contract, including request and response schemas, is in [`docs/api/api.yaml`](./docs/api/api.yaml).
 
 ## Database
@@ -401,7 +462,7 @@ User-owned rows cascade on user deletion. Money movements keep `id_account` and 
 
 Tahiry is set up for Vercel:
 
-1. Import the repository and add the environment variables from the table above.
+1. Import the repository and add the environment variables from the table above, including the Upstash pair used by rate limiting.
 2. Set `APP_URL` to the production HTTPS origin. The email services refuse non-HTTPS URLs in production.
 3. Set `CRON_SECRET` in the project environment. `vercel.json` registers `GET /api/cron/weekly-email` at `0 0 * * *` (daily at midnight UTC).
 4. Run `npx prisma generate` as part of the build if your platform does not do it automatically.
@@ -419,4 +480,4 @@ On another platform, run `npm run build` and `npm start`, and schedule the cron 
 - The database enum says `TRANSFERT`; the UI and API inherit that spelling.
 - `.env.example` uses the wrong cron variable name (`CRON_SECRETS`).
 - Tests run through `node --test`, but there is no `npm test` script yet.
-- There is no rate limiting, CSRF token or self-service flow for deleting a user account.
+- There is no CSRF token or self-service flow for deleting a user account.
