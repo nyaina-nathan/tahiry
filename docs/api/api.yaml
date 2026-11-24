@@ -8,6 +8,11 @@ info:
     Authentication endpoints issue a JWT in the `sess_id` HTTP-only cookie.
     Protected entity endpoints authenticate the request inside the route
     handler by verifying that cookie and resolving the user's ID.
+
+    Rate-limited endpoints may return `429 Too Many Requests` with
+    `Retry-After`, `X-RateLimit-Limit`, `X-RateLimit-Remaining` and
+    `X-RateLimit-Reset` headers. Successful responses include the three
+    `X-RateLimit-*` headers.
 servers:
   - url: /
 
@@ -50,6 +55,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /api/auth/login:
     post:
@@ -76,6 +83,8 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /api/auth/password-reset:
     post:
@@ -94,6 +103,8 @@ paths:
           description: Password reset request accepted. This response is returned whether or not the email is registered.
         '400':
           $ref: '#/components/responses/BadRequest'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /api/auth/password-change/confirm:
     get:
@@ -121,6 +132,8 @@ paths:
                     value: /password-change?token=opaque-reset-token
                   invalid:
                     value: /login?isPasswordResetFail=true
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /api/auth/password-reset/change:
     post:
@@ -143,6 +156,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /api/auth/email-change:
     post:
@@ -172,6 +187,8 @@ paths:
         '409':
           description: The requested email address is already registered.
           $ref: '#/components/responses/Conflict'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /api/auth/email-change/confirm:
     get:
@@ -194,6 +211,8 @@ paths:
               description: Settings page URL with the `emailChangeSuccess` query parameter.
               schema:
                 type: string
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /api/auth/logout:
     post:
@@ -209,6 +228,8 @@ paths:
               description: Deleted `sess_id` cookie.
               schema:
                 type: string
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /api/auth/me:
     get:
@@ -226,6 +247,8 @@ paths:
                 $ref: '#/components/schemas/User'
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
     patch:
       tags: [Auth]
@@ -250,6 +273,8 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /api/accounts:
     get:
@@ -269,6 +294,8 @@ paths:
                   $ref: '#/components/schemas/Account'
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
     post:
       tags: [Accounts]
@@ -296,6 +323,8 @@ paths:
         '409':
           description: The current user already owns an account with the same name, compared case-insensitively.
           $ref: '#/components/responses/Conflict'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /api/accounts/{id}:
     parameters:
@@ -317,6 +346,8 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
     patch:
       tags: [Accounts]
@@ -346,6 +377,8 @@ paths:
         '409':
           description: The current user already owns another account with the same name, compared case-insensitively.
           $ref: '#/components/responses/Conflict'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
     delete:
       tags: [Accounts]
@@ -363,6 +396,8 @@ paths:
           $ref: '#/components/responses/Conflict'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /api/email-reminders:
     get:
@@ -382,6 +417,8 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
     post:
       tags: [Email reminders]
@@ -409,6 +446,8 @@ paths:
         '409':
           description: The authenticated user already has an email reminder.
           $ref: '#/components/responses/Conflict'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
     patch:
       tags: [Email reminders]
@@ -435,6 +474,8 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
     delete:
       tags: [Email reminders]
@@ -449,6 +490,8 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /api/transfer:
     post:
@@ -487,6 +530,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /api/exports:
     post:
@@ -519,6 +564,8 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /api/balance:
     get:
@@ -536,6 +583,8 @@ paths:
                 $ref: '#/components/schemas/Balance'
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /api/categories:
     get:
@@ -562,6 +611,8 @@ paths:
                   $ref: '#/components/schemas/Category'
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
     post:
       tags: [Categories]
@@ -586,6 +637,8 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /api/categories/{id}:
     parameters:
@@ -607,6 +660,8 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
     patch:
       tags: [Categories]
@@ -633,6 +688,8 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
     delete:
       tags: [Categories]
@@ -647,6 +704,8 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /api/money-movements:
     get:
@@ -672,6 +731,8 @@ paths:
                 $ref: '#/components/schemas/MovementPage'
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
     post:
       tags: [Money movements]
@@ -703,6 +764,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /api/money-movements/{id}:
     parameters:
@@ -724,6 +787,8 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
     patch:
       tags: [Money movements]
@@ -751,6 +816,8 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
     delete:
       tags: [Money movements]
@@ -765,6 +832,8 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
 components:
   securitySchemes:
@@ -1285,7 +1354,50 @@ components:
               type: object
               additionalProperties: true
 
+    RateLimitError:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [title, message, status, origin]
+          properties:
+            title:
+              type: string
+              const: Too Many Requests
+            message:
+              type: string
+            status:
+              type: integer
+              const: 429
+            origin:
+              type: string
+              const: rate_limit
+
   responses:
+    TooManyRequests:
+      description: The per-endpoint rate limit was exceeded. Wait for the interval in `Retry-After` before retrying.
+      headers:
+        Retry-After:
+          description: Seconds to wait before retrying.
+          schema:
+            type: integer
+        X-RateLimit-Limit:
+          description: Maximum requests allowed in the current window.
+          schema:
+            type: integer
+        X-RateLimit-Remaining:
+          description: Requests remaining in the current window.
+          schema:
+            type: integer
+        X-RateLimit-Reset:
+          description: Unix timestamp in seconds when the current window resets.
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RateLimitError'
     BadRequest:
       description: Request validation failed.
       content:
