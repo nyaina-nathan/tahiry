@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   buildWeeklySummaryHtml,
+  buildWeeklySummaryText,
   getMondayBasedDay,
   type WeeklyEmailSummary,
 } from "@/services/weekly-email-summary";
@@ -44,13 +45,13 @@ describe("buildWeeklySummaryHtml", () => {
 
     expect(html).toContain("Hi Ada,");
     expect(html).toContain("from 2026-11-16 to 2026-11-22");
-    expect(html).toContain("Total income: <strong>100.00 USD</strong>");
-    expect(html).toContain("Total spending: <strong>25.00 USD</strong>");
-    expect(html).toContain(
-      "<tr><td>2026-11-22</td><td>100.00</td><td>25.00</td></tr>",
-    );
-    expect(html).toContain("<tr><td>Salary</td><td>100.00</td></tr>");
-    expect(html).toContain("<tr><td>Food</td><td>25.00</td></tr>");
+    expect(html).toContain("Total income");
+    expect(html).toContain("100.00 USD");
+    expect(html).toContain("Total spending");
+    expect(html).toContain("25.00 USD");
+    expect(html).toContain("2026-11-22");
+    expect(html).toContain("Salary");
+    expect(html).toContain("Food");
   });
 
   it("renders a placeholder when a category list is empty", () => {
@@ -58,7 +59,7 @@ describe("buildWeeklySummaryHtml", () => {
       makeSummary({ topIncomeCategories: [], topExpenseCategories: [] }),
     );
 
-    expect(html.match(/<tr><td colspan="2">No data<\/td><\/tr>/g)).toHaveLength(2);
+    expect(html.match(/No data/g)).toHaveLength(2);
   });
 
   it("escapes user-provided values before interpolating them into HTML", () => {
@@ -77,7 +78,7 @@ describe("buildWeeklySummaryHtml", () => {
     expect(html).toContain("&lt;script&gt;");
     expect(html).toContain("&lt;from&gt;");
     expect(html).toContain("&amp;to");
-    expect(html).toContain("1&#039;2&quot;");
+    expect(html).toContain("1&#39;2&quot;");
     expect(html).toContain("&lt;3&gt;");
     expect(html).toContain("&lt;date&gt;");
     expect(html).toContain("&amp;1");
@@ -90,5 +91,33 @@ describe("buildWeeklySummaryHtml", () => {
     const html = buildWeeklySummaryHtml(makeSummary({ daily: [] }));
 
     expect(html).toContain("<tbody></tbody>");
+  });
+});
+
+describe("buildWeeklySummaryText", () => {
+  it("renders a plain-text summary with totals, daily values, and categories", () => {
+    const text = buildWeeklySummaryText(makeSummary(), {
+      settingsUrl: "https://app.example.com/settings",
+    });
+
+    expect(text).toContain("Hi Ada,");
+    expect(text).toContain("from 2026-11-16 to 2026-11-22");
+    expect(text).toContain("Total income: 100.00 USD");
+    expect(text).toContain("Total spending: 25.00 USD");
+    expect(text).toContain(
+      "- 2026-11-22: income 100.00 USD, spending 25.00 USD",
+    );
+    expect(text).toContain("- Salary: 100.00 USD");
+    expect(text).toContain("- Food: 25.00 USD");
+    expect(text).toContain("Manage email reminders: https://app.example.com/settings");
+  });
+
+  it("renders placeholders when there is nothing to report", () => {
+    const text = buildWeeklySummaryText(
+      makeSummary({ daily: [], topIncomeCategories: [], topExpenseCategories: [] }),
+    );
+
+    expect(text).toContain("No activity recorded.");
+    expect(text.match(/No data/g)).toHaveLength(2);
   });
 });

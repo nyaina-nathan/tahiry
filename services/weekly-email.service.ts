@@ -3,6 +3,7 @@ import { prisma } from "@/libs/db/prisma";
 import { Prisma } from "../prisma/generated/client";
 import {
   buildWeeklySummaryHtml,
+  buildWeeklySummaryText,
   getMondayBasedDay,
 } from "@/services/weekly-email-summary";
 
@@ -50,6 +51,22 @@ function scheduledAtForReminder(now: Date, reminderTime: Date): string {
 
 function formatAmount(amount: Prisma.Decimal): string {
   return amount.toFixed(2);
+}
+
+function getSettingsUrl(): string | undefined {
+  const configuredUrl =
+    process.env.APP_URL ??
+    (process.env.NODE_ENV === "production" ? undefined : "http://localhost:3000");
+
+  if (!configuredUrl) {
+    return undefined;
+  }
+
+  try {
+    return new URL("/settings", configuredUrl).toString();
+  } catch {
+    return undefined;
+  }
 }
 
 async function getWeeklyStats(userId: string, now: Date) {
@@ -152,6 +169,7 @@ export async function scheduleWeeklyEmails(now = new Date()) {
   }
 
   const resend = new Resend(apiKey);
+  const settingsUrl = getSettingsUrl();
   const reminders = await prisma.weekly_reminder.findMany({
     where: { day_of_week: getMondayBasedDay(now) },
     select: {
@@ -173,16 +191,18 @@ export async function scheduleWeeklyEmails(now = new Date()) {
   for (const reminder of reminders as ReminderWithUser[]) {
     try {
       const stats = await getWeeklyStats(reminder.id_user, now);
+      const summary = {
+        username: reminder.users.username,
+        currency: reminder.users.currency,
+        ...stats,
+      };
       const result = await resend.emails.send({
         from,
         to: reminder.users.email,
         subject: RESEND_SUBJECT,
         scheduledAt: scheduledAtForReminder(now, reminder.time),
-        html: buildWeeklySummaryHtml({
-          username: reminder.users.username,
-          currency: reminder.users.currency,
-          ...stats,
-        }),
+        html: buildWeeklySummaryHtml(summary, { settingsUrl }),
+        text: buildWeeklySummaryText(summary, { settingsUrl }),
       });
 
       if (result.error) {
