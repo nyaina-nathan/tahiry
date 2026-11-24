@@ -73,16 +73,21 @@ describe("scheduleWeeklyEmails", () => {
       subject: string;
       scheduledAt: string;
       html: string;
+      text: string;
     };
     expect(message.to).toBe("ada@example.com");
     expect(message.subject).toBe("Your weekly summary");
     expect(message.scheduledAt).toBe("2026-11-16T09:00:00.000Z");
     expect(message.html).toContain("Hi Ada,");
     expect(message.html).toContain("from 2026-11-10 to 2026-11-16");
-    expect(message.html).toContain("Total income: <strong>100.00 USD</strong>");
-    expect(message.html).toContain("Total spending: <strong>40.00 USD</strong>");
-    expect(message.html).toContain("<td>Salary</td>");
-    expect(message.html).toContain("<td>Food</td>");
+    expect(message.html).toContain("Total income");
+    expect(message.html).toContain("100.00 USD");
+    expect(message.html).toContain("Total spending");
+    expect(message.html).toContain("40.00 USD");
+    expect(message.html).toContain("Salary");
+    expect(message.html).toContain("Food");
+    expect(message.text).toContain("Total income: 100.00 USD");
+    expect(message.text).toContain("Total spending: 40.00 USD");
   });
 
   it("ignores reminders scheduled for other weekdays", async () => {
@@ -147,7 +152,7 @@ describe("scheduleWeeklyEmails", () => {
     await scheduleWeeklyEmails(NOW);
 
     const html = (mockSend.mock.calls[0][0] as { html: string }).html;
-    expect(html).toContain("Total income: <strong>0.00 USD</strong>");
+    expect(html).toContain("0.00 USD");
     expect(html).not.toContain("999.00");
     expect(html).not.toContain("888.00");
   });

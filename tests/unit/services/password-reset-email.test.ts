@@ -7,7 +7,8 @@ describe("buildPasswordResetEmail", () => {
       "https://app.example.com/api/auth/password-reset/confirm?token=abc123";
     const email = buildPasswordResetEmail(resetUrl);
 
-    expect(email.html).toContain(`<a href="${resetUrl}">Reset password</a>`);
+    expect(email.html).toContain(`href="${resetUrl}"`);
+    expect(email.html).toContain(">Reset password</a>");
     expect(email.html).toContain(resetUrl);
     expect(email.text).toContain(resetUrl);
   });

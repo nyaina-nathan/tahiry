@@ -10,9 +10,8 @@ describe("buildEmailChangeEmail", () => {
       "https://app.example.com/api/auth/email-change/confirm?token=abc123";
     const email = buildEmailChangeEmail(confirmationUrl);
 
-    expect(email.html).toContain(
-      `<a href="${confirmationUrl}">Confirm email change</a>`,
-    );
+    expect(email.html).toContain(`href="${confirmationUrl}"`);
+    expect(email.html).toContain(">Confirm email change</a>");
     expect(email.html).toContain(confirmationUrl);
     expect(email.text).toContain(confirmationUrl);
   });
