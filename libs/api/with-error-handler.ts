@@ -1,8 +1,8 @@
 import type { NextRequest } from "next/server";
 import { AppError } from "@/libs/errors/app-error";
 
-type RouteContext = Record<string, unknown>;
-type RouteHandler<TContext extends RouteContext = RouteContext> = (
+export type RouteContext = Record<string, unknown>;
+export type RouteHandler<TContext extends RouteContext = RouteContext> = (
   request: NextRequest,
   context: TContext,
 ) => Response | Promise<Response>;
